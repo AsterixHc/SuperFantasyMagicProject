@@ -18,12 +18,28 @@ namespace SuperFantasyMagicProject.Screen
         //Path to the background image.
         private string path = "BattleScreen/Background";
 
+        //Array for holding enemies
+        Character[] enemies = new Character[3];
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public BattleScreen()
         {
 
+        }
+
+        /// <summary>
+        /// Constructor that specifies which enemies are present.
+        /// </summary>
+        /// <param name="enemy0">The first enemy (top)</param>
+        /// <param name="enemy1">The second enemy (middle)</param>
+        /// <param name="enemy2">The third enemy (bottom)</param>
+        public BattleScreen(Character enemy0, Character enemy1, Character enemy2)
+        {
+            enemies[0] = enemy0;
+            enemies[1] = enemy1;
+            enemies[2] = enemy2;
         }
 
         public override void LoadContent()
