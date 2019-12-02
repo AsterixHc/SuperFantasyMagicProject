@@ -40,21 +40,22 @@ namespace SuperFantasyMagicProject.Screen
 
         }
 
-        /// <summary>
-        /// Constructor that specifies which enemies are present.
-        /// </summary>
-        /// <param name="enemy0">The first enemy (top)</param>
-        /// <param name="enemy1">The second enemy (middle)</param>
+        /// <summary>
+        /// Constructor that specifies which enemies are present.
+        /// </summary>
+        /// <param name="enemy0">The first enemy (top)</param>
+        /// <param name="enemy1">The second enemy (middle)</param>
         /// <param name="enemy2">The third enemy (bottom)</param>
-        public BattleScreen(Character enemy0, Character enemy1, Character enemy2, Character player0)
-        {
-            enemies[0] = enemy0;
-            enemies[1] = enemy1;
-            enemies[2] = enemy2;
-            players[0] = player0;
-            enemies[0].Position = new Vector2(1610, 160);
-            enemies[1].Position = new Vector2(1610, 400);
-            enemies[2].Position = new Vector2(1610, 640);
+        public BattleScreen(Character enemy0, Character enemy1, Character enemy2, Character player0)
+        {
+            enemies[0] = enemy0;
+            enemies[1] = enemy1;
+            enemies[2] = enemy2;
+            players[0] = player0;
+            players[0].Position = new Vector2(182, 160);
+            enemies[0].Position = new Vector2(1610, 160);
+            enemies[1].Position = new Vector2(1610, 400);
+            enemies[2].Position = new Vector2(1610, 640);
         }
 
         public override void LoadContent()

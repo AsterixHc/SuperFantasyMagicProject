@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -17,16 +18,17 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         }
 
-        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position)
+        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
-            this.mana = mana;
-            this.strenght = strenght;
-            this.agility = agility;
-            this.intelligence = intelligence;
+            this.MaxHealth = maxHealth;
+            this.CurrentHealth = currentHealth;
+            this.Mana = mana;
+            this.Strenght = strenght;
+            this.Agility = agility;
+            this.Intelligence = intelligence;
             path = "Player/Knight/Standing/KnightStanding1";
             this.position = position;
+            this.Damage = damage;
         }
 
 
