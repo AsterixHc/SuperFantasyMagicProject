@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Scorpion : Character
     {
-        public Scorpion()
+        public Scorpion(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
         {
 
         }

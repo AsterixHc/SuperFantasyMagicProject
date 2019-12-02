@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Hornet : Character
     {
-        public Hornet()
+        public Hornet(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
         {
 
         }

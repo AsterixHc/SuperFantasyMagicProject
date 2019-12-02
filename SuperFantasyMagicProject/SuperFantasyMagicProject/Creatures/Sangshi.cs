@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Sangshi : Character
     {
-        public Sangshi()
+        public Sangshi(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
         {
 
         }

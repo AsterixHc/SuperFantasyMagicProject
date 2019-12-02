@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class DemonFlower : Character
     {
-        public DemonFlower()
+        public DemonFlower(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
         {
 
         }
