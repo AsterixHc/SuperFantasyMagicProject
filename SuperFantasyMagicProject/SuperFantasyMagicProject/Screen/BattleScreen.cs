@@ -49,6 +49,7 @@ namespace SuperFantasyMagicProject.Screen
             enemies[1] = enemy1;
             enemies[2] = enemy2;
             players[0] = player0;
+            players[0].Position = new Vector2(182, 160);
             enemies[0].Position = new Vector2(1610, 160);
             enemies[1].Position = new Vector2(1610, 400);
             enemies[2].Position = new Vector2(1610, 640);
