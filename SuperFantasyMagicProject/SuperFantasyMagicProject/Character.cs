@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace SuperFantasyMagicProject
 {
-    abstract class Characters : GameObject
+    abstract class Character : GameObject
     {
 
         protected Random rnd;
