@@ -30,6 +30,8 @@ namespace SuperFantasyMagicProject
         {
             // TODO: Add your initialization logic here
 
+            graphics.IsFullScreen = true;
+
             //Change screen size to the value stored in ScreenManager.ScreenDimensions.
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
