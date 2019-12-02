@@ -8,10 +8,10 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Mage : Character
     {
-        public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
+        public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
             this.maxHealth = maxHealth;
-            this.currnetHealth = currentHealth;
+            this.currentHealth = currentHealth;
             this.mana = mana;
             this.strenght = strenght;
             this.agility = agility;

@@ -16,7 +16,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
             this.maxHealth = maxHealth;
-            this.currnetHealth = currentHealth;
+            this.currentHealth = currentHealth;
             this.mana = mana;
             this.strenght = strenght;
             this.agility = agility;
