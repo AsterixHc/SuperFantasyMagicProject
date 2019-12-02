@@ -45,6 +45,9 @@ namespace SuperFantasyMagicProject.Screen
             enemies[0] = enemy0;
             enemies[1] = enemy1;
             enemies[2] = enemy2;
+            enemies[0].Position = new Vector2(1610, 160);
+            enemies[1].Position = new Vector2(1610, 400);
+            enemies[2].Position = new Vector2(1610, 640);
         }
 
         public override void LoadContent()
@@ -69,7 +72,9 @@ namespace SuperFantasyMagicProject.Screen
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
-            spriteBatch.Draw(enemy0Sprite, new Vector2(1620,650), Color.White);
+            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, Color.White);
+            spriteBatch.Draw(enemy1Sprite, enemies[1].Position, Color.White);
+            spriteBatch.Draw(enemy2Sprite, enemies[2].Position, Color.White);
         }
     }
 }
