@@ -47,6 +47,10 @@
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screen\BattleScreen.cs" />
     <Compile Include="Screen\GameScreen.cs" />
+    <Compile Include="Screen\LevelUpScreen.cs" />
+    <Compile Include="Screen\MapScreen.cs" />
+    <Compile Include="Screen\MenuScreen.cs" />
+    <Compile Include="Screen\ShopScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
