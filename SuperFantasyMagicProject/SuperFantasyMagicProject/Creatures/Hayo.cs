@@ -8,6 +8,11 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Hayo : Character
     {
+        public Hayo()
+        {
+
+        }
+
         public Hayo(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
             this.rnd = rnd;

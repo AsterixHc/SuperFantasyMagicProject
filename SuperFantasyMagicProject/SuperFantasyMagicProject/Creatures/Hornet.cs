@@ -12,6 +12,7 @@ namespace SuperFantasyMagicProject.Creatures
         {
 
         }
+
         public Hornet(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
             this.rnd = rnd;

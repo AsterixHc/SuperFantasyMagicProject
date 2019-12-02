@@ -25,6 +25,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         public override void Attack()
         {
+            
             //Choose an Enemy from the enemy array
             //Choose enemy from enemy array
         }
