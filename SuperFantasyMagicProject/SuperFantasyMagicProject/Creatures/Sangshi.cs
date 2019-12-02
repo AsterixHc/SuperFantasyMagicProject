@@ -8,10 +8,16 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Sangshi : Character
     {
+        public Sangshi()
+        {
+
+        }
 
         public override void Attack()
         {
             //Attack at random against Player
+            //Attack random enemy in an array
+
         }
 
         public override void SpecialAttack()

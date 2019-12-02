@@ -12,6 +12,10 @@ namespace SuperFantasyMagicProject
 {
     class Player : GameObject
     {
+        public Player()
+        {
+
+        }
 
         private int gold;
 
