@@ -22,7 +22,7 @@ namespace SuperFantasyMagicProject
         
 
         //The GameScreen that is currently being displayed.
-        private static GameScreen currentScreen;
+        public static GameScreen currentScreen;
 
         public static ContentManager ContentManager { get => contentManager; private set => contentManager = value; }
         public static Vector2 ScreenDimensions { get => screenDimensions; private set => screenDimensions = value; }

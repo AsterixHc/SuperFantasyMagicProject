@@ -24,7 +24,7 @@ namespace SuperFantasyMagicProject.Screen
         private string path = "BattleScreen/Background";
 
         //Array for holding enemies
-        Character[] enemies = new Character[3];
+        public Character[] enemies = new Character[3];
 
         /// <summary>
         /// Default constructor.
@@ -70,6 +70,21 @@ namespace SuperFantasyMagicProject.Screen
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(enemy0Sprite, new Vector2(1620,650), Color.White);
+        }
+
+        void ResloveCombat(int type,int target,int dmg)
+        {
+            if(type == 1)
+            {
+
+                enemies[target].TakeDamage(dmg);
+
+            }
+        }
+
+        void AttackOpponent()
+        {
+
         }
     }
 }
