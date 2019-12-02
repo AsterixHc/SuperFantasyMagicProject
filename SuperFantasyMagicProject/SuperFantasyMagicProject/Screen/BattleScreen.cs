@@ -13,8 +13,13 @@ namespace SuperFantasyMagicProject.Screen
 
         private int expValue;
         public int ExpValue { get => expValue; }
+
         //Background image for the splash screen.
         private Texture2D background;
+        private Texture2D enemy0Sprite;
+        private Texture2D enemy1Sprite;
+        private Texture2D enemy2Sprite;
+
         //Path to the background image.
         private string path = "BattleScreen/Background";
 
@@ -46,6 +51,9 @@ namespace SuperFantasyMagicProject.Screen
         {
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(path);
+            enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
+            enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
+            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
         }
 
         public override void UnloadContent()
@@ -61,6 +69,7 @@ namespace SuperFantasyMagicProject.Screen
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(enemy0Sprite, new Vector2(1620,650), Color.White);
         }
     }
 }
