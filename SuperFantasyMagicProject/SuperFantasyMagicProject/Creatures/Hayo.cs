@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SuperFantasyMagicProject.Creatures
 {
-    class Hayo : Characters
+    class Hayo : Character
     {
 
         public override void Attack()

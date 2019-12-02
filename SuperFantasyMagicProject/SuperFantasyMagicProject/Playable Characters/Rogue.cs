@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
-    class Rogue : Characters
+    class Rogue : Character
     {
 
         public override void Attack()

@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Characters.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="Creatures\Bat.cs" />
     <Compile Include="Creatures\DemonFlower.cs" />
     <Compile Include="Creatures\Hayo.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SuperFantasyMagicProject.Creatures
 {
-    class Bat : Characters
+    class Bat : Character
     {
 
         public override void Attack()
