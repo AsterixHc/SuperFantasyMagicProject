@@ -26,6 +26,7 @@ namespace SuperFantasyMagicProject
         protected int intelligence;
 
         protected bool ranged;
+        protected bool isPoisoned;
 
         public abstract void Attack();
 

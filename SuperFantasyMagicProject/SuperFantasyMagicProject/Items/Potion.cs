@@ -8,9 +8,12 @@ namespace SuperFantasyMagicProject.Items
 {
     class Potion : Item
     {
-        public Potion()
+        public Potion(int maxHealth, int currentHealth)
         {
-
+            if(currentHealth<maxHealth)
+            {
+                
+            }
         }
 
         //If Player Health is not Full
