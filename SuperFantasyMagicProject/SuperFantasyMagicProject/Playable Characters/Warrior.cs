@@ -28,7 +28,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
             this.Strenght = strenght;
             this.Agility = agility;
             this.Intelligence = intelligence;
-            Damage = damage;
+            this.Damage = damage;
         }
 
 
