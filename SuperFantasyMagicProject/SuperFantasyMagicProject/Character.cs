@@ -27,6 +27,9 @@ namespace SuperFantasyMagicProject
 
         protected bool ranged;
 
+        public Vector2 Position { get => position; protected set => position = value; }
+        public string Path { get => path; protected set => path = value; }
+
         public abstract void Attack();
 
         public abstract void SpecialAttack();

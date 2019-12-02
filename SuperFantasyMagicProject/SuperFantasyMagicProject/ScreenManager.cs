@@ -18,7 +18,8 @@ namespace SuperFantasyMagicProject
         private static ContentManager contentManager;
 
         //Dimensions of the game window (Width, height).
-        private static Vector2 screenDimensions = new Vector2(1280, 720);
+        private static Vector2 screenDimensions = new Vector2(1920, 1080);
+        
 
         //The GameScreen that is currently being displayed.
         private static GameScreen currentScreen;
