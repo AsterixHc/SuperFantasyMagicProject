@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 #----------------------------- Global Properties ----------------------------#
 
 /outputDir:bin/$(Platform)
@@ -5858,22 +5856,6 @@
 /processorParam:TextureFormat=Color
 /build:Player/Martha/Martha pink/MarthaPinkWalk/MarthaPinkWalkRight3.png
 
-=======
-
-#----------------------------- Global Properties ----------------------------#
-
-/outputDir:bin/$(Platform)
-/intermediateDir:obj/$(Platform)
-/platform:Windows
-/config:
-/profile:Reach
-/compress:False
-
-#-------------------------------- References --------------------------------#
-
-
-#---------------------------------- Content ---------------------------------#
-
 #begin BattleScreen/Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -5897,5 +5879,3 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MenuScreen/Background.png
-
->>>>>>> TestMaster
