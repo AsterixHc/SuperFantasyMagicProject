@@ -16,6 +16,7 @@ namespace SuperFantasyMagicProject
         protected Random rnd;
 
         protected Vector2 position;
+        protected string path;
 
         protected int maxHealth;
         protected int currnetHealth;

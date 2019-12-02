@@ -8,7 +8,13 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Bat : Character
     {
-        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public Bat()
+        {
+            path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
+        }
 
         public override void Attack()
         {

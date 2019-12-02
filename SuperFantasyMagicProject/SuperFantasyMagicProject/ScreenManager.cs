@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Screen;
+using SuperFantasyMagicProject.Creatures;
 
 namespace SuperFantasyMagicProject
 {
@@ -30,7 +31,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            currentScreen = new BattleScreen();
+            currentScreen = new BattleScreen(new Bat(), new Bat(), new Bat());
         }
 
         /// <summary>
