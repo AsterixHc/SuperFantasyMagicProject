@@ -12,7 +12,7 @@ namespace SuperFantasyMagicProject.Items
         {
             if(currentHealth<maxHealth)
             {
-
+                currentHealth = maxHealth;
             }
         }
 

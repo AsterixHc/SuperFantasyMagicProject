@@ -10,9 +10,9 @@ namespace SuperFantasyMagicProject.Items
     {
         public Antidote(bool isPoisoned)
         {
-            if(isPoisoned=true)
+            if(isPoisoned==true)
             {
-
+                isPoisoned = false;
             }
         }
 
