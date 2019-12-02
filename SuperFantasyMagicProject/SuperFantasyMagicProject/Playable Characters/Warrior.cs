@@ -26,7 +26,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public override void Attack()
         {
             //Choose an Enemy from enemy array
-            //Choose Enemy from enemy array
+            //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
         }
 

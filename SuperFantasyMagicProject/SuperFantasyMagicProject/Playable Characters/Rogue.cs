@@ -8,6 +8,11 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Rogue : Character
     {
+        public Rogue()
+        {
+
+        }
+
         public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
             this.maxHealth = maxHealth;
@@ -20,6 +25,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         public override void Attack()
         {
+            
             //Choose an Enemy from the enemy array
             //Choose enemy from enemy array
         }
