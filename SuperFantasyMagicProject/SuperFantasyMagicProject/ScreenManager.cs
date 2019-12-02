@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Screen;
+using SuperFantasyMagicProject.Creatures;
 
 namespace SuperFantasyMagicProject
 {
@@ -17,10 +18,11 @@ namespace SuperFantasyMagicProject
         private static ContentManager contentManager;
 
         //Dimensions of the game window (Width, height).
-        private static Vector2 screenDimensions = new Vector2(1280, 720);
+        private static Vector2 screenDimensions = new Vector2(1920, 1080);
+        
 
         //The GameScreen that is currently being displayed.
-        private static GameScreen currentScreen;
+        public static GameScreen currentScreen;
 
         public static ContentManager ContentManager { get => contentManager; private set => contentManager = value; }
         public static Vector2 ScreenDimensions { get => screenDimensions; private set => screenDimensions = value; }
@@ -30,7 +32,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            currentScreen = new BattleScreen();
+            currentScreen = new BattleScreen(new Bat(), new Bat(), new Bat());
         }
 
         /// <summary>
