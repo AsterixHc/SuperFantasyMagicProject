@@ -12,13 +12,14 @@ namespace SuperFantasyMagicProject
 {
     abstract class Character : GameObject
     {
+        //Radnom rnd, int maxHealth, int currnetHealth, in mana, int strenght, int agillity, int intelligence
         protected Random rnd;
 
         protected Vector2 position;
         protected string path;
 
         protected int maxHealth;
-        protected int currnetHealth;
+        protected int currentHealth;
         protected int mana;
         protected int strenght;
         protected int agility;
@@ -26,7 +27,7 @@ namespace SuperFantasyMagicProject
 
         protected bool ranged;
 
-        public Vector2 Position { get => position; protected set => position = value; }
+        public Vector2 Position { get => position; set => position = value; }
         public string Path { get => path; protected set => path = value; }
 
         public abstract void Attack();
