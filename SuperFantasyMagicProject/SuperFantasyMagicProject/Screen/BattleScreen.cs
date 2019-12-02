@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject.Screen
 {
@@ -24,7 +25,10 @@ namespace SuperFantasyMagicProject.Screen
         private string path = "BattleScreen/Background";
 
         //Array for holding enemies
-        public Character[] enemies = new Character[3];
+        private Character[] enemies = new Character[3];
+
+        //Array for holding players
+        private Character[] players = new Character[3];
 
         /// <summary>
         /// Default constructor.
@@ -72,19 +76,30 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy0Sprite, new Vector2(1620,650), Color.White);
         }
 
-        void ResloveCombat(int type,int target,int dmg)
+        void ResolveCombat(int type,int target,int dmg)
+        {
+            if(type == 1)
+            {
+                enemies[target].TakeDamage(dmg);
+            }
+            else if(type == 2)
+            {
+                players[target].TakeDamage(dmg);
+            }
+        }
+
+        void AttackOpponent(int type, int self, int target)
         {
             if(type == 1)
             {
 
-                enemies[target].TakeDamage(dmg);
+                ResolveCombat(type,target,players[self].Damage);
 
             }
-        }
-
-        void AttackOpponent()
-        {
-
+            else if(type == 2)
+            {
+                ResolveCombat(type,target,enemies[self].Damage);
+            }
         }
     }
 }
