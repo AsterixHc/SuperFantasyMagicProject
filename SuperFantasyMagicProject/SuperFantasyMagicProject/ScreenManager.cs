@@ -32,7 +32,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            currentScreen = new BattleScreen(new Bat(), new Bat(), new Bat());
+            currentScreen = new BattleScreen(new Bat(new Vector2(1610, 160)), new Bat(new Vector2(1610, 400)), new Bat(new Vector2(1610, 640)));
         }
 
         /// <summary>
