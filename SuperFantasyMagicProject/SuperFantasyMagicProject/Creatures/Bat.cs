@@ -18,6 +18,16 @@ namespace SuperFantasyMagicProject.Creatures
             Position = Vector2.Zero;
         }
 
+        /// <summary>
+        /// Constructor that specifies position.
+        /// </summary>
+        /// <param name="position"></param>
+        public Bat(Vector2 position)
+        {
+            Path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
+            Position = position;
+        }
+
         public override void Attack()
         {
             //Attack at random against Player

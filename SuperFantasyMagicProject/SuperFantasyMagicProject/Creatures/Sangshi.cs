@@ -8,9 +8,21 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Sangshi : Character
     {
-        public Sangshi(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
+        
+        public Sangshi()
         {
 
+        }
+
+        public Sangshi(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        {
+            this.rnd = rnd;
+            this.maxHealth = maxHealth;
+            this.currentHealth = currentHealth;
+            this.mana = mana;
+            this.strenght = strenght;
+            this.agility = agility;
+            this.intelligence = intelligence;
         }
 
         public override void Attack()
