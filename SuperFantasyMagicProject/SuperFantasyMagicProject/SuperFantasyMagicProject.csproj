@@ -42,6 +42,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Characters.cs" />
+    <Compile Include="Creatures\Bat.cs" />
+    <Compile Include="Creatures\DemonFlower.cs" />
+    <Compile Include="Creatures\Hayo.cs" />
+    <Compile Include="Creatures\Hornet.cs" />
+    <Compile Include="Creatures\Sangshi.cs" />
+    <Compile Include="Creatures\Scorpion.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Item.cs" />
@@ -79,9 +85,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Creatures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
