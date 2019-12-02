@@ -10,6 +10,10 @@ namespace SuperFantasyMagicProject
 
     class Item : GameObject
     {
+        public Item()
+        {
+
+        }
 
         protected int price;
 

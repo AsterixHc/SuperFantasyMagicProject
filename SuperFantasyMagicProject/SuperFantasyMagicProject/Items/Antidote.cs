@@ -8,6 +8,11 @@ namespace SuperFantasyMagicProject.Items
 {
     class Antidote : Item
     {
+        public Antidote()
+        {
+
+        }
+
         //If Player is Poisened
         //Remove Poisen
     }

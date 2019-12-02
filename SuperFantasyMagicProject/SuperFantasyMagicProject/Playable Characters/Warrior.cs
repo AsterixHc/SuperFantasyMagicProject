@@ -8,17 +8,33 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Warrior : Character
     {
+        public Warrior()
+        {
+
+        }
+        
+        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        {
+            this.maxHealth = maxHealth;
+            this.currentHealth = currentHealth;
+            this.mana = mana;
+            this.strenght = strenght;
+            this.agility = agility;
+            this.intelligence = intelligence;
+        }
 
         public override void Attack()
         {
-            //Choose an Enemy (Switch case maybe List?)
-            //Pick Attack (Switch case?)
+            //Choose an Enemy from enemy array
+            //Choose Enemy from enemy array
             //Character damage = 20 + (10% * Player.Strength)
         }
 
         public override void SpecialAttack()
         {
-            //Attacks all Enemies
+            //Attack all Enemies
+            //DMG should be about 25% of the basic attack
+            //Over all dmg should be about 75% of a full basic attack
         }
 
         public override void LevelUp()

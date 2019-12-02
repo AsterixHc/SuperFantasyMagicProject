@@ -12,13 +12,14 @@ namespace SuperFantasyMagicProject
 {
     abstract class Character : GameObject
     {
-
+        //Radnom rnd, int maxHealth, int currnetHealth, in mana, int strenght, int agillity, int intelligence
         protected Random rnd;
 
         protected Vector2 position;
+        protected string path;
 
         protected int maxHealth;
-        protected int currnetHealth;
+        protected int currentHealth;
         protected int mana;
         protected int strenght;
         protected int agility;
@@ -46,5 +47,33 @@ namespace SuperFantasyMagicProject
         {
             Console.WriteLine("I leveled up");
         }
+
+        public virtual void Strength()
+        {
+            //Increase DMG for the warrior
+            //Increase Health for all chars
+
+            //1 point = 2 DMG
+            //1 point = 10health
+        }
+
+        public virtual void Agility()
+        {
+            //Increase DMG for the Rogue
+            //Increase Speed for all chars
+
+            //1 point = 2 DMG
+            //1 point = 5 speed ??
+        }
+
+        public virtual void Intelligence()
+        {
+            //Increase DMG for the Mage
+            //Increase Crit chance for all chars
+
+            //1 point = 2 DMG
+            //1 point = 0.10% crit chance??
+        }
+
     }
 }

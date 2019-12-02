@@ -8,16 +8,27 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Rogue : Character
     {
+        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        {
+            this.maxHealth = maxHealth;
+            this.currentHealth = currentHealth;
+            this.mana = mana;
+            this.strenght = strenght;
+            this.agility = agility;
+            this.intelligence = intelligence;
+        }
 
         public override void Attack()
         {
-            //Choose an Enemy (Switch case maybe List?)
-            //Pick Attack (Switch case?)
+            //Choose an Enemy from the enemy array
+            //Choose enemy from enemy array
         }
 
         public override void SpecialAttack()
         {
-            //Steal Item from Enemy
+            //Item is always the same from the same monster
+            //Steal Item from choosen enemy in the enemy array
+
         }
 
         public override void LevelUp()
