@@ -8,9 +8,14 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Rogue : Character
     {
-        public Rogue()
+        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
         {
-
+            this.maxHealth = maxHealth;
+            this.currnetHealth = currentHealth;
+            this.mana = mana;
+            this.strenght = strenght;
+            this.agility = agility;
+            this.intelligence = intelligence;
         }
 
         public override void Attack()

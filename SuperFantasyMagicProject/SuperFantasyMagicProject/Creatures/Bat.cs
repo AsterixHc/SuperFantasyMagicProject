@@ -11,7 +11,7 @@ namespace SuperFantasyMagicProject.Creatures
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public Bat()
+        public Bat()
         {
             path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
         }
