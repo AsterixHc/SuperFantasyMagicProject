@@ -8,9 +8,12 @@ namespace SuperFantasyMagicProject.Items
 {
     class Antidote : Item
     {
-        public Antidote()
+        public Antidote(bool isPoisoned)
         {
-
+            if(isPoisoned==true)
+            {
+                isPoisoned = false;
+            }
         }
 
         //If Player is Poisened

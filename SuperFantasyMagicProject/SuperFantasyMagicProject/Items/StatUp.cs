@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Items
 {
     class StatUp : Item
     {
-        public StatUp()
+        public StatUp(int strenght, int agillity, int intelligence)
         {
 
         }

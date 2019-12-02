@@ -38,7 +38,7 @@ namespace SuperFantasyMagicProject.Creatures
             //If any Ally is alive keep revive
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
             throw new NotImplementedException();

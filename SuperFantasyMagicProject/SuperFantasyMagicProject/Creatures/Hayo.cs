@@ -37,7 +37,7 @@ namespace SuperFantasyMagicProject.Creatures
             //If applied reduce Player Agility
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
             throw new NotImplementedException();

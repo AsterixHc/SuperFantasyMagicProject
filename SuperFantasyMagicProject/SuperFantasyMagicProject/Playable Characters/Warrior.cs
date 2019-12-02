@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Warrior : Character
     {
+
+        private int targetAttack;
+
         public Warrior()
         {
 
         }
-        
-        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+
+        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position)
         {
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
@@ -21,13 +25,26 @@ namespace SuperFantasyMagicProject.Playable_Characters
             this.strenght = strenght;
             this.agility = agility;
             this.intelligence = intelligence;
+            path = "Player/Knight/Standing/KnightStanding1";
+            this.position = position;
         }
+
+
 
         public override void Attack()
         {
             //Choose an Enemy from enemy array
             //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
+
+            KeyboardState keyboard = Keyboard.GetState();
+
+            if(keyboard.IsKeyDown(Keys.D1))
+            {
+                targetAttack = 0;
+            }
+
+            //ScreenManager.currentScreen.
         }
 
         public override void SpecialAttack()
@@ -59,10 +76,10 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Check if Item Effect Gained
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }
