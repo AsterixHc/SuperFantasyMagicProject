@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SuperFantasyMagicProject.Creatures
 {
     class Bat : Character
     {
-        /// <summary>
-        /// Default constructor.
+        /// <summary>
+        /// Default constructor.
         /// </summary>
-        public Bat()
-        {
-            path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
+        public Bat()
+        {
+            Path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
+            Position = Vector2.Zero;
         }
 
         public override void Attack()

@@ -12,7 +12,6 @@ namespace SuperFantasyMagicProject
 {
     abstract class Character : GameObject
     {
-
         protected Random rnd;
 
         protected Vector2 position;
@@ -26,6 +25,9 @@ namespace SuperFantasyMagicProject
         protected int intelligence;
 
         protected bool ranged;
+
+        public Vector2 Position { get => position; protected set => position = value; }
+        public string Path { get => path; protected set => path = value; }
 
         public abstract void Attack();
 

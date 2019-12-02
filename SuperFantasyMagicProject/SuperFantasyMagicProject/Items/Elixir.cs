@@ -8,7 +8,7 @@ namespace SuperFantasyMagicProject.Items
 {
     class Elixir : Item
     {
-        public Elixer()
+        public Elixir()
         {
 
         }
