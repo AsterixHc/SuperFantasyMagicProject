@@ -8,6 +8,11 @@ namespace SuperFantasyMagicProject.Items
 {
     class PhoenixDown : Item
     {
+        public PhoenixDown()
+        {
+
+        }
+
         //If Player is dead
         //Revive Player at 40% Health
     }
