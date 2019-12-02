@@ -8,6 +8,10 @@ namespace SuperFantasyMagicProject.Items
 {
     class Elixir : Item
     {
+        public Elixer()
+        {
+
+        }
 
         //If Health or Mana is low
         //Restore Health and Mana to Full

@@ -8,16 +8,21 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Mage : Character
     {
+        public Mage()
+        {
+
+        }
 
         public override void Attack()
         {
-            //Choose an Enemy (Switch case maybe List?)
-            //Pick Attack (Switch case?)
+            //Choose an Enemy from the Enemy Array
+            //Attack the chosen enemy in the Array
         }
 
         public override void SpecialAttack()
         {
             //Healing Self or Allies
+            //Heal should be about 20% of the full HP of the character used on
             //Low chance to heal full party
         }
 
