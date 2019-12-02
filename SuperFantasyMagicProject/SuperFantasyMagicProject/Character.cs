@@ -67,7 +67,7 @@ namespace SuperFantasyMagicProject
 
         public abstract void SpecialAttack();
 
-        public abstract bool TakeDamage(int dmg);
+        public abstract void TakeDamage(int dmg);
 
         public virtual void Flee()
         {

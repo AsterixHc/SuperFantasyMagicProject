@@ -27,7 +27,7 @@ namespace SuperFantasyMagicProject.Creatures
             //Poisen should deal a small about of dmg every time the poisened character has a turn ( 1-2% of max health)
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
             throw new NotImplementedException();

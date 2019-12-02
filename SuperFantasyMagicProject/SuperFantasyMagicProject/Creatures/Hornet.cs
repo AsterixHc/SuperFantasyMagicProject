@@ -26,7 +26,7 @@ namespace SuperFantasyMagicProject.Creatures
             //Apply paralyze
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
             throw new NotImplementedException();
