@@ -45,6 +45,12 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Items\Antidote.cs" />
+    <Compile Include="Items\Elixir.cs" />
+    <Compile Include="Items\PhoenixDown.cs" />
+    <Compile Include="Items\Potion.cs" />
+    <Compile Include="Items\Remedy.cs" />
+    <Compile Include="Items\StatUp.cs" />
     <Compile Include="Playable Characters\Mage.cs" />
     <Compile Include="Playable Characters\Rogue.cs" />
     <Compile Include="Playable Characters\Warrior.cs" />
@@ -75,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Creatures\" />
-    <Folder Include="Item\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
