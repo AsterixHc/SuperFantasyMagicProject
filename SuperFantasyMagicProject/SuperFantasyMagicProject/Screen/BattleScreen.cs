@@ -88,30 +88,28 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(player0Sprite, players[0].Position, Color.White);
         }
 
-        void ResolveCombat(int type,int target,int dmg)
+        void ResolveCombat(int type,int target,int dmg)
         {
-            if(type == 1)
+            if(type == 1)
             {
                 enemies[target].TakeDamage(dmg);
-            }
-            else if(type == 2)
+            }
+            else if(type == 2)
             {
                 players[target].TakeDamage(dmg);
             }
         }
 
-        void AttackOpponent(int type, int self, int target)
+        void AttackOpponent(int type, int self, int target)
         {
-            if(type == 1)
+            if(type == 1)
             {
-
                 ResolveCombat(type,target,players[self].Damage);
-
-            }
-            else if(type == 2)
+            }
+            else if(type == 2)
             {
                 ResolveCombat(type,target,enemies[self].Damage);
-            }
+            }
         }
     }
 }
