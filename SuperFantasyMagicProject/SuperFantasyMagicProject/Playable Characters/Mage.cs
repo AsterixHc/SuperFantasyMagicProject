@@ -15,12 +15,12 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
         {
-            this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
-            this.mana = mana;
-            this.strenght = strenght;
-            this.agility = agility;
-            this.intelligence = intelligence;
+            this.MaxHealth = maxHealth;
+            this.CurrentHealth = currentHealth;
+            this.Mana = mana;
+            this.Strenght = strenght;
+            this.Agility = agility;
+            this.Intelligence = intelligence;
         }
 
         public override void Attack()
@@ -58,7 +58,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Check if Item Effect Gained
         }
 
-        public override bool TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
             throw new NotImplementedException();

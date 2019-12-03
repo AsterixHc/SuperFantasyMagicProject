@@ -17,23 +17,61 @@ namespace SuperFantasyMagicProject
         protected Vector2 position;
         protected string path;
 
-        protected int maxHealth;
-        protected int currentHealth;
-        protected int mana;
-        protected int strenght;
-        protected int agility;
-        protected int intelligence;
+        private int maxHealth;
+        private int currentHealth;
+        private int mana;
+        private int strenght;
+        private int agility;
+        private int intelligence;
+        private int damage;
 
         protected bool ranged;
+        protected bool isPoisoned = false;
+        protected bool isPlayerAlive = true;
+        protected bool isScratched = false;
+        protected bool isGusted = false;
+        protected bool isParalysed = false;
 
         public Vector2 Position { get => position; set => position = value; }
         public string Path { get => path; protected set => path = value; }
+        public int CurrentHealth 
+        { 
+            get => currentHealth; 
+            set
+            {
+                if(value >= 0 && MaxHealth >= value)
+                {
+                    currentHealth = value;
+                }
+                else if(value < 0)
+                {
+                    currentHealth = 0;
+                }
+                else if(value > MaxHealth)
+                {
+                    currentHealth = MaxHealth;
+                }
+                else
+                {
+#if DEBUG
+                    Console.WriteLine("Yaps current health er dum");
+#endif                
+                }
+            } 
+        }
+
+        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+        public int Mana { get => mana; set => mana = value; }
+        public int Strenght { get => strenght; set => strenght = value; }
+        public int Agility { get => agility; set => agility = value; }
+        public int Intelligence { get => intelligence; set => intelligence = value; }
+        public int Damage { get => damage; set => damage = value; }
 
         public abstract void Attack();
 
         public abstract void SpecialAttack();
 
-        public abstract bool TakeDamage(int dmg);
+        public abstract void TakeDamage(int dmg);
 
         public virtual void Flee()
         {
@@ -50,32 +88,32 @@ namespace SuperFantasyMagicProject
             Console.WriteLine("I leveled up");
         }
 
-        public virtual void CalculateStrength()
-        {
-            //Increase DMG for the warrior
-            //Increase Health for all chars
+        //public virtual void Strength()
+        //{
+        //    //Increase DMG for the warrior
+        //    //Increase Health for all chars
 
-            //1 point = 2 DMG
-            //1 point = 10health
-        }
+        //    //1 point = 2 DMG
+        //    //1 point = 10health
+        //}
 
-        public virtual void CalculateAgility()
-        {
-            //Increase DMG for the Rogue
-            //Increase Speed for all chars
+        //public virtual void Agility()
+        //{
+        //    //Increase DMG for the Rogue
+        //    //Increase Speed for all chars
 
-            //1 point = 2 DMG
-            //1 point = 5 speed ??
-        }
+        //    //1 point = 2 DMG
+        //    //1 point = 5 speed ??
+        //}
 
-        public virtual void CalculateIntelligence()
-        {
-            //Increase DMG for the Mage
-            //Increase Crit chance for all chars
+        //public virtual void Intelligence()
+        //{
+        //    //Increase DMG for the Mage
+        //    //Increase Crit chance for all chars
 
-            //1 point = 2 DMG
-            //1 point = 0.10% crit chance??
-        }
+        //    //1 point = 2 DMG
+        //    //1 point = 0.10% crit chance??
+        //}
 
     }
 }
