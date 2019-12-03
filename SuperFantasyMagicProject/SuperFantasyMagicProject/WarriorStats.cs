@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SuperFantasyMagicProject
 {
-    class WarriorStats
+    public static class WarriorStats
     {
         public static int maxHealth = 250;
         public static int currentHealth = 250;
