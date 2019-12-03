@@ -23,8 +23,6 @@ namespace SuperFantasyMagicProject.Screen
         //Background image for the splash screen.
         private Texture2D background;
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;
-
-
         //Positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(182, 160);
         Vector2 player1Position = new Vector2(182, 400);
@@ -82,7 +80,6 @@ namespace SuperFantasyMagicProject.Screen
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
             player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
             player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
-
         }
 
         public override void UnloadContent()
@@ -106,31 +103,7 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(player2Sprite, players[2].Position, Color.White);
         }
 
-        void ResolveCombat(int type,int target,int dmg)
-        {
-            if(type == 1)
-            {
-                enemies[target].TakeDamage(dmg);
-            }
-            else if(type == 2)
-            {
-                players[target].TakeDamage(dmg);
-            }
-        }
-
-        void AttackOpponent(int type, int self, int target)
-        {
-            if(type == 1)
-            {
-                ResolveCombat(type,target,players[self].Damage);
-            }
-            else if(type == 2)
-            {
-                ResolveCombat(type,target,enemies[self].Damage);
-            }
-        }
-
-        void PlayerTarget(int playertarget, int target)
+        void PlayerTarget(int chosenPlayer, int targetedEnemy)
         {
             if(tracker != BattleTracker.Playerturn)
             {
@@ -138,22 +111,22 @@ namespace SuperFantasyMagicProject.Screen
             }
 
             tracker = BattleTracker.Playerattack;
-            PlayerAttack(0,target,playertarget);
+            PlayerAttack(0,targetedEnemy,chosenPlayer);
         }
 
-        void PlayerAttack(int dmg, int target, int playertarget)
+        void PlayerAttack(int playerDamageAmount, int targetedEnemy, int chosenPlayer)
         {
             if(tracker != BattleTracker.Playerattack)
             {
                 return;
             }
 
-            dmg = players[playertarget].Damage;
+            playerDamageAmount = players[chosenPlayer].Damage;
 
-            enemies[target].TakeDamage(dmg);
+            enemies[targetedEnemy].TakeDamage(playerDamageAmount);
 
             tracker = BattleTracker.Enemyturn;
-            Console.WriteLine(enemies[target].CurrentHealth);
+            Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
             enemyTarget = 0;
             Console.ReadKey();
         }
@@ -169,13 +142,27 @@ namespace SuperFantasyMagicProject.Screen
                 Console.WriteLine(enemyTarget);
             }
 
-            if(keyboard.IsKeyDown(Keys.D))
+            if(keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
             {
                 Console.WriteLine("PlayerTargetLaunched");
                 tracker = BattleTracker.Playerturn;
                 PlayerTarget(0,enemyTarget);
             }
             
+        }
+
+        void Enemyturn()
+        {
+
+
+            tracker = BattleTracker.Enemyattack;
+        }
+
+        void EnemyAttack()
+        {
+
+
+
         }
     }
 }
