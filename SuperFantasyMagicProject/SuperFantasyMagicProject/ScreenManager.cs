@@ -23,7 +23,7 @@ namespace SuperFantasyMagicProject
         
 
         //The GameScreen that is currently being displayed.
-        private static GameScreen currentScreen;
+        public static GameScreen currentScreen;
 
         public static ContentManager ContentManager { get => contentManager; private set => contentManager = value; }
         public static Vector2 ScreenDimensions { get => screenDimensions; private set => screenDimensions = value; }
@@ -33,7 +33,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            currentScreen = new BattleScreen(new Bat(new Vector2(1610, 160)), new Bat(new Vector2(1610, 400)), new Bat(new Vector2(1610, 640)), new Warrior (100, 100, 100, 100, 100, 100, new Vector2(400, 160)));
+            currentScreen = new BattleScreen(new Warrior(), new Warrior(), new Warrior(), new Bat(), new Bat(), new Bat());;
             
         }
 

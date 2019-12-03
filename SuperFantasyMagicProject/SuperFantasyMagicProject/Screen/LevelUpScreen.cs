@@ -8,6 +8,10 @@ namespace SuperFantasyMagicProject.Screen
 {
     class LevelUpScreen : GameScreen
     {
+        public override void HandleInput()
+        {
+            throw new NotImplementedException();
+        }
 
         public void IncreaseStat()
         {

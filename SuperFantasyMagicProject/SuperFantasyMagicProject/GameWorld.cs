@@ -30,7 +30,7 @@ namespace SuperFantasyMagicProject
         {
             // TODO: Add your initialization logic here
 
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
 
             //Change screen size to the value stored in ScreenManager.ScreenDimensions.
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
@@ -79,6 +79,8 @@ namespace SuperFantasyMagicProject
                 Exit();
 
             // TODO: Add your update logic here
+
+            ScreenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
