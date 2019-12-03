@@ -22,6 +22,7 @@ namespace SuperFantasyMagicProject.Creatures
             Intelligence = 10;
             Path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
             Position = Vector2.Zero;
+            Origin = Vector2.Zero;
         }
 
         /// <summary>
