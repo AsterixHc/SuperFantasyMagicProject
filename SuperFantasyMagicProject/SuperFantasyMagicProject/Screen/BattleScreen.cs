@@ -21,12 +21,12 @@ namespace SuperFantasyMagicProject.Screen
 
 
         //Positions for screen elements (players, enemies)
-        Vector2 player0Position = new Vector2(182, 160);
-        Vector2 player1Position = new Vector2(182, 400);
-        Vector2 player2Position = new Vector2(182, 640);
-        Vector2 enemy0Position = new Vector2(1610, 160);
-        Vector2 enemy1Position = new Vector2(1610, 400);
-        Vector2 enemy2Position = new Vector2(1610, 640);
+        Vector2 player0Position = new Vector2(220, 220);
+        Vector2 player1Position = new Vector2(220, 450);
+        Vector2 player2Position = new Vector2(220, 700);
+        Vector2 enemy0Position = new Vector2(1710, 220);
+        Vector2 enemy1Position = new Vector2(1710, 460);
+        Vector2 enemy2Position = new Vector2(1710, 700);
 
         //Path to the background image.
         private string path = "BattleScreen/Background";
@@ -71,12 +71,20 @@ namespace SuperFantasyMagicProject.Screen
         {
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(path);
-            enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
-            enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
-            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
             player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
             player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
+            enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
+            enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
+            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
+
+            //Set origins
+            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
+            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
+            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
+            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
+            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
+            enemies[2].Origin = new Vector2(enemy2Sprite.Width / 2, enemy2Sprite.Height / 2);
 
         }
 
@@ -93,12 +101,18 @@ namespace SuperFantasyMagicProject.Screen
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
-            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, Color.White);
-            spriteBatch.Draw(enemy1Sprite, enemies[1].Position, Color.White);
-            spriteBatch.Draw(enemy2Sprite, enemies[2].Position, Color.White);
-            spriteBatch.Draw(player0Sprite, players[0].Position, Color.White);
-            spriteBatch.Draw(player1Sprite, players[1].Position, Color.White);
-            spriteBatch.Draw(player2Sprite, players[2].Position, Color.White);
+            spriteBatch.Draw(player0Sprite, players[0].Position, new Rectangle(0, 0, player0Sprite.Width, player0Sprite.Height),
+                    Color.White, 0, players[0].Origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(player1Sprite, players[1].Position, new Rectangle(0, 0, player1Sprite.Width, player1Sprite.Height),
+                    Color.White, 0, players[1].Origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(player2Sprite, players[2].Position, new Rectangle(0, 0, player2Sprite.Width, player2Sprite.Height),
+                    Color.White, 0, players[2].Origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0 , 0, enemy0Sprite.Width, enemy0Sprite.Height),
+                    Color.White, 0, enemies[0].Origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
+                    Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
+                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
         }
 
         void ResolveCombat(int type,int target,int dmg)

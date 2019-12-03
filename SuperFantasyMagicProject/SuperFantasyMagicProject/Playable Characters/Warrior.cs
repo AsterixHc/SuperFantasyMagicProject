@@ -23,20 +23,22 @@ namespace SuperFantasyMagicProject.Playable_Characters
             Intelligence = 10;
             Path = "Player/Knight/Standing/KnightStanding1";
             Position = Vector2.Zero;
+            Origin = Vector2.Zero;
             Damage = 20;
         }
 
         public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
-            path = "Player/Knight/Standing/KnightStanding1";
-            this.position = position;
-            this.Damage = damage;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+            Mana = mana;
+            Strenght = strenght;
+            Agility = agility;
+            Intelligence = intelligence;
+            Path = "Player/Knight/Standing/KnightStanding1";
+            Position = position;
+            Origin = Vector2.Zero;
+            Damage = damage;
         }
 
 
