@@ -10,7 +10,9 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Rogue()
         {
-
+            MaxHealth = RogueStats.maxHealth;
+            CurrentHealth = RogueStats.currentHealth;
+            Mana = RogueStats.mana;
         }
 
         public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)

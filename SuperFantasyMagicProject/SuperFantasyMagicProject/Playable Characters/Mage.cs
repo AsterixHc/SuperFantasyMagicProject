@@ -10,7 +10,15 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Mage()
         {
-
+            MaxHealth = MageStats.maxHealth;
+            CurrentHealth = MageStats.currentHealth;
+            Mana = MageStats.mana;
+            Strenght = MageStats.strenght;
+            Agility = MageStats.agility;
+            Intelligence = MageStats.intelligence;
+            Damage = MageStats.damage;
+            Critical = MageStats.critical;
+            Turnspeed = MageStats.turnSpeed;
         }
 
         public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
