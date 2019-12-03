@@ -8,6 +8,10 @@ namespace SuperFantasyMagicProject.Screen
 {
     class MapScreen : GameScreen
     {
+        public override void HandleInput()
+        {
+            throw new NotImplementedException();
+        }
 
         public void StartEncounter()
         {
