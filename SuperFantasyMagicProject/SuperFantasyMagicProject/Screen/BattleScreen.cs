@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using SuperFantasyMagicProject.Playable_Characters;
 
@@ -13,9 +14,10 @@ namespace SuperFantasyMagicProject.Screen
 
     class BattleScreen : GameScreen
     {
-        BattleTracker tracker = BattleTracker.Playerturn;
+        BattleTracker tracker;
 
         private int expValue;
+        int enemyTarget = 0;
         public int ExpValue { get => expValue; }
 
         //Background image for the splash screen.
@@ -90,7 +92,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            PlayerTarget(0,0);
+            HandleInput();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -135,8 +137,6 @@ namespace SuperFantasyMagicProject.Screen
                 return;
             }
 
-            target = players[playertarget].Attack();
-
             tracker = BattleTracker.Playerattack;
             PlayerAttack(0,target,playertarget);
         }
@@ -154,7 +154,28 @@ namespace SuperFantasyMagicProject.Screen
 
             tracker = BattleTracker.Enemyturn;
             Console.WriteLine(enemies[target].CurrentHealth);
+            enemyTarget = 0;
             Console.ReadKey();
+        }
+
+        public override void HandleInput()
+        {
+            KeyboardState keyboard = Keyboard.GetState();
+            
+
+            if(keyboard.IsKeyDown(Keys.D1))
+            {
+                enemyTarget = 1;
+                Console.WriteLine(enemyTarget);
+            }
+
+            if(keyboard.IsKeyDown(Keys.D))
+            {
+                Console.WriteLine("PlayerTargetLaunched");
+                tracker = BattleTracker.Playerturn;
+                PlayerTarget(0,enemyTarget);
+            }
+            
         }
     }
 }

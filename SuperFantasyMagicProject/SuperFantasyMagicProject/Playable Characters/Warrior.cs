@@ -12,6 +12,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
 
         private int targetAttack;
+        
 
         public int TargetAttack { get => targetAttack; set => targetAttack = value; }
 
@@ -50,16 +51,19 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Character damage = 20 + (10% * Player.Strength)
 
             TargetAttack = 0;
-            KeyboardState keyboard = Keyboard.GetState();
-            do
+            KeyboardState ks = Keyboard.GetState();
+
+            if (ks.IsKeyDown(Keys.A))
             {
+                TargetAttack = 1;
+                Console.WriteLine("Target picked");
 
-                if (keyboard.IsKeyDown(Keys.D1))
-                {
-                    TargetAttack = 1;
-                }
+            }
 
-            } while (TargetAttack == 0);
+            if(TargetAttack == 0)
+            {
+                Attack();
+            }
 
             TargetAttack--;
             return TargetAttack;

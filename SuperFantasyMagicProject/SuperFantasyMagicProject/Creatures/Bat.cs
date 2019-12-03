@@ -52,7 +52,7 @@ namespace SuperFantasyMagicProject.Creatures
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }
