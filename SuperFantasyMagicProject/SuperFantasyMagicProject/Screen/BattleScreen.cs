@@ -22,7 +22,10 @@ namespace SuperFantasyMagicProject.Screen
 
         //Background image for the splash screen.
         private Texture2D background;
-        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;
+        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
+        private string hpOnScreen = "hpOnScreen";
+        private int hp = 100;
+
         //Positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(182, 160);
         Vector2 player1Position = new Vector2(182, 400);
@@ -47,6 +50,7 @@ namespace SuperFantasyMagicProject.Screen
         {
 
         }
+
 
         /// <summary>
         /// Constructor that specifies which enemies are present.
@@ -79,7 +83,8 @@ namespace SuperFantasyMagicProject.Screen
             enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
             player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
-            player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
+            player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+
         }
 
         public override void UnloadContent()
@@ -101,6 +106,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(player0Sprite, players[0].Position, Color.White);
             spriteBatch.Draw(player1Sprite, players[1].Position, Color.White);
             spriteBatch.Draw(player2Sprite, players[2].Position, Color.White);
+
+            spriteBatch.DrawString(hpPlayer1, "HP: " + hp, new Vector2(190,160), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
