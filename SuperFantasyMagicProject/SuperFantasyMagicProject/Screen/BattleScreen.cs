@@ -170,7 +170,7 @@ namespace SuperFantasyMagicProject.Screen
                 Console.WriteLine("PlayerTargetLaunched");
                 enemyTarget--;
                 tracker = BattleTracker.Playerturn;
-                PlayerTarget(0,enemyTarget);
+                PlayerTarget(0, enemyTarget);
             }
             
         }
