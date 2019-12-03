@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -12,37 +13,56 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         private int targetAttack;
 
+        public int TargetAttack { get => targetAttack; set => targetAttack = value; }
+
         public Warrior()
         {
-
+            MaxHealth = 100;
+            CurrentHealth = 100;
+            Mana = 100;
+            Strenght = 10;
+            Agility = 10;
+            Intelligence = 10;
+            Path = "Player/Knight/Standing/KnightStanding1";
+            Position = Vector2.Zero;
+            Damage = 20;
         }
 
-        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position)
+        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
-            this.mana = mana;
-            this.strenght = strenght;
-            this.agility = agility;
-            this.intelligence = intelligence;
+            this.MaxHealth = maxHealth;
+            this.CurrentHealth = currentHealth;
+            this.Mana = mana;
+            this.Strenght = strenght;
+            this.Agility = agility;
+            this.Intelligence = intelligence;
             path = "Player/Knight/Standing/KnightStanding1";
             this.position = position;
+            this.Damage = damage;
         }
 
 
 
-        public override void Attack()
+        public override int Attack()
         {
             //Choose an Enemy from enemy array
             //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
 
+            TargetAttack = 0;
             KeyboardState keyboard = Keyboard.GetState();
-
-            if(keyboard.IsKeyDown(Keys.D1))
+            do
             {
-                targetAttack = 0;
-            }
+
+                if (keyboard.IsKeyDown(Keys.D1))
+                {
+                    TargetAttack = 1;
+                }
+
+            } while (TargetAttack == 0);
+
+            TargetAttack--;
+            return TargetAttack;
 
             //ScreenManager.currentScreen.
         }

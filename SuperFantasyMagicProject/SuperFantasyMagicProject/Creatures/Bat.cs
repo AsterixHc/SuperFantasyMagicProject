@@ -14,6 +14,12 @@ namespace SuperFantasyMagicProject.Creatures
         /// </summary>
         public Bat()
         {
+            MaxHealth = 30;
+            CurrentHealth = 30;
+            Mana = 50;
+            Strenght = 10;
+            Agility = 10;
+            Intelligence = 10;
             Path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
             Position = Vector2.Zero;
         }
@@ -28,10 +34,13 @@ namespace SuperFantasyMagicProject.Creatures
             Position = position;
         }
 
-        public override void Attack()
+        
+
+        public override int Attack()
         {
             //Attack at random against Player
             //Attack random enemy in an array
+            return 0;
         }
 
         public override void SpecialAttack()

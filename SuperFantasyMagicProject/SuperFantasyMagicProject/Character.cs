@@ -67,7 +67,7 @@ namespace SuperFantasyMagicProject
         public int Intelligence { get => intelligence; set => intelligence = value; }
         public int Damage { get => damage; set => damage = value; }
 
-        public abstract void Attack();
+        public abstract int Attack();
 
         public abstract void SpecialAttack();
 
@@ -88,28 +88,28 @@ namespace SuperFantasyMagicProject
             Console.WriteLine("I leveled up");
         }
 
-        public virtual void CalculateStrength()
-        {
-            //Increase DMG for the warrior
-            //Increase Health for all chars
+        //public virtual void Strength()
+        //{
+        //    //Increase DMG for the warrior
+        //    //Increase Health for all chars
 
         //    //1 point = 2 DMG
         //    //1 point = 10health
         //}
 
-        public virtual void CalculateAgility()
-        {
-            //Increase DMG for the Rogue
-            //Increase Speed for all chars
+        //public virtual void Agility()
+        //{
+        //    //Increase DMG for the Rogue
+        //    //Increase Speed for all chars
 
         //    //1 point = 2 DMG
         //    //1 point = 5 speed ??
         //}
 
-        public virtual void CalculateIntelligence()
-        {
-            //Increase DMG for the Mage
-            //Increase Crit chance for all chars
+        //public virtual void Intelligence()
+        //{
+        //    //Increase DMG for the Mage
+        //    //Increase Crit chance for all chars
 
         //    //1 point = 2 DMG
         //    //1 point = 0.10% crit chance??
