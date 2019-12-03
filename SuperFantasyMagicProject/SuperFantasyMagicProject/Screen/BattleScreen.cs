@@ -87,13 +87,13 @@ namespace SuperFantasyMagicProject.Screen
             enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
             enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
-
-            //Set origins
-            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
-            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
-            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
-            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
-            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
+            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+            //Set origins
+            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
+            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
+            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
+            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
+            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
             enemies[2].Origin = new Vector2(enemy2Sprite.Width / 2, enemy2Sprite.Height / 2);
 
         }
@@ -122,7 +122,7 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
                     Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
-                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
+                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);            spriteBatch.DrawString(hpPlayer1,"HP: " + players[0].CurrentHealth,new Vector2(players[0].Position.X+8,players[0].Position.Y),Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
