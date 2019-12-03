@@ -21,8 +21,9 @@ namespace SuperFantasyMagicProject.Screen
         private Texture2D enemy2Sprite;
         private Texture2D player0Sprite;
 
-        private SpriteFont font;
+        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";
+        private int hp = 100;
 
 
         //Path to the background image.
@@ -67,7 +68,8 @@ namespace SuperFantasyMagicProject.Screen
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
             enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
-            font = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+
+            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
                  
         }
 
@@ -88,7 +90,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, Color.White);
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, Color.White);
             spriteBatch.Draw(player0Sprite, players[0].Position, Color.White);
-            spriteBatch.DrawString(font, "100", new Vector2(100,100), Color.Black);
+
+            spriteBatch.DrawString(hpPlayer1, "HP: " + hp, new Vector2(190,160), Color.Red);
         }
     }
 }
