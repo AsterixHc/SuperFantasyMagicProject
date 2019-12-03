@@ -4,34 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject.Screen
 {
+    enum BattleTracker { Playerturn,Playerattack, Enemyturn, Enemyattack, start }
+
     class BattleScreen : GameScreen
     {
+        BattleTracker tracker;
 
         private int expValue;
+        int enemyTarget = 0;
         public int ExpValue { get => expValue; }
 
         //Background image for the splash screen.
         private Texture2D background;
-        private Texture2D enemy0Sprite;
-        private Texture2D enemy1Sprite;
-        private Texture2D enemy2Sprite;
-        private Texture2D player0Sprite;
-
-        private SpriteFont hpPlayer1;
+        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";
-        private int hp = 100;
+        private int hp = 100;
 
+        //Positions for screen elements (players, enemies)
+        Vector2 player0Position = new Vector2(182, 160);
+        Vector2 player1Position = new Vector2(182, 400);
+        Vector2 player2Position = new Vector2(182, 640);
+        Vector2 enemy0Position = new Vector2(1610, 160);
+        Vector2 enemy1Position = new Vector2(1610, 400);
+        Vector2 enemy2Position = new Vector2(1610, 640);
 
         //Path to the background image.
         private string path = "BattleScreen/Background";
 
+        //Array for holding players
+        private Character[] players = new Character[3];
+
         //Array for holding enemies
-        Character[] enemies = new Character[3];
-        Character[] players = new Character[3];
+        private Character[] enemies = new Character[3];
 
         /// <summary>
         /// Default constructor.
@@ -41,23 +51,27 @@ namespace SuperFantasyMagicProject.Screen
 
         }
 
+
         /// <summary>
         /// Constructor that specifies which enemies are present.
         /// </summary>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
         /// <param name="enemy2">The third enemy (bottom)</param>
-        public BattleScreen(Character enemy0, Character enemy1, Character enemy2, Character player0)
+        public BattleScreen(Character player0, Character player1, Character player2, Character enemy0, Character enemy1, Character enemy2)
         {
+            players[0] = player0;
+            players[1] = player1;
+            players[2] = player2;
             enemies[0] = enemy0;
             enemies[1] = enemy1;
-            enemies[2] = enemy2;
-            players[0] = player0;
-            players[0].Position = new Vector2(182, 160);
-            enemies[0].Position = new Vector2(1610, 160);
-            enemies[1].Position = new Vector2(1610, 400);
-            enemies[2].Position = new Vector2(1610, 640);
-            
+            enemies[2] = enemy2;            
+            players[0].Position = player0Position;
+            players[1].Position = player1Position;
+            players[2].Position = player2Position;
+            enemies[0].Position = enemy0Position;
+            enemies[1].Position = enemy1Position;
+            enemies[2].Position = enemy2Position;
         }
 
         public override void LoadContent()
@@ -68,9 +82,9 @@ namespace SuperFantasyMagicProject.Screen
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
             enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
-
-            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
-                 
+            player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
+            player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+
         }
 
         public override void UnloadContent()
@@ -80,7 +94,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-
+            HandleInput();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -90,8 +104,82 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, Color.White);
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, Color.White);
             spriteBatch.Draw(player0Sprite, players[0].Position, Color.White);
+            spriteBatch.Draw(player1Sprite, players[1].Position, Color.White);
+            spriteBatch.Draw(player2Sprite, players[2].Position, Color.White);
 
             spriteBatch.DrawString(hpPlayer1, "HP: " + hp, new Vector2(190,160), Color.Red);
+        }
+
+        void ResolveCombat(int type,int target,int dmg)
+        {
+            if(type == 1)
+            {
+                enemies[target].TakeDamage(dmg);
+            }
+            else if(type == 2)
+            {
+                players[target].TakeDamage(dmg);
+            }
+        }
+
+        void AttackOpponent(int type, int self, int target)
+        {
+            if(type == 1)
+            {
+                ResolveCombat(type,target,players[self].Damage);
+            }
+            else if(type == 2)
+            {
+                ResolveCombat(type,target,enemies[self].Damage);
+            }
+        }
+
+        void PlayerTarget(int playertarget, int target)
+        {
+            if(tracker != BattleTracker.Playerturn)
+            {
+                return;
+            }
+
+            tracker = BattleTracker.Playerattack;
+            PlayerAttack(0,target,playertarget);
+        }
+
+        void PlayerAttack(int dmg, int target, int playertarget)
+        {
+            if(tracker != BattleTracker.Playerattack)
+            {
+                return;
+            }
+
+            dmg = players[playertarget].Damage;
+
+            enemies[target].TakeDamage(dmg);
+
+            tracker = BattleTracker.Enemyturn;
+            Console.WriteLine(enemies[target].CurrentHealth);
+            enemyTarget = 0;
+            Console.ReadKey();
+        }
+
+        public override void HandleInput()
+        {
+            KeyboardState keyboard = Keyboard.GetState();
+            
+
+            if(keyboard.IsKeyDown(Keys.D1))
+            {
+                enemyTarget = 1;
+                Console.WriteLine(enemyTarget);
+            }
+
+            if(keyboard.IsKeyDown(Keys.D))
+            {
+                Console.WriteLine("PlayerTargetLaunched");
+                tracker = BattleTracker.Playerturn;
+                PlayerTarget(0,enemyTarget);
+            }
+            
         }
     }
 }
