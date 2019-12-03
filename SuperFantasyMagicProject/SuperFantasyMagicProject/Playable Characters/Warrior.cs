@@ -15,7 +15,15 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         public Warrior()
         {
-
+            MaxHealth = 100;
+            CurrentHealth = 100;
+            Mana = 100;
+            Strenght = 10;
+            Agility = 10;
+            Intelligence = 10;
+            Path = "Player/Knight/Standing/KnightStanding1";
+            Position = Vector2.Zero;
+            Damage = 20;
         }
 
         public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
