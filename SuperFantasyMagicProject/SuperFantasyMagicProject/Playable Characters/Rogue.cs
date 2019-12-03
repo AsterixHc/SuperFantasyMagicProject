@@ -13,6 +13,12 @@ namespace SuperFantasyMagicProject.Playable_Characters
             MaxHealth = RogueStats.maxHealth;
             CurrentHealth = RogueStats.currentHealth;
             Mana = RogueStats.mana;
+            Strenght = RogueStats.strenght;
+            Agility = RogueStats.agility;
+            Intelligence = RogueStats.intelligence;
+            Damage = RogueStats.damage;
+            Turnspeed = RogueStats.turnSpeed;
+            Critical = RogueStats.critical;
         }
 
         public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)

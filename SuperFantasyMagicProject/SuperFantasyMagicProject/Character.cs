@@ -24,6 +24,8 @@ namespace SuperFantasyMagicProject
         private int agility;
         private int intelligence;
         private int damage;
+        private int turnspeed;
+        private double critical;
 
         protected bool ranged;
         protected bool isPoisoned = false;
@@ -66,6 +68,9 @@ namespace SuperFantasyMagicProject
         public int Agility { get => agility; set => agility = value; }
         public int Intelligence { get => intelligence; set => intelligence = value; }
         public int Damage { get => damage; set => damage = value; }
+        
+        public double Critical { get => critical; set => critical = value; }
+        public int Turnspeed { get => turnspeed; set => turnspeed = value; }
 
         public abstract int Attack();
 

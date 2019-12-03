@@ -29,8 +29,8 @@ namespace SuperFantasyMagicProject.Screen
         Vector2 player0Position = new Vector2(182, 160);
         Vector2 player1Position = new Vector2(182, 400);
         Vector2 player2Position = new Vector2(182, 640);
-        Vector2 enemy0Position = new Vector2(1610, 160);
-        Vector2 enemy1Position = new Vector2(1610, 400);
+        Vector2 enemy0Position = new Vector2(1610, 160);
+        Vector2 enemy1Position = new Vector2(1610, 400);
         Vector2 enemy2Position = new Vector2(1610, 640);
 
         //Path to the background image.
@@ -173,7 +173,7 @@ namespace SuperFantasyMagicProject.Screen
             {
                 Console.WriteLine("PlayerTargetLaunched");
                 tracker = BattleTracker.Playerturn;
-                PlayerTarget(0,enemyTarget);
+                PlayerTarget(0, enemyTarget);
             }
             
         }

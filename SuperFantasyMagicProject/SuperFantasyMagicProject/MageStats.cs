@@ -14,6 +14,7 @@ namespace SuperFantasyMagicProject
         public static int strenght = 10;
         public static int agility = 10;
         public static int intelligence = 10;
+        public static int damage = 20;
 
         public static int turnSpeed = 10;
         public static double critical = 0.05;
