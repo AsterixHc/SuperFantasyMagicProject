@@ -8,12 +8,16 @@ namespace SuperFantasyMagicProject.Items
 {
     class PhoenixDown : Item
     {
-        public PhoenixDown()
+        public PhoenixDown(int currentHealth, int mana, bool isPlayerAlive)
         {
-
+            if(isPlayerAlive==false)
+            {
+                currentHealth = 40;
+                mana = 40;
+            }
         }
 
         //If Player is dead
-        //Revive Player at 40% Health
+        //Revive Player at 40% Health and 40% mana
     }
 }
