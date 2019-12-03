@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject.Screen
@@ -16,6 +17,8 @@ namespace SuperFantasyMagicProject.Screen
     {
         BattleTracker tracker;
 
+        Random rnd;
+
         private int expValue;
         int enemyTarget = 0;
         public int ExpValue { get => expValue; }
@@ -24,9 +27,11 @@ namespace SuperFantasyMagicProject.Screen
         private Texture2D background;
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";
-        private int hp = 100;
+        private int hp = 100;                int targetedPlayer;
 
-        //Positions for screen elements (players, enemies)
+
+        //Positions for screen elements (players, enemies)
+
         Vector2 player0Position = new Vector2(182, 160);
         Vector2 player1Position = new Vector2(182, 400);
         Vector2 player2Position = new Vector2(182, 640);
@@ -107,7 +112,12 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(player1Sprite, players[1].Position, Color.White);
             spriteBatch.Draw(player2Sprite, players[2].Position, Color.White);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + hp, new Vector2(190,160), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X + 8,players[0].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X + 8, players[1].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X + 8, players[2].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X + 70, enemies[0].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X + 70, enemies[1].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X + 70, enemies[2].Position.Y), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
@@ -135,7 +145,8 @@ namespace SuperFantasyMagicProject.Screen
             tracker = BattleTracker.Enemyturn;
             Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
             enemyTarget = 0;
-            Console.ReadKey();
+            //Console.ReadKey();
+            Enemyturn();
         }
 
         public override void HandleInput()
@@ -152,6 +163,7 @@ namespace SuperFantasyMagicProject.Screen
             if(keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
             {
                 Console.WriteLine("PlayerTargetLaunched");
+                enemyTarget--;
                 tracker = BattleTracker.Playerturn;
                 PlayerTarget(0,enemyTarget);
             }
@@ -160,16 +172,19 @@ namespace SuperFantasyMagicProject.Screen
 
         void Enemyturn()
         {
-
-
+            //targetedPlayer = rnd.Next(0,3);
+            targetedPlayer = 0;
+            EnemyAttack(targetedPlayer,0,0);
             tracker = BattleTracker.Enemyattack;
         }
 
-        void EnemyAttack()
+        void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
         {
+            enemyDamageAmount = enemies[chosenEnemy].Damage;
+            
+            players[targetedPlayer].TakeDamage(enemyDamageAmount);
 
-
-
+            HandleInput();
         }
     }
 }
