@@ -8,9 +8,12 @@ namespace SuperFantasyMagicProject.Items
 {
     class Elixir : Item
     {
-        public Elixir()
+        public Elixir(int maxHealth, int currentHealth, int mana)
         {
-
+            if(currentHealth<maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
         }
 
         //If Health or Mana is low

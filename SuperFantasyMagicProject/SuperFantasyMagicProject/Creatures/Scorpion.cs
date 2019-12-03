@@ -8,9 +8,20 @@ namespace SuperFantasyMagicProject.Creatures
 {
     class Scorpion : Character
     {
-        public Scorpion(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agillity, int intelligence)
+        public Scorpion()
         {
 
+        }
+
+        public Scorpion(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        {
+            this.rnd = rnd;
+            this.MaxHealth = maxHealth;
+            this.CurrentHealth = currentHealth;
+            this.Mana = mana;
+            this.Strenght = strenght;
+            this.Agility = agility;
+            this.Intelligence = intelligence;
         }
 
         public override void Attack()

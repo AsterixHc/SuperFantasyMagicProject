@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
-using SuperFantasyMagicProject.Screen;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -19,8 +17,8 @@ namespace SuperFantasyMagicProject.Playable_Characters
         {
 
         }
-        
-        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, int damage)
+
+        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
             this.MaxHealth = maxHealth;
             this.CurrentHealth = currentHealth;
@@ -28,6 +26,8 @@ namespace SuperFantasyMagicProject.Playable_Characters
             this.Strenght = strenght;
             this.Agility = agility;
             this.Intelligence = intelligence;
+            path = "Player/Knight/Standing/KnightStanding1";
+            this.position = position;
             this.Damage = damage;
         }
 
@@ -36,7 +36,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public override void Attack()
         {
             //Choose an Enemy from enemy array
-            //Choose Enemy from enemy array
+            //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
 
             KeyboardState keyboard = Keyboard.GetState();

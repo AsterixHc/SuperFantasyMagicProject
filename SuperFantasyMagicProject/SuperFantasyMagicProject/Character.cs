@@ -27,8 +27,13 @@ namespace SuperFantasyMagicProject
         private int damage;
 
         protected bool ranged;
+        protected bool isPoisoned = false;
+        protected bool isPlayerAlive = true;
+        protected bool isScratched = false;
+        protected bool isGusted = false;
+        protected bool isParalysed = false;
 
-        public Vector2 Position { get => position; protected set => position = value; }
+        public Vector2 Position { get => position; set => position = value; }
         public string Path { get => path; protected set => path = value; }
         public int CurrentHealth 
         { 
