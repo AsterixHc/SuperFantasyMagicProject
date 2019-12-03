@@ -12,6 +12,9 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
 
         private int targetAttack;
+        
+
+        public int TargetAttack { get => targetAttack; set => targetAttack = value; }
 
         public Warrior()
         {
@@ -43,18 +46,29 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
 
 
-        public override void Attack()
+        public override int Attack()
         {
             //Choose an Enemy from enemy array
             //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
 
-            KeyboardState keyboard = Keyboard.GetState();
+            TargetAttack = 0;
+            KeyboardState ks = Keyboard.GetState();
 
-            if(keyboard.IsKeyDown(Keys.D1))
+            if (ks.IsKeyDown(Keys.A))
             {
-                targetAttack = 0;
+                TargetAttack = 1;
+                Console.WriteLine("Target picked");
+
             }
+
+            if(TargetAttack == 0)
+            {
+                Attack();
+            }
+
+            TargetAttack--;
+            return TargetAttack;
 
             //ScreenManager.currentScreen.
         }

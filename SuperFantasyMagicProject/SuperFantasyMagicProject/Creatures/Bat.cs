@@ -35,10 +35,13 @@ namespace SuperFantasyMagicProject.Creatures
             Position = position;
         }
 
-        public override void Attack()
+        
+
+        public override int Attack()
         {
             //Attack at random against Player
             //Attack random enemy in an array
+            return 0;
         }
 
         public override void SpecialAttack()
@@ -50,7 +53,7 @@ namespace SuperFantasyMagicProject.Creatures
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }

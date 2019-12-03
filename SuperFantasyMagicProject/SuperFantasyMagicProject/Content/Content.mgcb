@@ -1,3 +1,4 @@
+
 #----------------------------- Global Properties ----------------------------#
 
 /outputDir:bin/$(Platform)
@@ -11,6 +12,18 @@
 
 
 #---------------------------------- Content ---------------------------------#
+
+#begin BattleScreen/Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BattleScreen/Background.png
 
 #begin Enemies/Bat/Pink/Animation 1/PinkBat1.1.png
 /importer:TextureImporter
@@ -3900,6 +3913,25 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/Scorpion/Black/Animation 6/Scorpion6.9.png
 
+#begin hpOnScreen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:hpOnScreen.spritefont
+
+#begin MenuScreen/Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MenuScreen/Background.png
+
 #begin Player/Jeremy/Jeremy blonde/JeremyBlondAttack/JeremyBlondAttackBack1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -5856,26 +5888,3 @@
 /processorParam:TextureFormat=Color
 /build:Player/Martha/Martha pink/MarthaPinkWalk/MarthaPinkWalkRight3.png
 
-#begin BattleScreen/Background.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:BattleScreen/Background.png
-
-#begin MenuScreen/Background.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:MenuScreen/Background.png

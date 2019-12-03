@@ -69,7 +69,7 @@ namespace SuperFantasyMagicProject
         public int Intelligence { get => intelligence; set => intelligence = value; }
         public int Damage { get => damage; set => damage = value; }
 
-        public abstract void Attack();
+        public abstract int Attack();
 
         public abstract void SpecialAttack();
 

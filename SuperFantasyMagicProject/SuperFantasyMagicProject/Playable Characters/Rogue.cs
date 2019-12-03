@@ -36,11 +36,12 @@ namespace SuperFantasyMagicProject.Playable_Characters
             Damage = damage;
         }
 
-        public override void Attack()
+        public override int Attack()
         {
-            
+
             //Choose an Enemy from the enemy array
             //Choose enemy from enemy array
+            return 0;
         }
 
         public override void SpecialAttack()
