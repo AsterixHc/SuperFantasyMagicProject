@@ -9,8 +9,11 @@ using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject.Screen
 {
+    enum BattleTracker { Playerturn,Playerattack, Enemyturn, Enemyattack, start }
+
     class BattleScreen : GameScreen
     {
+        BattleTracker tracker = BattleTracker.Playerturn;
 
         private int expValue;
         public int ExpValue { get => expValue; }
@@ -76,7 +79,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-
+            PlayerTarget(0,0);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -110,6 +113,35 @@ namespace SuperFantasyMagicProject.Screen
             {
                 ResolveCombat(type,target,enemies[self].Damage);
             }
+        }
+
+        void PlayerTarget(int playertarget, int target)
+        {
+            if(tracker != BattleTracker.Playerturn)
+            {
+                return;
+            }
+
+            target = players[playertarget].Attack();
+
+            tracker = BattleTracker.Playerattack;
+            PlayerAttack(0,target,playertarget);
+        }
+
+        void PlayerAttack(int dmg, int target, int playertarget)
+        {
+            if(tracker != BattleTracker.Playerattack)
+            {
+                return;
+            }
+
+            dmg = players[playertarget].Damage;
+
+            enemies[target].TakeDamage(dmg);
+
+            tracker = BattleTracker.Enemyturn;
+            Console.WriteLine(enemies[target].CurrentHealth);
+            Console.ReadKey();
         }
     }
 }
