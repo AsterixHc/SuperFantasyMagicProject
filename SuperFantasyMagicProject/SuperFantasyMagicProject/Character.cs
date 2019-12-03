@@ -15,6 +15,7 @@ namespace SuperFantasyMagicProject
         protected Random rnd;
 
         protected Vector2 position;
+        protected Vector2 origin;
         protected string path;
 
         private int maxHealth;
@@ -33,6 +34,7 @@ namespace SuperFantasyMagicProject
         protected bool isParalysed = false;
 
         public Vector2 Position { get => position; set => position = value; }
+        public Vector2 Origin { get => origin; set => origin = value; }
         public string Path { get => path; protected set => path = value; }
         public int CurrentHealth 
         { 
@@ -67,7 +69,7 @@ namespace SuperFantasyMagicProject
         public int Intelligence { get => intelligence; set => intelligence = value; }
         public int Damage { get => damage; set => damage = value; }
 
-        public abstract void Attack();
+        public abstract int Attack();
 
         public abstract void SpecialAttack();
 

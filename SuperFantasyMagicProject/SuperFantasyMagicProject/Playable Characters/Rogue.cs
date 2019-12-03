@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -10,24 +11,37 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Rogue()
         {
-
+            MaxHealth = 100;
+            CurrentHealth = 100;
+            Mana = 100;
+            Strenght = 10;
+            Agility = 10;
+            Intelligence = 10;
+            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
+            Position = Vector2.Zero;
+            Damage = 20;
         }
 
-        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+            Mana = mana;
+            Strenght = strenght;
+            Agility = agility;
+            Intelligence = intelligence;
+            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
+            Position = position;
+            Origin = Vector2.Zero;
+            Damage = damage;
         }
 
-        public override void Attack()
+        public override int Attack()
         {
-            
+
             //Choose an Enemy from the enemy array
             //Choose enemy from enemy array
+            return 0;
         }
 
         public override void SpecialAttack()

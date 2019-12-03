@@ -12,6 +12,9 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
 
         private int targetAttack;
+        
+
+        public int TargetAttack { get => targetAttack; set => targetAttack = value; }
 
         public Warrior()
         {
@@ -23,36 +26,49 @@ namespace SuperFantasyMagicProject.Playable_Characters
             Intelligence = 10;
             Path = "Player/Knight/Standing/KnightStanding1";
             Position = Vector2.Zero;
+            Origin = Vector2.Zero;
             Damage = 20;
         }
 
         public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
-            path = "Player/Knight/Standing/KnightStanding1";
-            this.position = position;
-            this.Damage = damage;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+            Mana = mana;
+            Strenght = strenght;
+            Agility = agility;
+            Intelligence = intelligence;
+            Path = "Player/Knight/Standing/KnightStanding1";
+            Position = position;
+            Origin = Vector2.Zero;
+            Damage = damage;
         }
 
 
 
-        public override void Attack()
+        public override int Attack()
         {
             //Choose an Enemy from enemy array
             //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
 
-            KeyboardState keyboard = Keyboard.GetState();
+            TargetAttack = 0;
+            KeyboardState ks = Keyboard.GetState();
 
-            if(keyboard.IsKeyDown(Keys.D1))
+            if (ks.IsKeyDown(Keys.A))
             {
-                targetAttack = 0;
+                TargetAttack = 1;
+                Console.WriteLine("Target picked");
+
             }
+
+            if(TargetAttack == 0)
+            {
+                Attack();
+            }
+
+            TargetAttack--;
+            return TargetAttack;
 
             //ScreenManager.currentScreen.
         }
