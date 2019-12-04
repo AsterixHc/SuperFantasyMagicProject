@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -10,17 +11,31 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Mage()
         {
-
+            Path = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
+            Position = Vector2.Zero;
+            MaxHealth = MageStats.maxHealth;
+            CurrentHealth = MageStats.currentHealth;
+            Mana = MageStats.mana;
+            Strenght = MageStats.strenght;
+            Agility = MageStats.agility;
+            Intelligence = MageStats.intelligence;
+            Damage = MageStats.damage;
+            Critical = MageStats.critical;
+            Turnspeed = MageStats.turnSpeed;
         }
 
-        public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+            Mana = mana;
+            Strenght = strenght;
+            Agility = agility;
+            Intelligence = intelligence;
+            Path = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
+            Position = position;
+            Origin = Vector2.Zero;
+            Damage = damage;
         }
 
         public override int Attack()
@@ -62,7 +77,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }
