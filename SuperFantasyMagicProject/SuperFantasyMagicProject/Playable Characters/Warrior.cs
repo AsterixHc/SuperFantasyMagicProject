@@ -15,7 +15,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         private int targetAttack;
         
         
-
+        
         public int TargetAttack { get => targetAttack; set => targetAttack = value; }
 
         public Warrior()
