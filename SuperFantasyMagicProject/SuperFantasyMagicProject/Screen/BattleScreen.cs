@@ -91,7 +91,7 @@ namespace SuperFantasyMagicProject.Screen
             player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
             enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
-            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
+            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
             //Set origins (players/enemies).
             players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
             players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
@@ -127,6 +127,8 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
+
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
