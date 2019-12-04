@@ -11,15 +11,17 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Mage()
         {
-            MaxHealth = 100;
-            CurrentHealth = 100;
-            Mana = 100;
-            Strenght = 10;
-            Agility = 10;
-            Intelligence = 10;
             Path = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
             Position = Vector2.Zero;
-            Damage = 20;
+            MaxHealth = MageStats.maxHealth;
+            CurrentHealth = MageStats.currentHealth;
+            Mana = MageStats.mana;
+            Strenght = MageStats.strenght;
+            Agility = MageStats.agility;
+            Intelligence = MageStats.intelligence;
+            Damage = MageStats.damage;
+            Critical = MageStats.critical;
+            Turnspeed = MageStats.turnSpeed;
         }
 
         public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
