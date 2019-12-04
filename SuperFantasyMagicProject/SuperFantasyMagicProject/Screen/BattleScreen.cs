@@ -78,6 +78,7 @@ namespace SuperFantasyMagicProject.Screen
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
+            tracker = BattleTracker.start;
         }
 
         public override void LoadContent()
@@ -109,6 +110,7 @@ namespace SuperFantasyMagicProject.Screen
         public override void Update(GameTime gameTime)
         {
             HandleInput();
+            Enemyturn();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -129,6 +131,7 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
@@ -157,11 +160,17 @@ namespace SuperFantasyMagicProject.Screen
             Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
             enemyTarget = 0;
             //Console.ReadKey();
-            Enemyturn();
+            
         }
 
         public override void HandleInput()
         {
+
+            if(tracker != BattleTracker.start)
+            {
+                return;
+            }
+
             KeyboardState keyboard = Keyboard.GetState();
             
 
@@ -183,6 +192,11 @@ namespace SuperFantasyMagicProject.Screen
 
         void Enemyturn()
         {
+            if(tracker != BattleTracker.Enemyturn)
+            {
+                return;
+            }
+
             //targetedPlayer = rnd.Next(0,3);
             targetedPlayer = 0;
             EnemyAttack(targetedPlayer,0,0);
@@ -191,11 +205,17 @@ namespace SuperFantasyMagicProject.Screen
 
         void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
         {
+
+            if(tracker != BattleTracker.Enemyattack)
+            {
+                return;
+            }
+
             enemyDamageAmount = enemies[chosenEnemy].Damage;
             
             players[targetedPlayer].TakeDamage(enemyDamageAmount);
-
-            HandleInput();
+            tracker = BattleTracker.start;
+            
         }
     }
 }
