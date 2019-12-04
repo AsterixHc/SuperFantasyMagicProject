@@ -23,22 +23,22 @@ namespace SuperFantasyMagicProject.Screen
         int enemyTarget = 0;
         public int ExpValue { get => expValue; }
 
-        //Background image for the splash screen.
+        //Background image for the battle screen.
         private Texture2D background;
+        private string path = "BattleScreen/Background";
+
+        //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";
         private int hp = 100;                int targetedPlayer;
 
-        //Positions for screen elements (players, enemies)
+        //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
         Vector2 player1Position = new Vector2(220, 450);
         Vector2 player2Position = new Vector2(220, 700);
-        Vector2 enemy0Position = new Vector2(1710, 220);
-        Vector2 enemy1Position = new Vector2(1710, 460);
-        Vector2 enemy2Position = new Vector2(1710, 700);
-
-        //Path to the background image.
-        private string path = "BattleScreen/Background";
+        Vector2 enemy0Position = new Vector2(1710, 220);
+        Vector2 enemy1Position = new Vector2(1710, 460);
+        Vector2 enemy2Position = new Vector2(1710, 700);        
 
         //Array for holding players
         private Character[] players = new Character[3];
@@ -56,11 +56,14 @@ namespace SuperFantasyMagicProject.Screen
 
 
         /// <summary>
-        /// Constructor that specifies which enemies are present.
+        /// Constructor that specifies enemies and players.
         /// </summary>
+        /// <param name="player0">The first player (top)</param>
+        /// <param name="player1">The second player (middle)</param>
+        /// <param name="player2">The third player (bottom)</param>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
-        /// <param name="enemy2">The third enemy (bottom)</param>
+        /// <param name="enemy2">The third enemy (bottom)</param>        
         public BattleScreen(Character player0, Character player1, Character player2, Character enemy0, Character enemy1, Character enemy2)
         {
             players[0] = player0;
@@ -81,21 +84,21 @@ namespace SuperFantasyMagicProject.Screen
         {
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(path);
+
+            //Load textures (players/enemies).
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
-            player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
+            player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
             player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
             enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
             enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);
-
-            //Set origins
-            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
-            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
-            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
-            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
-            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
-            enemies[2].Origin = new Vector2(enemy2Sprite.Width / 2, enemy2Sprite.Height / 2);
-
+            //Set origins (players/enemies).
+            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
+            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
+            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
+            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
+            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
+            enemies[2].Origin = new Vector2(enemy2Sprite.Width / 2, enemy2Sprite.Height / 2);
         }
 
         public override void UnloadContent()
@@ -111,6 +114,7 @@ namespace SuperFantasyMagicProject.Screen
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
+
             spriteBatch.Draw(player0Sprite, players[0].Position, new Rectangle(0, 0, player0Sprite.Width, player0Sprite.Height),
                     Color.White, 0, players[0].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(player1Sprite, players[1].Position, new Rectangle(0, 0, player1Sprite.Width, player1Sprite.Height),
@@ -122,7 +126,7 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
                     Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
-                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
+                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
