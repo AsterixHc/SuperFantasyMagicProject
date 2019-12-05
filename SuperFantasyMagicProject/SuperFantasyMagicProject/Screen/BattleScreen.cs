@@ -31,6 +31,9 @@ namespace SuperFantasyMagicProject.Screen
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
 
+        int playerSpeed;
+        int enemySpeed;
+        
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
         Vector2 player1Position = new Vector2(220, 450);
@@ -108,6 +111,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
+            PlayerSpeedCheck();
             HandleInput();
             Enemyturn();
         }
@@ -161,7 +165,7 @@ namespace SuperFantasyMagicProject.Screen
 
             enemies[targetedEnemy].TakeDamage(playerDamageAmount);
 
-            tracker = BattleTracker.Enemyturn;
+            //tracker = BattleTracker.Enemyturn;
             Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
             enemyTarget = 0;
             //Console.ReadKey();
@@ -228,8 +232,61 @@ namespace SuperFantasyMagicProject.Screen
             enemyDamageAmount = enemies[chosenEnemy].Damage;
             
             players[targetedPlayer].TakeDamage(enemyDamageAmount);
-            tracker = BattleTracker.start;
+            //tracker = BattleTracker.start;
             
+        }
+
+        void PlayerSpeedCheck()
+        {
+            if (players[0].Turnspeed > players[1].Turnspeed && players[0].Turnspeed > players[2].Turnspeed)
+            {
+                playerSpeed = players[0].Turnspeed;
+            }
+            else if (players[1].Turnspeed > players[2].Turnspeed && players[1].Turnspeed > players[0].Turnspeed)
+            {
+                playerSpeed = players[1].Turnspeed;
+            }
+            else if (players[2].Turnspeed > players[1].Turnspeed && players[2].Turnspeed > players[0].Turnspeed)
+            {
+                playerSpeed = players[2].Turnspeed;
+            }
+
+            EnemySpeedCheck();
+
+        }
+
+        void EnemySpeedCheck()
+        {
+
+            if(enemies[0].Turnspeed > enemies[1].Turnspeed && enemies[0].Turnspeed > enemies[2].Turnspeed)
+            {
+                enemySpeed = enemies[0].Turnspeed;
+            }
+            else if(enemies[1].Turnspeed > enemies[2].Turnspeed && enemies[1].Turnspeed > enemies[0].Turnspeed)
+            {
+                enemySpeed = enemies[1].Turnspeed;
+            }
+            else if(enemies[2].Turnspeed > enemies[1].Turnspeed && enemies[2].Turnspeed > enemies[0].Turnspeed)
+            {
+                enemySpeed = enemies[2].Turnspeed;
+            }
+
+            EncounterStart();
+
+        }
+
+        void EncounterStart()
+        {
+
+            if(playerSpeed > enemySpeed)
+            {
+                tracker = BattleTracker.start;
+            }
+            else if(enemySpeed > playerSpeed)
+            {
+                tracker = BattleTracker.Enemyturn;
+            }
+
         }
     }
 }
