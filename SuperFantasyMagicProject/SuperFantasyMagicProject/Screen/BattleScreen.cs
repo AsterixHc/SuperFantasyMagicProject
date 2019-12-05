@@ -29,8 +29,7 @@ namespace SuperFantasyMagicProject.Screen
 
         //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
-        private string hpOnScreen = "hpOnScreen";
-        private int hp = 100;                int targetedPlayer;
+        private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
 
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
@@ -130,8 +129,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y-player0Sprite.Height), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y-(enemy0Sprite.Height/2)), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
