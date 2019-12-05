@@ -17,7 +17,7 @@ namespace SuperFantasyMagicProject.Screen
     {
         BattleTracker tracker;
 
-        Random rnd;
+        Random rnd = new Random();
 
         private int expValue;
         int enemyTarget = 0;
@@ -129,8 +129,12 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y-player0Sprite.Height), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y-(enemy0Sprite.Height/2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y - player0Sprite.Height), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height/2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X - (player2Sprite.Width / 2), players[2].Position.Y - player2Sprite.Height), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
@@ -171,12 +175,21 @@ namespace SuperFantasyMagicProject.Screen
             }
 
             KeyboardState keyboard = Keyboard.GetState();
-            
 
             if(keyboard.IsKeyDown(Keys.D1))
             {
                 enemyTarget = 1;
                 Console.WriteLine(enemyTarget);
+            }
+
+            if(keyboard.IsKeyDown(Keys.D2))
+            {
+                enemyTarget = 2;
+            }
+
+            if(keyboard.IsKeyDown(Keys.D3))
+            {
+                enemyTarget = 3;
             }
 
             if(keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
@@ -196,8 +209,8 @@ namespace SuperFantasyMagicProject.Screen
                 return;
             }
 
-            //targetedPlayer = rnd.Next(0,3);
-            targetedPlayer = 0;
+            targetedPlayer = rnd.Next(0,3);
+            //targetedPlayer = 0;
             tracker = BattleTracker.Enemyattack;
             EnemyAttack(targetedPlayer,0,0);
         }
