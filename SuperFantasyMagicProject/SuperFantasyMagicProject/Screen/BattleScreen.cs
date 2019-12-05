@@ -20,6 +20,12 @@ namespace SuperFantasyMagicProject.Screen
         Song song;
         Random rnd;
 
+        private Texture2D sprite;
+        protected Texture2D[] knightStanding;
+        protected float fps;
+        private float timeElasped;
+        private int currentIndex;
+
         private int expValue;
         int enemyTarget = 0;
         public int ExpValue { get => expValue; }
@@ -30,8 +36,7 @@ namespace SuperFantasyMagicProject.Screen
 
         //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
-        private string hpOnScreen = "hpOnScreen";
-        private int hp = 100;                int targetedPlayer;
+        private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
 
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
@@ -91,8 +96,17 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
+            knightStanding = new Texture2D[3];
+
+            for (int i = 0; i < knightStanding.Length; i++)
+            {
+                knightStanding[i] = gameScreenContent.Load<Texture2D>("Player/Knight/Standing/KnightStanding" + (i + 1));
+            }
+
+            sprite = knightStanding[0];
+
             //Load textures (players/enemies).
-            player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
+            player0Sprite = knightStanding[0];
             player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
             player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
             enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
@@ -221,6 +235,19 @@ namespace SuperFantasyMagicProject.Screen
             players[targetedPlayer].TakeDamage(enemyDamageAmount);
             tracker = BattleTracker.start;
             
+        }
+
+        protected void Animate(GameTime gameTime)
+        {
+            timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            currentIndex = (int)(timeElasped * fps);
+            sprite = knightStanding[currentIndex];
+
+            if(currentIndex >= knightStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
         }
     }
 }
