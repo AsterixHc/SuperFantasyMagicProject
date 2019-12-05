@@ -198,8 +198,8 @@ namespace SuperFantasyMagicProject.Screen
 
             //targetedPlayer = rnd.Next(0,3);
             targetedPlayer = 0;
-            EnemyAttack(targetedPlayer,0,0);
             tracker = BattleTracker.Enemyattack;
+            EnemyAttack(targetedPlayer,0,0);
         }
 
         void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
