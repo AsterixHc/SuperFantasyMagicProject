@@ -32,8 +32,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            currentScreen = new BattleScreen(new Rogue(), new Warrior(), new Mage(), new Bat(), new Bat(), new Bat());
-            
+            currentScreen = new SplashScreen();
         }
 
         /// <summary>
