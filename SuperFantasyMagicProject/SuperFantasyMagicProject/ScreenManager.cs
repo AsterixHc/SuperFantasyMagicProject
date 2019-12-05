@@ -21,7 +21,6 @@ namespace SuperFantasyMagicProject
         //Dimensions of the game window (Width, height).
         private static Vector2 screenDimensions = new Vector2(1920, 1080);
         
-
         //The GameScreen that is currently being displayed.
         public static GameScreen currentScreen;
 
@@ -35,6 +34,17 @@ namespace SuperFantasyMagicProject
         {
             currentScreen = new BattleScreen(new Rogue(), new Warrior(), new Mage(), new Bat(), new Bat(), new Bat());
             
+        }
+
+        /// <summary>
+        /// Changes screens in the game. Unloads old content and loads new content.
+        /// </summary>
+        /// <param name="newScreen">The screen to be changed to. Requires a new instance of type GameScreen.</param>
+        public static void ChangeScreenTo(GameScreen newScreen)
+        {
+            currentScreen.UnloadContent();
+            currentScreen = newScreen;
+            currentScreen.LoadContent();
         }
 
         /// <summary>
@@ -72,7 +82,5 @@ namespace SuperFantasyMagicProject
         {
             currentScreen.Draw(spriteBatch);
         }
-
-
     }
 }
