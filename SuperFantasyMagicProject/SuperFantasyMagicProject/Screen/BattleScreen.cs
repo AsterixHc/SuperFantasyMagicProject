@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Playable_Characters;
+using Microsoft.Xna.Framework.Media;
 
 namespace SuperFantasyMagicProject.Screen
 {
@@ -16,7 +17,7 @@ namespace SuperFantasyMagicProject.Screen
     class BattleScreen : GameScreen
     {
         BattleTracker tracker;
-
+        Song song;
         Random rnd;
 
         private int expValue;
@@ -85,6 +86,10 @@ namespace SuperFantasyMagicProject.Screen
         {
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(path);
+            this.song = gameScreenContent.Load<Song>("Final Fantasy VI Battle Theme Extended");
+            MediaPlayer.Play(song);
+            //Code for music looping
+            //MediaPlayer.IsRepeating = true;
 
             //Load textures (players/enemies).
             player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
