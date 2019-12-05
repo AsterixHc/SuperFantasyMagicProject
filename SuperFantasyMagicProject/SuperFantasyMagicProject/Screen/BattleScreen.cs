@@ -135,6 +135,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
+
+            spriteBatch.DrawString(hpPlayer1,"TurnCounter: " + tracker,new Vector2(ScreenManager.ScreenDimensions.X/2, ScreenManager.ScreenDimensions.Y/2),Color.Green);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
