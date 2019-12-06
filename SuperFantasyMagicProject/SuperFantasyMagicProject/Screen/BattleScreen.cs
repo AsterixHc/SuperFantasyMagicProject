@@ -11,7 +11,7 @@ using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject.Screen
 {
-    enum BattleTracker { Playerturn,Playerattack, Enemyturn, Enemyattack, start }
+    enum BattleTracker { Playerturn, Playerattack, Enemyturn, Enemyattack, Start, SpeedEvaluationPlayer, SpeedEvaluationEnemy }
 
     class BattleScreen : GameScreen
     {
@@ -33,7 +33,14 @@ namespace SuperFantasyMagicProject.Screen
 
         int playerSpeed;
         int enemySpeed;
-        
+
+        private bool firstTurn = false;
+        private bool secoundTurn = false;
+        private bool thirdTurn = false;
+        private bool fourthTurn = false;
+        private bool fifthTurn = false;
+        private bool sixthTurn = false;
+
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
         Vector2 player1Position = new Vector2(220, 450);
@@ -80,7 +87,7 @@ namespace SuperFantasyMagicProject.Screen
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
-            tracker = BattleTracker.start;
+            tracker = BattleTracker.Start;
         }
 
         public override void LoadContent()
@@ -111,6 +118,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
+            //EncounterTurnSystemReset();
             PlayerSpeedCheck();
             HandleInput();
             Enemyturn();
@@ -133,12 +141,12 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y - player0Sprite.Height), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height/2)), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X - (player2Sprite.Width / 2), players[2].Position.Y - player2Sprite.Height), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Player 1 HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y - player0Sprite.Height), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Player 2 HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height/2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Player 3 HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X - (player2Sprite.Width / 2), players[2].Position.Y - player2Sprite.Height), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Enemy 1 HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Enemy 2 HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hpPlayer1, "Enemy 3 HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
 
             spriteBatch.DrawString(hpPlayer1,"TurnCounter: " + tracker,new Vector2(ScreenManager.ScreenDimensions.X/2, ScreenManager.ScreenDimensions.Y/2),Color.Green);
         }
@@ -162,20 +170,45 @@ namespace SuperFantasyMagicProject.Screen
             }
 
             playerDamageAmount = players[chosenPlayer].Damage;
-
+            Console.WriteLine("PlayerSpeed =" + chosenPlayer);
             enemies[targetedEnemy].TakeDamage(playerDamageAmount);
 
-            //tracker = BattleTracker.Enemyturn;
+            tracker = BattleTracker.SpeedEvaluationPlayer;
             Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
             enemyTarget = 0;
             //Console.ReadKey();
-            
+
+            if (playerSpeed == 1)
+            {
+                Console.WriteLine("Player did damage!");
+                EncounterTurnTwo();
+            }
+            else if ((enemySpeed == 1 && playerSpeed == 1) || playerSpeed == 2)
+            {
+                Console.WriteLine("Player did damage!");
+                EncounterTurnThree();
+            }
+            else if ((enemySpeed == 2 && playerSpeed == 1) || (enemySpeed == 1 && playerSpeed == 2) || playerSpeed == 3)
+            {
+                Console.WriteLine("Player did damage!");
+                EncounterTurnFour();
+            }
+            else if ((playerSpeed == 3 && enemySpeed == 1) || (enemySpeed == 3 && playerSpeed == 1) || (playerSpeed == 2 && enemySpeed == 2))
+            {
+                Console.WriteLine("Player did damage!");
+                EncounterTurnFive();
+            }
+            else if ((enemySpeed == 2 && playerSpeed == 3) || (enemySpeed == 3 && playerSpeed == 2))
+            {
+                Console.WriteLine("Player did damage!");
+                EncounterTurnSix();
+            }
         }
 
         public override void HandleInput()
         {
 
-            if(tracker != BattleTracker.start)
+            if(tracker != BattleTracker.Start)
             {
                 return;
             }
@@ -185,7 +218,7 @@ namespace SuperFantasyMagicProject.Screen
             if(keyboard.IsKeyDown(Keys.D1))
             {
                 enemyTarget = 1;
-                Console.WriteLine(enemyTarget);
+                //Console.WriteLine(enemyTarget);
             }
 
             if(keyboard.IsKeyDown(Keys.D2))
@@ -203,7 +236,7 @@ namespace SuperFantasyMagicProject.Screen
                 Console.WriteLine("PlayerTargetLaunched");
                 enemyTarget--;
                 tracker = BattleTracker.Playerturn;
-                PlayerTarget(0, enemyTarget);
+                PlayerTarget(playerSpeed, enemyTarget);
             }
             
         }
@@ -218,7 +251,7 @@ namespace SuperFantasyMagicProject.Screen
             targetedPlayer = rnd.Next(0,3);
             //targetedPlayer = 0;
             tracker = BattleTracker.Enemyattack;
-            EnemyAttack(targetedPlayer,0,0);
+            EnemyAttack(targetedPlayer,enemySpeed,0);
         }
 
         void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
@@ -228,29 +261,81 @@ namespace SuperFantasyMagicProject.Screen
             {
                 return;
             }
-
-            enemyDamageAmount = enemies[chosenEnemy].Damage;
             
+            enemyDamageAmount = enemies[chosenEnemy].Damage;
+            Console.WriteLine("EnemySpeed =" + chosenEnemy);
             players[targetedPlayer].TakeDamage(enemyDamageAmount);
-            //tracker = BattleTracker.start;
+            tracker = BattleTracker.SpeedEvaluationEnemy;
+
+            if(enemySpeed == 1)
+            {
+                Console.WriteLine("Enemy Turn Two Active!");
+                EncounterTurnTwo();
+            }
+            else if((enemySpeed == 1 && playerSpeed == 1) || enemySpeed == 2)
+            {
+                Console.WriteLine("Enemy Turn Three Active!");
+                EncounterTurnThree();
+            }
+            else if((enemySpeed == 2 && playerSpeed == 1) || (enemySpeed == 1 && playerSpeed == 2) || enemySpeed == 3)
+            {
+                Console.WriteLine("Enemy Turn Four Active!");
+                EncounterTurnFour();
+            }
+            else if((enemySpeed == 3 && playerSpeed == 1) || (playerSpeed == 3 && enemySpeed == 1) || (enemySpeed == 2 && playerSpeed == 2))
+            {
+                Console.WriteLine("Enemy did damage!");
+                EncounterTurnFive();
+            }
+            else if((enemySpeed == 2 && playerSpeed == 3) || (enemySpeed == 3 && playerSpeed == 2))
+            {
+                Console.WriteLine("Enemy did damage!");
+                EncounterTurnSix();
+            }
             
         }
 
         void PlayerSpeedCheck()
         {
-            if (players[0].Turnspeed > players[1].Turnspeed && players[0].Turnspeed > players[2].Turnspeed)
+
+
+            //Console.WriteLine(players[0].Turnspeed);
+            //Console.WriteLine(players[1].Turnspeed);
+            //Console.WriteLine(players[2].Turnspeed);
+            //Console.ReadKey();
+
+            //if (players[0].Turnspeed > players[1].Turnspeed && players[0].Turnspeed > players[2].Turnspeed)
+            //{
+            //    playerSpeed = players[0].Turnspeed;
+            //}
+            //else if (players[1].Turnspeed > players[2].Turnspeed && players[1].Turnspeed > players[0].Turnspeed)
+            //{
+            //    playerSpeed = players[1].Turnspeed;
+            //}
+            //else if (players[2].Turnspeed > players[1].Turnspeed && players[2].Turnspeed > players[0].Turnspeed)
+            //{
+            //    playerSpeed = players[2].Turnspeed;
+            //}
+
+            for (int i = 0; i < players.Length - 1; i++)
             {
-                playerSpeed = players[0].Turnspeed;
-            }
-            else if (players[1].Turnspeed > players[2].Turnspeed && players[1].Turnspeed > players[0].Turnspeed)
-            {
-                playerSpeed = players[1].Turnspeed;
-            }
-            else if (players[2].Turnspeed > players[1].Turnspeed && players[2].Turnspeed > players[0].Turnspeed)
-            {
-                playerSpeed = players[2].Turnspeed;
+                for (int j = 0; j < players.Length - 1; j++)
+                {
+                    if(players[j].Turnspeed < players[j+1].Turnspeed)
+                    {
+
+                        Character temp = players[j];
+                        players[j] = players[j + 1];
+                        players[j + 1] = temp;
+
+                    }
+                }
             }
 
+            //Console.WriteLine(players[0].Turnspeed);
+            //Console.WriteLine(players[1].Turnspeed);
+            //Console.WriteLine(players[2].Turnspeed);
+            //Console.ReadKey();
             EnemySpeedCheck();
 
         }
@@ -258,33 +343,432 @@ namespace SuperFantasyMagicProject.Screen
         void EnemySpeedCheck()
         {
 
-            if(enemies[0].Turnspeed > enemies[1].Turnspeed && enemies[0].Turnspeed > enemies[2].Turnspeed)
+            //if(enemies[0].Turnspeed > enemies[1].Turnspeed && enemies[0].Turnspeed > enemies[2].Turnspeed)
+            //{
+            //    enemySpeed = enemies[0].Turnspeed;
+            //}
+            //else if(enemies[1].Turnspeed > enemies[2].Turnspeed && enemies[1].Turnspeed > enemies[0].Turnspeed)
+            //{
+            //    enemySpeed = enemies[1].Turnspeed;
+            //}
+            //else if(enemies[2].Turnspeed > enemies[1].Turnspeed && enemies[2].Turnspeed > enemies[0].Turnspeed)
+            //{
+            //    enemySpeed = enemies[2].Turnspeed;
+            //}
+
+            for (int i = 0; i < enemies.Length - 1; i++)
             {
-                enemySpeed = enemies[0].Turnspeed;
-            }
-            else if(enemies[1].Turnspeed > enemies[2].Turnspeed && enemies[1].Turnspeed > enemies[0].Turnspeed)
-            {
-                enemySpeed = enemies[1].Turnspeed;
-            }
-            else if(enemies[2].Turnspeed > enemies[1].Turnspeed && enemies[2].Turnspeed > enemies[0].Turnspeed)
-            {
-                enemySpeed = enemies[2].Turnspeed;
+                for (int j = 0; j < enemies.Length - 1; j++)
+                {
+                    if (enemies[j].Turnspeed < enemies[j + 1].Turnspeed)
+                    {
+
+                        Character temp = enemies[j];
+                        enemies[j] = enemies[j + 1];
+                        enemies[j + 1] = temp;
+
+                    }
+                }
             }
 
-            EncounterStart();
+            EncounterTurnOne();
+        }
 
+        void EncounterTurnOne()
+        {
+            if (firstTurn != true)
+            {
+                sixthTurn = false;
+                firstTurn = true;
+                if (players[0].Turnspeed > enemies[0].Turnspeed)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[0].Turnspeed)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnTwo()
+        {
+            if (firstTurn == true && secoundTurn != true)
+            {
+                firstTurn = false;
+                secoundTurn = true;
+                if (players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnThree()
+        {
+            if (secoundTurn == true && thirdTurn != true)
+            {
+                secoundTurn = false;
+                thirdTurn = true;
+                if (players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[0].Turnspeed > enemies[2].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[2].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[1].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[1].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[2].Turnspeed > enemies[0].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Playerturn;
+                    playerSpeed++;
+                }
+                else if (enemies[2].Turnspeed > players[0].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Playerturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnFour()
+        {
+            if (thirdTurn == true && fourthTurn != true)
+            {
+                thirdTurn = false;
+                fourthTurn = true;
+                if (enemySpeed == 3)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (playerSpeed == 3)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[2].Turnspeed > enemies[1].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[2].Turnspeed > players[1].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[2].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[2].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnFive()
+        {
+            if (fourthTurn == true && fifthTurn != true)
+            {
+                fourthTurn = false;
+                fifthTurn = true;
+                if (enemySpeed == 3 && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (playerSpeed == 3 && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[2].Turnspeed > enemies[2].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[2].Turnspeed > players[2].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnSix()
+        {
+            if (fifthTurn == true && sixthTurn != true)
+            {
+                fifthTurn = false;
+                sixthTurn = true;
+                if (enemySpeed == 3 && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (playerSpeed == 3 && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+        }
+
+        void EncounterTurnSystemReset()
+        {
+            if(playerSpeed == 3 && enemySpeed == 3)
+            {
+                playerSpeed = 0;
+                enemySpeed = 0;
+            }
         }
 
         void EncounterStart()
         {
 
-            if(playerSpeed > enemySpeed)
+            //if(playerSpeed > enemySpeed)
+            //{
+            //    tracker = BattleTracker.Start;
+            //}
+            //else if(enemySpeed > playerSpeed)
+            //{
+            //    tracker = BattleTracker.Enemyturn;
+            //}
+
+            if(sixthTurn == true && playerSpeed == 3 && enemySpeed == 3)
             {
-                tracker = BattleTracker.start;
+                playerSpeed = 0;
+                enemySpeed = 0;
+                firstTurn = false;
+                secoundTurn = false;
+                thirdTurn = false;
+                fourthTurn = false;
+                fifthTurn = false;
+                sixthTurn = false;
             }
-            else if(enemySpeed > playerSpeed)
+
+            if(sixthTurn == true)
             {
-                tracker = BattleTracker.Enemyturn;
+                return;
+            }
+
+            if(firstTurn != true)
+            {
+                firstTurn = true;
+                if(players[0].Turnspeed > enemies[0].Turnspeed)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[0].Turnspeed > players[0].Turnspeed)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+            else if(firstTurn == true && secoundTurn != true)
+            {
+                secoundTurn = true;
+                if(players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+            else if(secoundTurn == true && thirdTurn != true)
+            {
+                thirdTurn = true;
+                if (players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[0].Turnspeed > enemies[2].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[0].Turnspeed > players[2].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[1].Turnspeed > enemies[1].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[1].Turnspeed > players[1].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[2].Turnspeed > enemies[0].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Playerturn;
+                    playerSpeed++;
+                }
+                else if(enemies[2].Turnspeed > players[0].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Playerturn;
+                    enemySpeed++;
+                }
+            }
+            else if(thirdTurn == true && fourthTurn != true)
+            {
+                fourthTurn = true;
+                if(enemySpeed == 3)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed = 1;
+                }
+                else if(playerSpeed == 3)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed = 1;
+                }
+                else if(players[2].Turnspeed > enemies[1].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[2].Turnspeed > players[1].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[1].Turnspeed > enemies[2].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[1].Turnspeed > players[2].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+            else if(fourthTurn == true && fifthTurn != true)
+            {
+                fifthTurn = true;
+                if(enemySpeed == 3 && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(playerSpeed == 3 && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if(players[2].Turnspeed > enemies[2].Turnspeed && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(enemies[2].Turnspeed > players[2].Turnspeed && enemySpeed == 2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+            }
+            else if(fifthTurn == true && sixthTurn != true)
+            {
+                sixthTurn = true;
+                if(enemySpeed == 3 && playerSpeed == 2)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if(playerSpeed == 3 && enemySpeed ==2)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
             }
 
         }

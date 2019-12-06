@@ -16,7 +16,7 @@ namespace SuperFantasyMagicProject
         public static int intelligence = 10;
         public static int damage = 20;
 
-        public static int turnSpeed = 10;
+        public static int turnSpeed = 8;
         public static double critical = 0.05;
     }
 }

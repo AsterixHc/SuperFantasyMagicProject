@@ -27,6 +27,8 @@ namespace SuperFantasyMagicProject.Playable_Characters
             Agility = WarriorStats.agility;
             Intelligence = WarriorStats.intelligence;
             Damage = WarriorStats.damage;
+            Turnspeed = WarriorStats.turnSpeed;
+            Critical = WarriorStats.critical;
 
             Position = Vector2.Zero;
             Origin = Vector2.Zero;

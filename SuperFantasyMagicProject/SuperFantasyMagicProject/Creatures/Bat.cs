@@ -24,6 +24,7 @@ namespace SuperFantasyMagicProject.Creatures
             Position = Vector2.Zero;
             Origin = Vector2.Zero;
             Damage = 20;
+            Turnspeed = 9;
         }
 
         /// <summary>
