@@ -107,7 +107,7 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
-            //The arrays for the 4 characters
+            //The size definition of the arrays for the creatures/characters
             knightStanding = new Texture2D[4];
             jeremyStanding = new Texture2D[3];
             marthaStanding = new Texture2D[3];
@@ -147,21 +147,25 @@ namespace SuperFantasyMagicProject.Screen
             {
                 demonFlowerStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Demon flowers/Purple/Animation 1/DemonFlower1." + (i + 1));
             }
+
             //Loads the sprites of the Hayu into an array
             for (int i = 0; i < hayuStanding.Length; i++)
             {
                 hayuStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hayu/Blue/Animation 1/Hayu1." + (i + 1));
             }
+
             //Loads the sprites of the Hornet into an array
             for (int i = 0; i < hornetStanding.Length; i++)
             {
                 hornetStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hornet/Yellow/Animation 1/Hornet1." + (i + 1));
             }
+
             //Loads the sprites of the Sangshi into an array
             for (int i = 0; i < sangshiStanding.Length; i++)
             {
                 sangshiStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Sangshi/Green/Animation 1/Sangshi1." + (i + 1));
             }
+
             //Loads the sprites of the Scorpion into an array
             for (int i = 0; i < scorpionStanding.Length; i++)
             {
@@ -193,7 +197,7 @@ namespace SuperFantasyMagicProject.Screen
         {
             HandleInput();
             Enemyturn();
-            Animate(gameTime);
+            DefaultAnimate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -305,7 +309,7 @@ namespace SuperFantasyMagicProject.Screen
         /// Animates the different sprites (Martha, Jeremy, Knight and Bat)
         /// </summary>
         /// <param name="gameTime"></param>
-        protected void Animate(GameTime gameTime)
+        protected void DefaultAnimate(GameTime gameTime)
         {
             //Counts the time since the last update
             timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -369,6 +373,11 @@ namespace SuperFantasyMagicProject.Screen
                 timeElasped = 0;
                 currentIndex = 0;
             }
+        }
+
+        protected void AttackAnimate(GameTime gameTime)
+        {
+            
         }
     }
 }
