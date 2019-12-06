@@ -75,6 +75,7 @@
     <Compile Include="Screen\MapScreen.cs" />
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ShopScreen.cs" />
+    <Compile Include="Screen\SplashScreen.cs" />
     <Compile Include="WarriorStats.cs" />
   </ItemGroup>
   <ItemGroup>
