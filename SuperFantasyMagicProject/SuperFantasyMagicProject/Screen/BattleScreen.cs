@@ -20,11 +20,20 @@ namespace SuperFantasyMagicProject.Screen
         Song song;
         Random rnd;
 
+        //Players
         protected Texture2D[] knightStanding;
         protected Texture2D[] jeremyStanding;
         protected Texture2D[] marthaStanding;
+
+        //Enemies
         protected Texture2D[] batStanding;
-        protected float fps=5;
+        protected Texture2D[] demonFlowerStanding;
+        protected Texture2D[] hayuStanding;
+        protected Texture2D[] hornetStanding;
+        protected Texture2D[] sangshiStanding;
+        protected Texture2D[] scorpionStanding;
+
+        protected float fps=4;
         private float timeElasped;
         private int currentIndex;
 
@@ -102,7 +111,12 @@ namespace SuperFantasyMagicProject.Screen
             knightStanding = new Texture2D[4];
             jeremyStanding = new Texture2D[3];
             marthaStanding = new Texture2D[3];
-            batStanding = new Texture2D[9];
+            batStanding = new Texture2D[3];
+            demonFlowerStanding = new Texture2D[4];
+            hayuStanding = new Texture2D[3];
+            hornetStanding = new Texture2D[3];
+            sangshiStanding = new Texture2D[3];
+            scorpionStanding = new Texture2D[3];
 
             //Loads the sprites of the Jeremy into an array
             for (int i = 0; i < jeremyStanding.Length; i++)
@@ -126,6 +140,32 @@ namespace SuperFantasyMagicProject.Screen
             for (int i = 0; i < marthaStanding.Length; i++)
             {
                 batStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Bat/Pink/Animation 1/PinkBat1." + (i + 1));
+            }
+
+            //Loads the sprites of the Demon Flower into an array
+            for (int i = 0; i < demonFlowerStanding.Length; i++)
+            {
+                demonFlowerStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Demon flowers/Purple/Animation 1/DemonFlower1." + (i + 1));
+            }
+            //Loads the sprites of the Hayu into an array
+            for (int i = 0; i < hayuStanding.Length; i++)
+            {
+                hayuStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hayu/Blue/Animation 1/Hayu1." + (i + 1));
+            }
+            //Loads the sprites of the Hornet into an array
+            for (int i = 0; i < hornetStanding.Length; i++)
+            {
+                hornetStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hornet/Yellow/Animation 1/Hornet1." + (i + 1));
+            }
+            //Loads the sprites of the Sangshi into an array
+            for (int i = 0; i < sangshiStanding.Length; i++)
+            {
+                sangshiStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Sangshi/Green/Animation 1/Sangshi1." + (i + 1));
+            }
+            //Loads the sprites of the Scorpion into an array
+            for (int i = 0; i < scorpionStanding.Length; i++)
+            {
+                scorpionStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Scorpion/Black/Animation 1/Scorpion1." + (i + 1));
             }
 
             //Load textures (players/enemies/hpOnScreen).
@@ -277,8 +317,8 @@ namespace SuperFantasyMagicProject.Screen
             player1Sprite = knightStanding[currentIndex];
             player2Sprite = marthaStanding[currentIndex];
             enemy0Sprite = batStanding[currentIndex];
-            enemy1Sprite = batStanding[currentIndex];
-            enemy2Sprite = batStanding[currentIndex];
+            enemy1Sprite = hornetStanding[currentIndex];
+            enemy2Sprite = demonFlowerStanding[currentIndex];
 
             //Checks if the animation needs to be reset
             if (currentIndex >= jeremyStanding.Length - 1)
@@ -300,6 +340,31 @@ namespace SuperFantasyMagicProject.Screen
                 currentIndex = 0;
             }
             if (currentIndex >= batStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= demonFlowerStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= hayuStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= hornetStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= sangshiStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= scorpionStanding.Length - 1)
             {
                 timeElasped = 0;
                 currentIndex = 0;
