@@ -98,6 +98,7 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
+            //The arrays for the 4 arrays
             knightStanding = new Texture2D[4];
             jeremyStanding = new Texture2D[3];
             marthaStanding = new Texture2D[3];
@@ -260,10 +261,18 @@ namespace SuperFantasyMagicProject.Screen
             
         }
 
+        /// <summary>
+        /// Animates the different sprites (Martha, Jeremy, Knight and Bat)
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected void Animate(GameTime gameTime)
         {
+            //Counts the time since the last update
             timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //Calculate the current index for the array
             currentIndex = (int)(timeElasped * fps);
+
+            //Sets the sprite to the current index for all the arrays
             player0Sprite = jeremyStanding[currentIndex];
             player1Sprite = knightStanding[currentIndex];
             player2Sprite = marthaStanding[currentIndex];
@@ -271,8 +280,10 @@ namespace SuperFantasyMagicProject.Screen
             enemy1Sprite = batStanding[currentIndex];
             enemy2Sprite = batStanding[currentIndex];
 
+            //Checks if the animation needs to be reset
             if (currentIndex >= jeremyStanding.Length - 1)
             {
+                //Resets the animation
                 timeElasped = 0;
                 currentIndex = 0;
             }
