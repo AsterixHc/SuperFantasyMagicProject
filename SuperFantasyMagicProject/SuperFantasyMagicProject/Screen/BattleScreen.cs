@@ -20,9 +20,10 @@ namespace SuperFantasyMagicProject.Screen
         Song song;
         Random rnd;
 
-        private Texture2D sprite;
         protected Texture2D[] knightStanding;
-        protected float fps;
+        protected Texture2D[] jeremyStanding;
+        protected Texture2D[] marthaStanding;
+        protected float fps=5;
         private float timeElasped;
         private int currentIndex;
 
@@ -35,7 +36,7 @@ namespace SuperFantasyMagicProject.Screen
         private string path = "BattleScreen/Background";
 
         //Textures for enemy and player characters.
-        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
+        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hp;
         private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
 
         //Fixed positions for screen elements (players, enemies)
@@ -96,22 +97,36 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
-            knightStanding = new Texture2D[3];
+            knightStanding = new Texture2D[4];
+            jeremyStanding = new Texture2D[3];
+            marthaStanding = new Texture2D[3];
 
+            //Loads the sprites of the Jeremy into an array
+            for (int i = 0; i < jeremyStanding.Length; i++)
+            {
+                jeremyStanding[i] = gameScreenContent.Load<Texture2D>("Player/Jeremy/Jeremy blonde/JeremyBlondWalk/JeremyBlondWalkRight" + (i + 1));
+            }
+
+            //Loads the sprites of the Knight into an array
             for (int i = 0; i < knightStanding.Length; i++)
             {
                 knightStanding[i] = gameScreenContent.Load<Texture2D>("Player/Knight/Standing/KnightStanding" + (i + 1));
             }
 
-            sprite = knightStanding[0];
+            //Loads the sprites of the Martha into an array
+            for (int i = 0; i < marthaStanding.Length; i++)
+            {
+                marthaStanding[i] = gameScreenContent.Load<Texture2D>("Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight" + (i + 1));
+            }
 
-            //Load textures (players/enemies).
-            player0Sprite = knightStanding[0];
-            player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
-            player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
+
+            //Load textures (players/enemies/hpOnScreen).
+            player0Sprite = jeremyStanding[currentIndex];
+            player1Sprite = knightStanding[currentIndex];
+            player2Sprite = marthaStanding[currentIndex];
             enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
             enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
-            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);            hp = gameScreenContent.Load<SpriteFont>(hpOnScreen);
             //Set origins (players/enemies).
             players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
             players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
@@ -130,6 +145,7 @@ namespace SuperFantasyMagicProject.Screen
         {
             HandleInput();
             Enemyturn();
+            Animate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -149,8 +165,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
+            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
+            spriteBatch.DrawString(hp, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
@@ -241,9 +257,23 @@ namespace SuperFantasyMagicProject.Screen
         {
             timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
             currentIndex = (int)(timeElasped * fps);
-            sprite = knightStanding[currentIndex];
+            player0Sprite = jeremyStanding[currentIndex];
+            player1Sprite = knightStanding[currentIndex];
+            player2Sprite = marthaStanding[currentIndex];
 
-            if(currentIndex >= knightStanding.Length - 1)
+            if (currentIndex >= jeremyStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+
+            if (currentIndex >= knightStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+
+            if (currentIndex >= marthaStanding.Length - 1)
             {
                 timeElasped = 0;
                 currentIndex = 0;
