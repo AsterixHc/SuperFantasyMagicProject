@@ -32,7 +32,6 @@ namespace SuperFantasyMagicProject.Screen
         //Keyboard state
         private KeyboardState previousKS = Keyboard.GetState();
 
-
         public LevelUpScreen()
         { 
 
