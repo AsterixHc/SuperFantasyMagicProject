@@ -377,7 +377,13 @@ namespace SuperFantasyMagicProject.Screen
 
         protected void AttackAnimate(GameTime gameTime)
         {
-            
+            if(true)
+            {
+                if(true)
+                {
+
+                }
+            }
         }
     }
 }
