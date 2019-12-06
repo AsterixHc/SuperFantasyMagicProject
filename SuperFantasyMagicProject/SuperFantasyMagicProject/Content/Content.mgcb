@@ -3913,6 +3913,12 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/Scorpion/Black/Animation 6/Scorpion6.9.png
 
+#begin Final Fantasy VI Battle Theme Extended.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Final Fantasy VI Battle Theme Extended.mp3
+
 #begin hpOnScreen.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
