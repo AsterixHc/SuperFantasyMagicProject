@@ -25,8 +25,11 @@ namespace SuperFantasyMagicProject
         private int agility;
         private int intelligence;
         private int damage;
+        private int turnspeed;
+        private double critical;
 
         protected bool ranged;
+        protected bool alive = true;
         protected bool isPoisoned = false;
         protected bool isPlayerAlive = true;
         protected bool isScratched = false;
@@ -68,6 +71,9 @@ namespace SuperFantasyMagicProject
         public int Agility { get => agility; set => agility = value; }
         public int Intelligence { get => intelligence; set => intelligence = value; }
         public int Damage { get => damage; set => damage = value; }
+        
+        public double Critical { get => critical; set => critical = value; }
+        public int Turnspeed { get => turnspeed; set => turnspeed = value; }
 
         public abstract int Attack();
 
@@ -88,6 +94,28 @@ namespace SuperFantasyMagicProject
         public virtual void LevelUp()
         {
             Console.WriteLine("I leveled up");
+        }
+
+        /// <summary>
+        /// Determines if the character is alive by looking at current health, and saves the result in 'alive'.
+        /// </summary>
+        /// <returns>The result in the variable 'alive'</returns>
+        public bool IsAlive()
+        {
+            if(currentHealth > 0)
+            {
+                alive = true;
+            }
+            else
+            {
+                alive = false;
+            }
+            return alive;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            IsAlive();
         }
 
         //public virtual void Strength()

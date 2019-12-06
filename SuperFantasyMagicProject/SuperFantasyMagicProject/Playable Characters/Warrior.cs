@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Warrior : Character
@@ -13,21 +14,23 @@ namespace SuperFantasyMagicProject.Playable_Characters
 
         private int targetAttack;
         
-
+        
+        
         public int TargetAttack { get => targetAttack; set => targetAttack = value; }
 
         public Warrior()
         {
-            MaxHealth = 100;
-            CurrentHealth = 100;
-            Mana = 100;
-            Strenght = 10;
-            Agility = 10;
-            Intelligence = 10;
-            Path = "Player/Knight/Standing/KnightStanding1";
+            MaxHealth = WarriorStats.maxHealth;
+            CurrentHealth = WarriorStats.currentHealth;
+            Mana = WarriorStats.mana;
+            Strenght = WarriorStats.strenght;
+            Agility = WarriorStats.agility;
+            Intelligence = WarriorStats.intelligence;
+            Damage = WarriorStats.damage;
+
             Position = Vector2.Zero;
             Origin = Vector2.Zero;
-            Damage = 20;
+            Path = "Player/Knight/Standing/KnightStanding1";
         }
 
         public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
@@ -52,23 +55,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Attack the chosen enemy in the Array
             //Character damage = 20 + (10% * Player.Strength)
 
-            TargetAttack = 0;
-            KeyboardState ks = Keyboard.GetState();
-
-            if (ks.IsKeyDown(Keys.A))
-            {
-                TargetAttack = 1;
-                Console.WriteLine("Target picked");
-
-            }
-
-            if(TargetAttack == 0)
-            {
-                Attack();
-            }
-
-            TargetAttack--;
-            return TargetAttack;
+            return 0; // Needs to be fixed sooner rather than later!!
 
             //ScreenManager.currentScreen.
         }

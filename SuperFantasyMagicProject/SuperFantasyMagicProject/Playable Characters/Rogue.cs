@@ -11,15 +11,17 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Rogue()
         {
-            MaxHealth = 100;
-            CurrentHealth = 100;
-            Mana = 100;
-            Strenght = 10;
-            Agility = 10;
-            Intelligence = 10;
+            MaxHealth = RogueStats.maxHealth;
+            CurrentHealth = RogueStats.currentHealth;
+            Mana = RogueStats.mana;
+            Strenght = RogueStats.strenght;
+            Agility = RogueStats.agility;
+            Intelligence = RogueStats.intelligence;
+            Damage = RogueStats.damage;
+            Turnspeed = RogueStats.turnSpeed;
+            Critical = RogueStats.critical;
             Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
             Position = Vector2.Zero;
-            Damage = 20;
         }
 
         public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
@@ -76,7 +78,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }

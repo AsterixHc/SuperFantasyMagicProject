@@ -23,6 +23,7 @@ namespace SuperFantasyMagicProject.Creatures
             Path = "Enemies/Bat/Pink/Animation 1/PinkBat1.1";
             Position = Vector2.Zero;
             Origin = Vector2.Zero;
+            Damage = 20;
         }
 
         /// <summary>
