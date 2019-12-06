@@ -341,5 +341,16 @@ namespace SuperFantasyMagicProject.Screen
             WarriorStats.Experience += (ExpValue / 3);
             MageStats.Experience += (ExpValue / 3);
         }
+
+        protected void AttackAnimate(GameTime gameTime)
+        {
+            if(true)
+            {
+                if(true)
+                {
+
+                }
+            }
+        }
     }
 }
