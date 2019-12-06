@@ -345,7 +345,7 @@ namespace SuperFantasyMagicProject.Screen
             }
             if (currentIndex >= batStanding.Length - 1)
             {
-                timeElasped = 0;
+                timeElasped = 1;
                 currentIndex = 0;
             }
             if (currentIndex >= demonFlowerStanding.Length - 1)
