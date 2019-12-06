@@ -18,7 +18,6 @@ namespace SuperFantasyMagicProject.Screen
     {
         //Background image for the menu screen.
         private Texture2D background;
-        //Path to the background image.
         private string path = "MenuScreen/Background";
 
         /// <summary>

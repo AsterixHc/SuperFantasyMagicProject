@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SuperFantasyMagicProject.Playable_Characters
 {
@@ -19,16 +20,22 @@ namespace SuperFantasyMagicProject.Playable_Characters
             Damage = RogueStats.damage;
             Turnspeed = RogueStats.turnSpeed;
             Critical = RogueStats.critical;
+            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
+            Position = Vector2.Zero;
         }
 
-        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+            Mana = mana;
+            Strenght = strenght;
+            Agility = agility;
+            Intelligence = intelligence;
+            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
+            Position = position;
+            Origin = Vector2.Zero;
+            Damage = damage;
         }
 
         public override int Attack()
@@ -71,7 +78,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }

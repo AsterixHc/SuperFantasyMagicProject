@@ -15,6 +15,7 @@ namespace SuperFantasyMagicProject
         protected Random rnd;
 
         protected Vector2 position;
+        protected Vector2 origin;
         protected string path;
 
         private int maxHealth;
@@ -28,6 +29,7 @@ namespace SuperFantasyMagicProject
         private double critical;
 
         protected bool ranged;
+        protected bool alive = true;
         protected bool isPoisoned = false;
         protected bool isPlayerAlive = true;
         protected bool isScratched = false;
@@ -35,6 +37,7 @@ namespace SuperFantasyMagicProject
         protected bool isParalysed = false;
 
         public Vector2 Position { get => position; set => position = value; }
+        public Vector2 Origin { get => origin; set => origin = value; }
         public string Path { get => path; protected set => path = value; }
         public int CurrentHealth 
         { 
@@ -91,6 +94,28 @@ namespace SuperFantasyMagicProject
         public virtual void LevelUp()
         {
             Console.WriteLine("I leveled up");
+        }
+
+        /// <summary>
+        /// Determines if the character is alive by looking at current health, and saves the result in 'alive'.
+        /// </summary>
+        /// <returns>The result in the variable 'alive'</returns>
+        public bool IsAlive()
+        {
+            if(currentHealth > 0)
+            {
+                alive = true;
+            }
+            else
+            {
+                alive = false;
+            }
+            return alive;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            IsAlive();
         }
 
         //public virtual void Strength()

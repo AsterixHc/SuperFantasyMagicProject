@@ -18,17 +18,17 @@ namespace SuperFantasyMagicProject
 
         }
 
-        public void LoadContent(ContentManager content)
+        public virtual void LoadContent(ContentManager content)
         {
             //Is Loading the Content
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             //Is Updating every frame and the time inbetween
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             //Is Drawing a sprite with the use of SpriteBatch
         }
