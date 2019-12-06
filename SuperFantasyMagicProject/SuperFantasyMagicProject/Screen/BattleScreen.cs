@@ -98,7 +98,7 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
-            //The arrays for the 4 arrays
+            //The arrays for the 4 characters
             knightStanding = new Texture2D[4];
             jeremyStanding = new Texture2D[3];
             marthaStanding = new Texture2D[3];
