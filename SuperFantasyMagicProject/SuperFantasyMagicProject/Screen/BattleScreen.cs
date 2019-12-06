@@ -20,6 +20,23 @@ namespace SuperFantasyMagicProject.Screen
         Song song;
         Random rnd;
 
+        //Players
+        protected Texture2D[] knightStanding;
+        protected Texture2D[] jeremyStanding;
+        protected Texture2D[] marthaStanding;
+
+        //Enemies
+        protected Texture2D[] batStanding;
+        protected Texture2D[] demonFlowerStanding;
+        protected Texture2D[] hayuStanding;
+        protected Texture2D[] hornetStanding;
+        protected Texture2D[] sangshiStanding;
+        protected Texture2D[] scorpionStanding;
+
+        protected float fps=4;
+        private float timeElasped;
+        private int currentIndex;
+
         private int expValue;
         int enemyTarget = 0;
         public int ExpValue { get => expValue; private set => expValue = value; }
@@ -29,9 +46,8 @@ namespace SuperFantasyMagicProject.Screen
         private string path = "BattleScreen/Background";
 
         //Textures for enemy and player characters.
-        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
-        private string hpOnScreen = "hpOnScreen";
-        private int hp = 100;                int targetedPlayer;
+        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hp;
+        private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
 
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
@@ -93,13 +109,78 @@ namespace SuperFantasyMagicProject.Screen
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
-            //Load textures (players/enemies).
-            player0Sprite = gameScreenContent.Load<Texture2D>(players[0].Path);
-            player1Sprite = gameScreenContent.Load<Texture2D>(players[1].Path);
-            player2Sprite = gameScreenContent.Load<Texture2D>(players[2].Path);
-            enemy0Sprite = gameScreenContent.Load<Texture2D>(enemies[0].Path);
-            enemy1Sprite = gameScreenContent.Load<Texture2D>(enemies[1].Path);
-            enemy2Sprite = gameScreenContent.Load<Texture2D>(enemies[2].Path);            hpPlayer1 = gameScreenContent.Load<SpriteFont>(hpOnScreen);
+            //The size definition of the arrays for the creatures/characters
+            knightStanding = new Texture2D[4];
+            jeremyStanding = new Texture2D[3];
+            marthaStanding = new Texture2D[3];
+            batStanding = new Texture2D[3];
+            demonFlowerStanding = new Texture2D[4];
+            hayuStanding = new Texture2D[3];
+            hornetStanding = new Texture2D[3];
+            sangshiStanding = new Texture2D[3];
+            scorpionStanding = new Texture2D[3];
+
+            //Loads the sprites of the Jeremy into an array
+            for (int i = 0; i < jeremyStanding.Length; i++)
+            {
+                jeremyStanding[i] = gameScreenContent.Load<Texture2D>("Player/Jeremy/Jeremy blonde/JeremyBlondWalk/JeremyBlondWalkRight" + (i + 1));
+            }
+
+            //Loads the sprites of the Knight into an array
+            for (int i = 0; i < knightStanding.Length; i++)
+            {
+                knightStanding[i] = gameScreenContent.Load<Texture2D>("Player/Knight/Standing/KnightStanding" + (i + 1));
+            }
+
+            //Loads the sprites of the Martha into an array
+            for (int i = 0; i < marthaStanding.Length; i++)
+            {
+                marthaStanding[i] = gameScreenContent.Load<Texture2D>("Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight" + (i + 1));
+            }
+
+            //Loads the sprites of the Bat into an array
+            for (int i = 0; i < marthaStanding.Length; i++)
+            {
+                batStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Bat/Pink/Animation 1/PinkBat1." + (i + 1));
+            }
+
+            //Loads the sprites of the Demon Flower into an array
+            for (int i = 0; i < demonFlowerStanding.Length; i++)
+            {
+                demonFlowerStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Demon flowers/Purple/Animation 1/DemonFlower1." + (i + 1));
+            }
+
+            //Loads the sprites of the Hayu into an array
+            for (int i = 0; i < hayuStanding.Length; i++)
+            {
+                hayuStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hayu/Blue/Animation 1/Hayu1." + (i + 1));
+            }
+
+            //Loads the sprites of the Hornet into an array
+            for (int i = 0; i < hornetStanding.Length; i++)
+            {
+                hornetStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hornet/Yellow/Animation 1/Hornet1." + (i + 1));
+            }
+
+            //Loads the sprites of the Sangshi into an array
+            for (int i = 0; i < sangshiStanding.Length; i++)
+            {
+                sangshiStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Sangshi/Green/Animation 1/Sangshi1." + (i + 1));
+            }
+
+            //Loads the sprites of the Scorpion into an array
+            for (int i = 0; i < scorpionStanding.Length; i++)
+            {
+                scorpionStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Scorpion/Black/Animation 1/Scorpion1." + (i + 1));
+            }
+
+            //Load textures (players/enemies/hpOnScreen).
+            player0Sprite = jeremyStanding[currentIndex];
+            player1Sprite = knightStanding[currentIndex];
+            player2Sprite = marthaStanding[currentIndex];
+            enemy0Sprite = batStanding[currentIndex];
+            enemy1Sprite = batStanding[currentIndex];
+            enemy2Sprite = batStanding[currentIndex];            hp = gameScreenContent.Load<SpriteFont>(hpOnScreen);
             //Set origins (players/enemies).
             players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
             players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
@@ -144,6 +225,7 @@ namespace SuperFantasyMagicProject.Screen
                 //TODO: Add functionality
                 //Death screen
             }            
+            DefaultAnimate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -163,8 +245,8 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(hpPlayer1, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            spriteBatch.DrawString(hpPlayer1, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
+            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
+            spriteBatch.DrawString(hp, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
@@ -259,6 +341,87 @@ namespace SuperFantasyMagicProject.Screen
             RogueStats.Experience += (ExpValue / 3);
             WarriorStats.Experience += (ExpValue / 3);
             MageStats.Experience += (ExpValue / 3);
+        }
+
+        /// <summary>
+        /// Animates the different sprites (Martha, Jeremy, Knight and Bat)
+        /// </summary>
+        /// <param name="gameTime"></param>
+        protected void DefaultAnimate(GameTime gameTime)
+        {
+            //Counts the time since the last update
+            timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //Calculate the current index for the array
+            currentIndex = (int)(timeElasped * fps);
+
+            //Sets the sprite to the current index for all the arrays
+            player0Sprite = jeremyStanding[currentIndex];
+            player1Sprite = knightStanding[currentIndex];
+            player2Sprite = marthaStanding[currentIndex];
+            enemy0Sprite = batStanding[currentIndex];
+            enemy1Sprite = hornetStanding[currentIndex];
+            enemy2Sprite = demonFlowerStanding[currentIndex];
+
+            //Checks if the animation needs to be reset
+            if (currentIndex >= jeremyStanding.Length - 1)
+            {
+                //Resets the animation
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+
+            if (currentIndex >= knightStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+
+            if (currentIndex >= marthaStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= batStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= demonFlowerStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= hayuStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= hornetStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= sangshiStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+            if (currentIndex >= scorpionStanding.Length - 1)
+            {
+                timeElasped = 0;
+                currentIndex = 0;
+            }
+        }
+
+        protected void AttackAnimate(GameTime gameTime)
+        {
+            if(true)
+            {
+                if(true)
+                {
+
+                }
+            }
         }
     }
 }
