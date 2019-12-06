@@ -52,7 +52,7 @@ namespace SuperFantasyMagicProject.Screen
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 //TODO: Modify for proper game flow if/when world map works.
-                ScreenManager.ChangeScreenTo(new BattleScreen(new Rogue(), new Warrior(), new Mage(), new Bat(), new Bat(), new Bat()));
+                ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
             }
         }
     }
