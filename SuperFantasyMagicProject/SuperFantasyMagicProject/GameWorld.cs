@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SuperFantasyMagicProject.Screen;
 
 namespace SuperFantasyMagicProject
 {
@@ -79,7 +80,20 @@ namespace SuperFantasyMagicProject
                 Exit();
 
             // TODO: Add your update logic here
+#if DEBUG
+            if (Keyboard.GetState().IsKeyDown(Keys.L))
+            {
 
+                if (RogueStats.Experience != 100)
+                    RogueStats.Experience = 100;
+                if (WarriorStats.Experience != 100)
+                    WarriorStats.Experience = 100;
+                if (MageStats.Experience != 100)
+                    MageStats.Experience = 100;
+
+                ScreenManager.ChangeScreenTo(new LevelUpScreen());
+            }
+#endif
             ScreenManager.Update(gameTime);
 
             base.Update(gameTime);
