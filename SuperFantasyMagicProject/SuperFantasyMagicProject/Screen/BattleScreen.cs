@@ -225,7 +225,6 @@ namespace SuperFantasyMagicProject.Screen
                 //TODO: Add functionality
                 //Death screen
             }            
-            DefaultAnimate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -338,17 +337,6 @@ namespace SuperFantasyMagicProject.Screen
         /// </summary>
         private void AllocateExp()
         {
-            RogueStats.Experience += (ExpValue / 3);
-            WarriorStats.Experience += (ExpValue / 3);
-            MageStats.Experience += (ExpValue / 3);
-        }
-
-        /// <summary>
-        /// Animates the different sprites (Martha, Jeremy, Knight and Bat)
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected void DefaultAnimate(GameTime gameTime)
-        {
             //Counts the time since the last update
             timeElasped += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //Calculate the current index for the array
@@ -383,7 +371,7 @@ namespace SuperFantasyMagicProject.Screen
             }
             if (currentIndex >= batStanding.Length - 1)
             {
-                timeElasped = 0;
+                timeElasped = 1;
                 currentIndex = 0;
             }
             if (currentIndex >= demonFlowerStanding.Length - 1)
