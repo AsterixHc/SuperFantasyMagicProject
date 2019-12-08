@@ -55,6 +55,9 @@ namespace SuperFantasyMagicProject
 
             //Load the content of the initial game screen.
             ScreenManager.LoadContent(Content);
+            //Load menu settings and MenuManager
+            MenuManager.LoadContent(Content);
+
         }
 
         /// <summary>
@@ -67,6 +70,7 @@ namespace SuperFantasyMagicProject
 
             //Unload the content of the last game screen.
             ScreenManager.UnloadContent();
+            MenuManager.UnloadContent();
         }
 
         /// <summary>
@@ -83,18 +87,25 @@ namespace SuperFantasyMagicProject
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.L))
             {
-
-                if (RogueStats.Experience != 100)
-                    RogueStats.Experience = 100;
-                if (WarriorStats.Experience != 100)
-                    WarriorStats.Experience = 100;
-                if (MageStats.Experience != 100)
-                    MageStats.Experience = 100;
+                RogueStats.Experience = 100;
+                WarriorStats.Experience = 200;
+                MageStats.Experience = 400;
 
                 ScreenManager.ChangeScreenTo(new LevelUpScreen());
             }
 #endif
             ScreenManager.Update(gameTime);
+            MenuManager.Update(gameTime);
+
+            //If menu is open, show mouse.
+            if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (!MenuManager.IsMenuOpen && IsMouseVisible)
+            {
+                IsMouseVisible = false;
+            }
 
             base.Update(gameTime);
         }
@@ -110,6 +121,7 @@ namespace SuperFantasyMagicProject
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             ScreenManager.Draw(spriteBatch);
+            MenuManager.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

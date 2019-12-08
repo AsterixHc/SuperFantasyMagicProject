@@ -61,6 +61,9 @@
     <Compile Include="Items\Remedy.cs" />
     <Compile Include="Items\StatUp.cs" />
     <Compile Include="MageStats.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuButton.cs" />
+    <Compile Include="Menu\MenuManager.cs" />
     <Compile Include="Playable Characters\Mage.cs" />
     <Compile Include="Playable Characters\Rogue.cs" />
     <Compile Include="Playable Characters\Warrior.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ShopScreen.cs" />
     <Compile Include="Screen\SplashScreen.cs" />
+    <Compile Include="Screen\TitleScreen.cs" />
     <Compile Include="WarriorStats.cs" />
   </ItemGroup>
   <ItemGroup>
