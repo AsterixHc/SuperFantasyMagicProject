@@ -67,7 +67,10 @@ namespace SuperFantasyMagicProject.Screen
         private List<Character> deadBattlers = new List<Character>();
 
         private Character activeBattler = null;
+        private Character targetCharacter;
         private BattleState battleState = BattleState.Battling;
+        private KeyboardState previousKS = Keyboard.GetState();
+        private KeyboardState newKS;
 
         /// <summary>
         /// Default constructor.
@@ -220,7 +223,12 @@ namespace SuperFantasyMagicProject.Screen
             //If active battler is an enemy character
             else
             {
-                //Enemy battle logic goes here
+                int randomTarget = rnd.Next(0, 3);
+                while (players[randomTarget].CurrentHealth == 0)
+                {
+                    randomTarget = rnd.Next(0, 3);
+                }
+                players[randomTarget].TakeDamage(activeBattler.Damage);
             }
 
             //Update player characters
@@ -312,7 +320,32 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void HandleInput()
         {
+            newKS = Keyboard.GetState();
 
+            if (targetCharacter == null)
+            {
+                if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive())
+                {
+                    targetCharacter = enemies[0];
+                }
+                else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive())
+                {
+                    targetCharacter = enemies[1];
+                }
+                else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive())
+                {
+                    targetCharacter = enemies[2];
+                }
+            }
+            else
+            {
+                if (newKS.IsKeyDown(Keys.D))
+                {
+                    targetCharacter.TakeDamage(activeBattler.Damage);
+                    targetCharacter = null;
+                    battleState = BattleState.Battling;
+                }
+            }
         }
 
         /// <summary>
