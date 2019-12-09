@@ -41,7 +41,7 @@ namespace SuperFantasyMagicProject.Screen
 
         private int expValue;
         int enemyTarget = 0;
-        public int ExpValue { get => expValue; }
+        public int ExpValue { get => expValue; private set => expValue = value; }
 
         //Background image for the battle screen.
         private Texture2D background;
@@ -94,15 +94,17 @@ namespace SuperFantasyMagicProject.Screen
         /// <param name="player2">The third player (bottom)</param>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
-        /// <param name="enemy2">The third enemy (bottom)</param>        
-        public BattleScreen(Character player0, Character player1, Character player2, Character enemy0, Character enemy1, Character enemy2)
+        /// <param name="enemy2">The third enemy (bottom)</param>
+        /// /// <param name="exp">The amount of experience points the encounter is worth</param>
+        public BattleScreen(Character enemy0, Character enemy1, Character enemy2, int exp)
         {
-            players[0] = player0;
-            players[1] = player1;
-            players[2] = player2;
+            players[0] = new Rogue();
+            players[1] = new Warrior();
+            players[2] = new Mage();
             enemies[0] = enemy0;
             enemies[1] = enemy1;
-            enemies[2] = enemy2;            
+            enemies[2] = enemy2;
+            ExpValue = exp;
             players[0].Position = player0Position;
             players[1].Position = player1Position;
             players[2].Position = player2Position;
@@ -209,11 +211,34 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            //EncounterTurnSystemReset();
-            PlayerSpeedCheck();
+            //Player turn.
             HandleInput();
+            foreach (Character character in enemies)
+            {
+                character.Update(gameTime);
+            }
+
+            if (enemies.All(alive => false))
+            {
+                AllocateExp();
+                if (RogueStats.HasLevelUp || WarriorStats.HasLevelUp || MageStats.HasLevelUp)
+                {
+                    ScreenManager.ChangeScreenTo(new LevelUpScreen());
+                }
+            }
+
+            //Enemy turn.
             Enemyturn();
-            DefaultAnimate(gameTime);
+            foreach (Character character in players)
+            {
+                character.Update(gameTime);
+            }
+
+            if (players.All(alive => false))
+            {
+                //TODO: Add functionality
+                //Death screen
+            }            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
