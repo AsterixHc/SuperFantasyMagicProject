@@ -52,8 +52,6 @@ namespace SuperFantasyMagicProject.Screen
         private string hpOnScreen = "hpOnScreen";        private SpriteFont hp;
                 int targetedPlayer;
 
-        int targetedPlayer;
-
         int playerSpeed;
         int enemySpeed;
 
