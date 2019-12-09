@@ -11,6 +11,7 @@ namespace SuperFantasyMagicProject
 {
     class MenuButton
     {
+        //Input
         private MouseState previousMS = Mouse.GetState();
         private MouseState newMS;
 
@@ -26,11 +27,15 @@ namespace SuperFantasyMagicProject
         private string inactivePath = "Menus/Button/Inactive";
         private string activePath = "Menus/Button/Active";
         private string downPath = "Menus/Button/Down";
+        private Rectangle collisionBox;
         private Vector2 origin;
         private bool isDown;
-        public bool Activated { get; private set; }
         public Vector2 Position { get; set; }
-        public Rectangle CollisionBox { get; private set; }
+        public bool Activated { get; private set; }
+
+#if DEBUG
+        private Texture2D collisionTexture;
+#endif
 
         /// <summary>
         /// Constructor.
@@ -53,7 +58,11 @@ namespace SuperFantasyMagicProject
             textDimensions = font.MeasureString(text);
             texture = inactiveTexture;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-            CollisionBox = new Rectangle((int)(Position.X - origin.X), (int)(Position.Y - origin.Y), texture.Width, texture.Height);
+            collisionBox = new Rectangle((int)(Position.X - origin.X), (int)(Position.Y - origin.Y), texture.Width, texture.Height);
+
+#if DEBUG
+            collisionTexture = MenuManager.Content.Load<Texture2D>("CollisionTexture");
+#endif
         }
 
         public void UnloadContent()
@@ -70,17 +79,20 @@ namespace SuperFantasyMagicProject
         {
             spriteBatch.Draw(texture, Position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
             spriteBatch.DrawString(font, text, Position - (textDimensions / 2), textColor); ;
+#if DEBUG
+            DrawCollisionBox(spriteBatch);
+#endif
         }
 
         /// <summary>
-        /// Handles user input. Changes button textures based on mouse state.
+        /// Handles user input. Changes button textures based on mouse interaction.
         /// </summary>
         public void HandleInput()
         {
             newMS = Mouse.GetState();
             Rectangle mouseRectangle = new Rectangle(newMS.X, newMS.Y, 1, 1);
 
-            if (mouseRectangle.Intersects(CollisionBox))
+            if (mouseRectangle.Intersects(collisionBox))
             {
                 //Click event, button is up
                 if (newMS.LeftButton == ButtonState.Pressed && previousMS.LeftButton == ButtonState.Released && !isDown)
@@ -90,7 +102,7 @@ namespace SuperFantasyMagicProject
                 //Release event, button is down
                 else if (newMS.LeftButton == ButtonState.Released && previousMS.LeftButton == ButtonState.Pressed && isDown)
                 {
-                    isDown = false; //probably unnecessary, once functionality is implemented
+                    isDown = false;
                     Activated = true;
                 }
 
@@ -115,6 +127,19 @@ namespace SuperFantasyMagicProject
             }
 
             previousMS = newMS;
+        }
+
+        private void DrawCollisionBox(SpriteBatch spriteBatch)
+        {
+            Rectangle top = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, collisionBox.Width, 1);
+            Rectangle bottom = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle right = new Rectangle((int)Position.X - (int)origin.X + collisionBox.Width, (int)Position.Y - (int)origin.Y, 1, collisionBox.Height);
+            Rectangle left = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, 1, collisionBox.Height);
+
+            spriteBatch.Draw(collisionTexture, top, null, Color.Red);
+            spriteBatch.Draw(collisionTexture, bottom, null, Color.Red);
+            spriteBatch.Draw(collisionTexture, right, null, Color.Red);
+            spriteBatch.Draw(collisionTexture, left, null, Color.Red);
         }
     }
 }

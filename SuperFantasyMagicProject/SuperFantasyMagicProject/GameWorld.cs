@@ -97,7 +97,7 @@ namespace SuperFantasyMagicProject
             ScreenManager.Update(gameTime);
             MenuManager.Update(gameTime);
 
-            //If menu is open, show mouse.
+            //Show mouse cursor if menu is open, else hide it.
             if (MenuManager.IsMenuOpen && !IsMouseVisible)
             {
                 IsMouseVisible = true;

@@ -18,11 +18,6 @@ namespace SuperFantasyMagicProject
         //ContentManager for handling all menu related content in the game.
         public static ContentManager Content { get; private set; }
 
-        public static void Initialize()
-        {
-
-        }
-
         public static void LoadContent(ContentManager contentManager)
         {
             Content = new ContentManager(contentManager.ServiceProvider, "Content");
@@ -56,13 +51,27 @@ namespace SuperFantasyMagicProject
             }
         }
 
+        /// <summary>
+        /// Opens a menu of the specified type.
+        /// </summary>
+        /// <param name="menuType">Type of menu to be opened. Valid arguments are: GameMenu, TitleMenu</param>
         public static void OpenMenu(string menuType)
         {
-            menu = new Menu(menuType);
-            IsMenuOpen = true;
-            menu.LoadContent();
+            if (menu == null)
+            {
+                menu = new Menu(menuType);
+                IsMenuOpen = true;
+                menu.LoadContent();
+            }
+            else
+            {
+                throw new Exception("MenuManager.OpenMenu was called, but MenuManager.menu was not null.");
+            }
         }
 
+        /// <summary>
+        /// Closes the current menu.
+        /// </summary>
         public static void CloseMenu()
         {
             if (menu != null)
@@ -71,8 +80,16 @@ namespace SuperFantasyMagicProject
                 menu = null;
                 IsMenuOpen = false;
             }
+            else
+            {
+                throw new Exception("MenuManager.CloseMenu was called, but MenuManager.menu was null.");
+            }
         }
 
+        /// <summary>
+        /// Changes between menus.
+        /// </summary>
+        /// <param name="menuType">Type of menu to be changed to. Valid arguments are: GameMenu, TitleMenu</param>
         public static void ChangeMenuTo(string menuType)
         {
             if (menu != null)
@@ -80,6 +97,10 @@ namespace SuperFantasyMagicProject
                 menu.UnloadContent();
                 menu = new Menu(menuType);
                 menu.LoadContent();
+            }
+            else
+            {
+                throw new Exception("MenuManager.ChangeMenuTo was called, but MenuManager.menu was null.");
             }
         }
     }
