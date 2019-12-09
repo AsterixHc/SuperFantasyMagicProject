@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SuperFantasyMagicProject.Screen
 {
+    enum BattleState { Battling, Waiting, PlayerWon, PlayerLost}
+
     class BattleScreen : GameScreen
     {
         Random rnd = new Random();
@@ -59,6 +61,14 @@ namespace SuperFantasyMagicProject.Screen
         //Array for holding enemies
         private Character[] enemies = new Character[3];
 
+        //Lists for keeping track of battle flow
+        private List<Character> battlersPending = new List<Character>(6);
+        private List<Character> battlersDone = new List<Character>(6);
+        private List<Character> deadBattlers = new List<Character>();
+
+        private Character activeBattler = null;
+        private BattleState battleState = BattleState.Battling;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -69,7 +79,7 @@ namespace SuperFantasyMagicProject.Screen
 
 
         /// <summary>
-        /// Constructor that specifies enemies and players.
+        /// Constructor that specifies enemies.
         /// </summary>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
@@ -90,6 +100,8 @@ namespace SuperFantasyMagicProject.Screen
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
+            battlersPending.AddRange(players);
+            battlersPending.AddRange(enemies);
         }
 
         public override void LoadContent()
@@ -189,7 +201,85 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            HandleInput();
+            if (activeBattler == null)
+            {
+                battlersPending.Sort((a, b) => b.Turnspeed.CompareTo(a.Turnspeed));
+                activeBattler = battlersPending[0];
+                battlersPending.RemoveAt(0);
+            }
+
+            //If active battler is a player character
+            if (players.Contains(activeBattler))
+            {
+                if (battleState != BattleState.Waiting)
+                {
+                    battleState = BattleState.Waiting;
+                }
+                HandleInput(); //NB! HandleInput needs to set battleState = BattleState.Battling after a successful player move.
+            }
+            //If active battler is an enemy character
+            else
+            {
+                //Enemy battle logic goes here
+            }
+
+            //Update player characters
+            foreach (Character player in players)
+            {
+                player.Update(gameTime);
+                if (!player.IsAlive())
+                {
+                    deadBattlers.Add(player);
+                }
+            }
+            if (players.All(player => !player.IsAlive()))
+            {
+                battleState = BattleState.PlayerLost;
+                //Maybe screen transition here
+            }
+
+            //Update enemy characters
+            foreach (Character enemy in enemies)
+            {
+                enemy.Update(gameTime);
+                if (!enemy.IsAlive())
+                {
+                    deadBattlers.Add(enemy);
+                }
+            }
+            if (enemies.All(enemy => !enemy.IsAlive()))
+            {
+                battleState = BattleState.PlayerWon;
+                //Maybe screen transition here
+            }
+
+            if (battleState == BattleState.Battling)
+            {
+                battlersDone.Add(activeBattler);
+                activeBattler = null;
+
+                //Remove dead battlers from other lists
+                foreach (Character battler in deadBattlers)
+                {
+                    if (battlersPending.Contains(battler))
+                    {
+                        battlersPending.Remove(battler);
+                    }
+
+                    if (battlersDone.Contains(battler))
+                    {
+                        battlersDone.Remove(battler);
+                    }
+                }
+                
+                if (battlersPending.Count == 0)
+                {
+                    battlersPending.AddRange(battlersDone);
+                    battlersDone.Clear();
+                }
+            }
+
+
             DefaultAnimate(gameTime);
         }
 
