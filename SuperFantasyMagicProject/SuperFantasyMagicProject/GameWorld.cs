@@ -31,11 +31,10 @@ namespace SuperFantasyMagicProject
         {
             // TODO: Add your initialization logic here
 
-            //graphics.IsFullScreen = true;
-
-            //Change screen size to the value stored in ScreenManager.ScreenDimensions.
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
+            //graphics.IsFullScreen = true;
+            graphics.HardwareModeSwitch = false; //why does this work in fullscreen and not in widowed?
             graphics.ApplyChanges();
 
             ScreenManager.Initialize();

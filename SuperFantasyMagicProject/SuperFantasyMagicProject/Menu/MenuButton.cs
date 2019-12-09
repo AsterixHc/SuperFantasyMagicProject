@@ -81,6 +81,7 @@ namespace SuperFantasyMagicProject
             spriteBatch.DrawString(font, text, Position - (textDimensions / 2), textColor); ;
 #if DEBUG
             DrawCollisionBox(spriteBatch);
+            DrawMousePosition(spriteBatch);
 #endif
         }
 
@@ -129,6 +130,10 @@ namespace SuperFantasyMagicProject
             previousMS = newMS;
         }
 
+        /// <summary>
+        /// Debugging purposes.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         private void DrawCollisionBox(SpriteBatch spriteBatch)
         {
             Rectangle top = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, collisionBox.Width, 1);
@@ -140,6 +145,17 @@ namespace SuperFantasyMagicProject
             spriteBatch.Draw(collisionTexture, bottom, null, Color.Red);
             spriteBatch.Draw(collisionTexture, right, null, Color.Red);
             spriteBatch.Draw(collisionTexture, left, null, Color.Red);
+        }
+
+        /// <summary>
+        /// Debugging purposes.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        private void DrawMousePosition(SpriteBatch spriteBatch)
+        {
+            Rectangle top = new Rectangle((int)newMS.X, (int)newMS.Y, 2, 2);
+
+            spriteBatch.Draw(collisionTexture, top, null, Color.Red);
         }
     }
 }
