@@ -218,14 +218,12 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.DrawString(hp, "Enemy 3 HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
 
             spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            
         }
 
         public override void HandleInput()
         {
 
         }
-
 
         /// <summary>
         /// Animates the different sprites (Martha, Jeremy, Knight and Bat)
