@@ -91,6 +91,11 @@ namespace SuperFantasyMagicProject
                 MageStats.Experience = 400;
 
                 ScreenManager.ChangeScreenTo(new LevelUpScreen());
+
+                if (MenuManager.IsMenuOpen)
+                {
+                    MenuManager.CloseMenu();
+                }
             }
 #endif
             ScreenManager.Update(gameTime);
