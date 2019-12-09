@@ -943,7 +943,10 @@ namespace SuperFantasyMagicProject.Screen
             {
                 if(true)
                 {
+                    if(true)
+                    {
 
+                    }
                 }
             }
         }
