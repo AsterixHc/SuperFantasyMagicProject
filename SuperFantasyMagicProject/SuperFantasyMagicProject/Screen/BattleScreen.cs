@@ -16,10 +16,11 @@ namespace SuperFantasyMagicProject.Screen
 
     class BattleScreen : GameScreen
     {
+        BattleTracker tracker;
 
         Random rnd = new Random();
         Song song;
-        
+
 
         //Players
         protected Texture2D[] knightStanding;
@@ -34,7 +35,7 @@ namespace SuperFantasyMagicProject.Screen
         protected Texture2D[] sangshiStanding;
         protected Texture2D[] scorpionStanding;
 
-        protected float fps=4;
+        protected float fps = 4;
         private float timeElasped;
         private int currentIndex;
 
@@ -49,7 +50,8 @@ namespace SuperFantasyMagicProject.Screen
         //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
         private string hpOnScreen = "hpOnScreen";        private SpriteFont hp;
-                int targetedPlayer;
+
+        int targetedPlayer;
 
         int playerSpeed;
         int enemySpeed;
@@ -67,7 +69,7 @@ namespace SuperFantasyMagicProject.Screen
         Vector2 player2Position = new Vector2(220, 700);
         Vector2 enemy0Position = new Vector2(1710, 220);
         Vector2 enemy1Position = new Vector2(1710, 460);
-        Vector2 enemy2Position = new Vector2(1710, 700);        
+        Vector2 enemy2Position = new Vector2(1710, 700);
 
         //Array for holding players
         private Character[] players = new Character[3];
@@ -223,7 +225,7 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, players[1].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(player2Sprite, players[2].Position, new Rectangle(0, 0, player2Sprite.Width, player2Sprite.Height),
                     Color.White, 0, players[2].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0 , 0, enemy0Sprite.Width, enemy0Sprite.Height),
+            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0, 0, enemy0Sprite.Width, enemy0Sprite.Height),
                     Color.White, 0, enemies[0].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
                     Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
@@ -231,31 +233,31 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(hp, "Player 1 HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y - player0Sprite.Height), Color.Red);
-            spriteBatch.DrawString(hp, "Player 2 HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height/2)), Color.Red);
+            spriteBatch.DrawString(hp, "Player 2 HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hp, "Player 3 HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X - (player2Sprite.Width / 2), players[2].Position.Y - player2Sprite.Height), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 1 HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 2 HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 3 HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
 
-            spriteBatch.DrawString(hp,"TurnCounter: " + tracker,new Vector2(ScreenManager.ScreenDimensions.X/2, ScreenManager.ScreenDimensions.Y/2),Color.Green);
-            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            
+            spriteBatch.DrawString(hp, "TurnCounter: " + tracker, new Vector2(ScreenManager.ScreenDimensions.X / 2, ScreenManager.ScreenDimensions.Y / 2), Color.Green);
+            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X, players[0].Position.Y), Color.Red);
+
         }
 
         void PlayerTarget(int chosenPlayer, int targetedEnemy)
         {
-            if(tracker != BattleTracker.Playerturn)
+            if (tracker != BattleTracker.Playerturn)
             {
                 return;
             }
 
             tracker = BattleTracker.Playerattack;
-            PlayerAttack(0,targetedEnemy,chosenPlayer);
+            PlayerAttack(0, targetedEnemy, chosenPlayer);
         }
 
         void PlayerAttack(int playerDamageAmount, int targetedEnemy, int chosenPlayer)
         {
-            if(tracker != BattleTracker.Playerattack)
+            if (tracker != BattleTracker.Playerattack)
             {
                 return;
             }
@@ -299,91 +301,91 @@ namespace SuperFantasyMagicProject.Screen
         public override void HandleInput()
         {
 
-            if(tracker != BattleTracker.Start)
+            if (tracker != BattleTracker.Start)
             {
                 return;
             }
 
             KeyboardState keyboard = Keyboard.GetState();
 
-            if(keyboard.IsKeyDown(Keys.D1))
+            if (keyboard.IsKeyDown(Keys.D1))
             {
                 enemyTarget = 1;
                 //Console.WriteLine(enemyTarget);
             }
 
-            if(keyboard.IsKeyDown(Keys.D2))
+            if (keyboard.IsKeyDown(Keys.D2))
             {
                 enemyTarget = 2;
             }
 
-            if(keyboard.IsKeyDown(Keys.D3))
+            if (keyboard.IsKeyDown(Keys.D3))
             {
                 enemyTarget = 3;
             }
 
-            if(keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
+            if (keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
             {
                 Console.WriteLine("PlayerTargetLaunched");
                 enemyTarget--;
                 tracker = BattleTracker.Playerturn;
                 PlayerTarget(playerSpeed, enemyTarget);
             }
-            
+
         }
 
         void Enemyturn()
         {
-            if(tracker != BattleTracker.Enemyturn)
+            if (tracker != BattleTracker.Enemyturn)
             {
                 return;
             }
 
-            targetedPlayer = rnd.Next(0,3);
+            targetedPlayer = rnd.Next(0, 3);
             //targetedPlayer = 0;
             tracker = BattleTracker.Enemyattack;
-            EnemyAttack(targetedPlayer,enemySpeed,0);
+            EnemyAttack(targetedPlayer, enemySpeed, 0);
         }
 
         void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
         {
 
-            if(tracker != BattleTracker.Enemyattack)
+            if (tracker != BattleTracker.Enemyattack)
             {
                 return;
             }
-            
+
             enemyDamageAmount = enemies[chosenEnemy].Damage;
             Console.WriteLine("EnemySpeed =" + chosenEnemy);
             players[targetedPlayer].TakeDamage(enemyDamageAmount);
             tracker = BattleTracker.SpeedEvaluationEnemy;
 
-            if(enemySpeed == 1)
+            if (enemySpeed == 1)
             {
                 Console.WriteLine("Enemy Turn Two Active!");
                 EncounterTurnTwo();
             }
-            else if((enemySpeed == 1 && playerSpeed == 1) || enemySpeed == 2)
+            else if ((enemySpeed == 1 && playerSpeed == 1) || enemySpeed == 2)
             {
                 Console.WriteLine("Enemy Turn Three Active!");
                 EncounterTurnThree();
             }
-            else if((enemySpeed == 2 && playerSpeed == 1) || (enemySpeed == 1 && playerSpeed == 2) || enemySpeed == 3)
+            else if ((enemySpeed == 2 && playerSpeed == 1) || (enemySpeed == 1 && playerSpeed == 2) || enemySpeed == 3)
             {
                 Console.WriteLine("Enemy Turn Four Active!");
                 EncounterTurnFour();
             }
-            else if((enemySpeed == 3 && playerSpeed == 1) || (playerSpeed == 3 && enemySpeed == 1) || (enemySpeed == 2 && playerSpeed == 2))
+            else if ((enemySpeed == 3 && playerSpeed == 1) || (playerSpeed == 3 && enemySpeed == 1) || (enemySpeed == 2 && playerSpeed == 2))
             {
                 Console.WriteLine("Enemy did damage!");
                 EncounterTurnFive();
             }
-            else if((enemySpeed == 2 && playerSpeed == 3) || (enemySpeed == 3 && playerSpeed == 2))
+            else if ((enemySpeed == 2 && playerSpeed == 3) || (enemySpeed == 3 && playerSpeed == 2))
             {
                 Console.WriteLine("Enemy did damage!");
                 EncounterTurnSix();
             }
-            
+
         }
 
         void PlayerSpeedCheck()
@@ -412,7 +414,7 @@ namespace SuperFantasyMagicProject.Screen
             {
                 for (int j = 0; j < players.Length - 1; j++)
                 {
-                    if(players[j].Turnspeed < players[j+1].Turnspeed)
+                    if (players[j].Turnspeed < players[j + 1].Turnspeed)
                     {
 
                         Character temp = players[j];
@@ -661,7 +663,7 @@ namespace SuperFantasyMagicProject.Screen
 
         void EncounterTurnSystemReset()
         {
-            if(playerSpeed == 3 && enemySpeed == 3)
+            if (playerSpeed == 3 && enemySpeed == 3)
             {
                 playerSpeed = 0;
                 enemySpeed = 0;
@@ -680,7 +682,7 @@ namespace SuperFantasyMagicProject.Screen
             //    tracker = BattleTracker.Enemyturn;
             //}
 
-            if(sixthTurn == true && playerSpeed == 3 && enemySpeed == 3)
+            if (sixthTurn == true && playerSpeed == 3 && enemySpeed == 3)
             {
                 playerSpeed = 0;
                 enemySpeed = 0;
@@ -692,68 +694,34 @@ namespace SuperFantasyMagicProject.Screen
                 sixthTurn = false;
             }
 
-            if(sixthTurn == true)
+            if (sixthTurn == true)
             {
                 return;
             }
 
-            if(firstTurn != true)
+            if (firstTurn != true)
             {
                 firstTurn = true;
-                if(players[0].Turnspeed > enemies[0].Turnspeed)
+                if (players[0].Turnspeed > enemies[0].Turnspeed)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(enemies[0].Turnspeed > players[0].Turnspeed)
+                else if (enemies[0].Turnspeed > players[0].Turnspeed)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
             }
-            else if(firstTurn == true && secoundTurn != true)
+            else if (firstTurn == true && secoundTurn != true)
             {
                 secoundTurn = true;
-                if(players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
-                {
-                    tracker = BattleTracker.Start;
-                    playerSpeed++;
-                }
-                else if(enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
-                {
-                    tracker = BattleTracker.Enemyturn;
-                    enemySpeed++;
-                }
-                else if(players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
-                {
-                    tracker = BattleTracker.Start;
-                    playerSpeed++;
-                }
-                else if(enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
-                {
-                    tracker = BattleTracker.Enemyturn;
-                    enemySpeed++;
-                }
-            }
-            else if(secoundTurn == true && thirdTurn != true)
-            {
-                thirdTurn = true;
                 if (players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
                 else if (enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
-                {
-                    tracker = BattleTracker.Enemyturn;
-                    enemySpeed++;
-                }
-                else if(players[0].Turnspeed > enemies[2].Turnspeed && playerSpeed == 0)
-                {
-                    tracker = BattleTracker.Start;
-                    playerSpeed++;
-                }
-                else if(enemies[0].Turnspeed > players[2].Turnspeed && enemySpeed == 0)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
@@ -768,94 +736,128 @@ namespace SuperFantasyMagicProject.Screen
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
-                else if(players[1].Turnspeed > enemies[1].Turnspeed && playerSpeed == 1)
+            }
+            else if (secoundTurn == true && thirdTurn != true)
+            {
+                thirdTurn = true;
+                if (players[0].Turnspeed > enemies[1].Turnspeed && playerSpeed == 0)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(enemies[1].Turnspeed > players[1].Turnspeed && enemySpeed == 1)
+                else if (enemies[0].Turnspeed > players[1].Turnspeed && enemySpeed == 0)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
-                else if(players[2].Turnspeed > enemies[0].Turnspeed && playerSpeed == 2)
+                else if (players[0].Turnspeed > enemies[2].Turnspeed && playerSpeed == 0)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[0].Turnspeed > players[2].Turnspeed && enemySpeed == 0)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[0].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[0].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[1].Turnspeed > enemies[1].Turnspeed && playerSpeed == 1)
+                {
+                    tracker = BattleTracker.Start;
+                    playerSpeed++;
+                }
+                else if (enemies[1].Turnspeed > players[1].Turnspeed && enemySpeed == 1)
+                {
+                    tracker = BattleTracker.Enemyturn;
+                    enemySpeed++;
+                }
+                else if (players[2].Turnspeed > enemies[0].Turnspeed && playerSpeed == 2)
                 {
                     tracker = BattleTracker.Playerturn;
                     playerSpeed++;
                 }
-                else if(enemies[2].Turnspeed > players[0].Turnspeed && enemySpeed == 2)
+                else if (enemies[2].Turnspeed > players[0].Turnspeed && enemySpeed == 2)
                 {
                     tracker = BattleTracker.Playerturn;
                     enemySpeed++;
                 }
             }
-            else if(thirdTurn == true && fourthTurn != true)
+            else if (thirdTurn == true && fourthTurn != true)
             {
                 fourthTurn = true;
-                if(enemySpeed == 3)
+                if (enemySpeed == 3)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed = 1;
                 }
-                else if(playerSpeed == 3)
+                else if (playerSpeed == 3)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed = 1;
                 }
-                else if(players[2].Turnspeed > enemies[1].Turnspeed && playerSpeed == 2)
+                else if (players[2].Turnspeed > enemies[1].Turnspeed && playerSpeed == 2)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(enemies[2].Turnspeed > players[1].Turnspeed && enemySpeed == 2)
+                else if (enemies[2].Turnspeed > players[1].Turnspeed && enemySpeed == 2)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
-                else if(players[1].Turnspeed > enemies[2].Turnspeed && playerSpeed == 1)
+                else if (players[1].Turnspeed > enemies[2].Turnspeed && playerSpeed == 1)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(enemies[1].Turnspeed > players[2].Turnspeed && enemySpeed == 1)
+                else if (enemies[1].Turnspeed > players[2].Turnspeed && enemySpeed == 1)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
             }
-            else if(fourthTurn == true && fifthTurn != true)
+            else if (fourthTurn == true && fifthTurn != true)
             {
                 fifthTurn = true;
-                if(enemySpeed == 3 && playerSpeed == 1)
+                if (enemySpeed == 3 && playerSpeed == 1)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(playerSpeed == 3 && enemySpeed == 1)
+                else if (playerSpeed == 3 && enemySpeed == 1)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
-                else if(players[2].Turnspeed > enemies[2].Turnspeed && playerSpeed == 2)
+                else if (players[2].Turnspeed > enemies[2].Turnspeed && playerSpeed == 2)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(enemies[2].Turnspeed > players[2].Turnspeed && enemySpeed == 2)
+                else if (enemies[2].Turnspeed > players[2].Turnspeed && enemySpeed == 2)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
                 }
             }
-            else if(fifthTurn == true && sixthTurn != true)
+            else if (fifthTurn == true && sixthTurn != true)
             {
                 sixthTurn = true;
-                if(enemySpeed == 3 && playerSpeed == 2)
+                if (enemySpeed == 3 && playerSpeed == 2)
                 {
                     tracker = BattleTracker.Start;
                     playerSpeed++;
                 }
-                else if(playerSpeed == 3 && enemySpeed ==2)
+                else if (playerSpeed == 3 && enemySpeed == 2)
                 {
                     tracker = BattleTracker.Enemyturn;
                     enemySpeed++;
@@ -936,11 +938,11 @@ namespace SuperFantasyMagicProject.Screen
 
         protected void AttackAnimate(GameTime gameTime)
         {
-            if(true)
+            if (true)
             {
-                if(true)
+                if (true)
                 {
-                    if(true)
+                    if (true)
                     {
 
                     }
