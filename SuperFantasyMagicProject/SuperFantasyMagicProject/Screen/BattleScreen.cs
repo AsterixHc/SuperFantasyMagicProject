@@ -49,9 +49,8 @@ namespace SuperFantasyMagicProject.Screen
 
         //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
-        private string hpOnScreen = "hpOnScreen";        
-                private SpriteFont hp;
-                int targetedPlayer;
+        private string hpOnScreen = "hpOnScreen";        private SpriteFont hp;
+                int targetedPlayer;
 
         int playerSpeed;
         int enemySpeed;
@@ -89,9 +88,6 @@ namespace SuperFantasyMagicProject.Screen
         /// <summary>
         /// Constructor that specifies enemies and players.
         /// </summary>
-        /// <param name="player0">The first player (top)</param>
-        /// <param name="player1">The second player (middle)</param>
-        /// <param name="player2">The third player (bottom)</param>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
         /// <param name="enemy2">The third enemy (bottom)</param>
@@ -211,34 +207,11 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            //Player turn.
+            //EncounterTurnSystemReset();
+            PlayerSpeedCheck();
             HandleInput();
-            foreach (Character character in enemies)
-            {
-                character.Update(gameTime);
-            }
-
-            if (enemies.All(alive => false))
-            {
-                AllocateExp();
-                if (RogueStats.HasLevelUp || WarriorStats.HasLevelUp || MageStats.HasLevelUp)
-                {
-                    ScreenManager.ChangeScreenTo(new LevelUpScreen());
-                }
-            }
-
-            //Enemy turn.
             Enemyturn();
-            foreach (Character character in players)
-            {
-                character.Update(gameTime);
-            }
-
-            if (players.All(alive => false))
-            {
-                //TODO: Add functionality
-                //Death screen
-            }            
+            DefaultAnimate(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
