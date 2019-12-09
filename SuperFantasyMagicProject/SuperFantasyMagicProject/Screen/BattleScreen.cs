@@ -21,7 +21,6 @@ namespace SuperFantasyMagicProject.Screen
         Random rnd = new Random();
         Song song;
 
-
         //Players
         protected Texture2D[] knightStanding;
         protected Texture2D[] jeremyStanding;
