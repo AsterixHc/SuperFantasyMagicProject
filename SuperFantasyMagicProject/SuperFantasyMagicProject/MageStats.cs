@@ -40,7 +40,7 @@ namespace SuperFantasyMagicProject
         public static bool HasLevelUp { get; private set; } = false;
         public static int StatPoints { get; set; } = 0;
 
-        public static int turnSpeed = 13;
+        public static int turnSpeed = 10;
         public static double critical = 0.05;
     }
 }
