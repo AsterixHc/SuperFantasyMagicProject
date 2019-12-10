@@ -55,34 +55,22 @@ namespace SuperFantasyMagicProject.Screen
         Vector2 enemy1Position = new Vector2(1710, 460);
         Vector2 enemy2Position = new Vector2(1710, 700);        
 
-        //Array for holding players
+        //Battle flow
         private Character[] players = new Character[3];
-
-        //Array for holding enemies
         private Character[] enemies = new Character[3];
-
-        //Lists for keeping track of battle flow
         private List<Character> battlersPending = new List<Character>(6);
         private List<Character> battlersDone = new List<Character>(6);
-        private List<Character> deadBattlers = new List<Character>();
-
+        private List<Character> deadBattlers = new List<Character>(5);
         private Character activeBattler = null;
         private Character targetCharacter;
         private BattleState battleState = BattleState.Battling;
+        
+        //Input
         private KeyboardState previousKS = Keyboard.GetState();
         private KeyboardState newKS;
 
         /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public BattleScreen()
-        {
-
-        }
-
-
-        /// <summary>
-        /// Constructor that specifies enemies.
+        /// Constructor that specifies enemies and experience value.
         /// </summary>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
@@ -218,48 +206,16 @@ namespace SuperFantasyMagicProject.Screen
                 {
                     battleState = BattleState.Waiting;
                 }
-                HandleInput(); //NB! HandleInput needs to set battleState = BattleState.Battling after a successful player move.
+                HandleInput();
             }
             //If active battler is an enemy character
             else
             {
-                int randomTarget = rnd.Next(0, 3);
-                while (players[randomTarget].CurrentHealth == 0)
-                {
-                    randomTarget = rnd.Next(0, 3);
-                }
-                players[randomTarget].TakeDamage(activeBattler.Damage);
+                EnemyTurn();
             }
 
-            //Update player characters
-            foreach (Character player in players)
-            {
-                player.Update(gameTime);
-                if (!player.IsAlive())
-                {
-                    deadBattlers.Add(player);
-                }
-            }
-            if (players.All(player => !player.IsAlive()))
-            {
-                battleState = BattleState.PlayerLost;
-                //Maybe screen transition here
-            }
-
-            //Update enemy characters
-            foreach (Character enemy in enemies)
-            {
-                enemy.Update(gameTime);
-                if (!enemy.IsAlive())
-                {
-                    deadBattlers.Add(enemy);
-                }
-            }
-            if (enemies.All(enemy => !enemy.IsAlive()))
-            {
-                battleState = BattleState.PlayerWon;
-                //Maybe screen transition here
-            }
+            UpdatePlayers(gameTime);
+            UpdateEnemies(gameTime);
 
             if (battleState == BattleState.Battling)
             {
@@ -418,5 +374,60 @@ namespace SuperFantasyMagicProject.Screen
             }
         }
 
+        /// <summary>
+        /// Determines an enemy character's action during its turn.
+        /// Chooses a random living player character and attacks it.
+        /// </summary>
+        private void EnemyTurn()
+        {
+            int randomTarget = rnd.Next(0, 3);
+            while (players[randomTarget].CurrentHealth == 0)
+            {
+                randomTarget = rnd.Next(0, 3);
+            }
+            players[randomTarget].TakeDamage(activeBattler.Damage);
+        }
+
+        /// <summary>
+        /// Runs through all characters in players[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdatePlayers(GameTime gameTime)
+        {
+            foreach (Character player in players)
+            {
+                player.Update(gameTime);
+                if (!player.IsAlive())
+                {
+                    deadBattlers.Add(player);
+                }
+            }
+            if (players.All(player => !player.IsAlive()))
+            {
+                battleState = BattleState.PlayerLost;
+                //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Runs through all characters in enemies[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdateEnemies(GameTime gameTime)
+        {
+            foreach (Character enemy in enemies)
+            {
+                enemy.Update(gameTime);
+                if (!enemy.IsAlive())
+                {
+                    deadBattlers.Add(enemy);
+                }
+            }
+            if (enemies.All(enemy => !enemy.IsAlive()))
+            {
+                battleState = BattleState.PlayerWon;
+                //Maybe screen transition here
+            }
+        }
     }
 }
