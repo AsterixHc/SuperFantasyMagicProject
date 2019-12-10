@@ -14,9 +14,9 @@ namespace SuperFantasyMagicProject.Playable_Characters
             MaxHealth = RogueStats.maxHealth;
             CurrentHealth = RogueStats.currentHealth;
             Mana = RogueStats.mana;
-            Strenght = RogueStats.strenght;
-            Agility = RogueStats.agility;
-            Intelligence = RogueStats.intelligence;
+            Strenght = RogueStats.Strenght;
+            Agility = RogueStats.Agility;
+            Intelligence = RogueStats.Intelligence;
             Damage = RogueStats.damage;
             Turnspeed = RogueStats.turnSpeed;
             Critical = RogueStats.critical;

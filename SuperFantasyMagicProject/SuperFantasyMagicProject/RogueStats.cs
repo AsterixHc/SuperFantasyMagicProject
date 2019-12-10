@@ -8,15 +8,17 @@ namespace SuperFantasyMagicProject
 {
     public static class RogueStats
     {
-        public static int maxHealth = 150;
+        public static int maxHealth;
         public static int currentHealth = 150;
         public static int mana = 100;
-        public static int strenght = 10;
-        public static int agility = 10;
-        public static int intelligence = 10;
-        public static int damage = 20;
+        public static int damage = 5;
+
+        private static int strenght = 10;
+        private static int agility = 10;
+        private static int intelligence = 10;
         private static int experience = 0;
 
+        #region
         public static int Experience
         {
             get { return experience; }
@@ -36,11 +38,50 @@ namespace SuperFantasyMagicProject
             }
         }
 
+        public static int Strenght
+        {
+            get { return strenght; }
+            set
+            {
+                strenght = value;
+                int baseStrenght = 100;
+                maxHealth = baseStrenght + strenght * 10;
+                
+            }
+        }
+
+        public static int Agility
+        {
+            get { return agility; }
+            set
+            {
+                agility = value;
+                int baseAgility = 100;
+                turnSpeed = baseAgility + agility / 10;
+
+                damage = agility * 2;
+                
+            }
+        }
+
+        public static int Intelligence
+        {
+            get { return intelligence; }
+            set
+            {
+                intelligence = value;
+                double baseIntelligence = 0.10;
+                critical = baseIntelligence + intelligence / 100;
+            }
+        }
+
+        #endregion
+
         public static int Level { get; private set; } = 1;
         public static bool HasLevelUp { get; private set; } = false;
         public static int StatPoints { get; set; } = 0;
 
-        public static int turnSpeed = 8;
+        public static int turnSpeed = 20;
         public static double critical = 0.05;
     }
 }
