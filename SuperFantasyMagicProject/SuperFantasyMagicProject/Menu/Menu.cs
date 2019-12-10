@@ -95,7 +95,6 @@ namespace SuperFantasyMagicProject
                 button.Update();
             }
 
-            //Button functionality.
             if (Type == MenuType.GameMenu)
             {
                 if (returnButton.Activated)
@@ -104,16 +103,29 @@ namespace SuperFantasyMagicProject
                 }
                 else if (characterButton.Activated)
                 {
-                    //show character sheet
+                    //Change to LevelUpScreen
+                    RogueStats.Experience = 100;
+                    WarriorStats.Experience = 200;
+                    MageStats.Experience = 400;
+
+                    ScreenManager.ChangeScreenTo(new LevelUpScreen());
+
+                    if (MenuManager.IsMenuOpen)
+                    {
+                        MenuManager.CloseMenu();
+                    }
                 }
                 else if (titleButton.Activated)
                 {
+                    //Change to TitleScreen
                     ScreenManager.ChangeScreenTo(new TitleScreen());
                     MenuManager.ChangeMenuTo("TitleMenu");
                 }
                 else if (quitButton.Activated)
                 {
-                    //quit game
+                    //Quit game
+                    MenuManager.ExitFromMenu = true;
+
                 }
             }
             else if (Type == MenuType.TitleMenu)
@@ -126,11 +138,12 @@ namespace SuperFantasyMagicProject
                 }
                 else if (creditsButton.Activated)
                 {
-                    //show credits
+                    //Show credits
                 }
                 else if (quitButton.Activated)
                 {
-                    //quit game
+                    //Quit game
+                    MenuManager.ExitFromMenu = true;
                 }
             }
         }
