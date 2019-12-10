@@ -7,28 +7,30 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using SuperFantasyMagicProject.Creatures;
+
 namespace SuperFantasyMagicProject.Screen
 {
-    class SplashScreen : GameScreen
+    class TitleScreen : GameScreen
     {
         private KeyboardState previousKS = Keyboard.GetState();
 
         //Variables for handling graphics
         private Texture2D background;
-        private string path = "SplashScreen/Background";
+        private string backgroundPath = "TitleScreen/Background";
 
-        /// <summary>
-        /// Default contructor.
-        /// </summary>
-        public SplashScreen()
+        public TitleScreen()
         {
-
+            if (!MenuManager.IsMenuOpen)
+            {
+                MenuManager.OpenMenu("TitleMenu");
+            }
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            background = gameScreenContent.Load<Texture2D>(path);
+            background = gameScreenContent.Load<Texture2D>(backgroundPath);
         }
 
         public override void UnloadContent()
@@ -39,7 +41,6 @@ namespace SuperFantasyMagicProject.Screen
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            HandleInput();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -49,14 +50,15 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void HandleInput()
         {
-            KeyboardState KS = Keyboard.GetState();
+            //KeyboardState newKS = Keyboard.GetState();
 
-            if (KS.IsKeyDown(Keys.Enter) && previousKS.IsKeyUp(Keys.Enter))
-            {
-                ScreenManager.ChangeScreenTo(new TitleScreen());
-            }
+            //if (newKS.IsKeyDown(Keys.Enter) && previousKS.IsKeyUp(Keys.Enter))
+            //{
+            //    //TODO: Modify for proper game flow if/when world map works.
+            //    ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
+            //}
 
-            previousKS = KS;
+            //previousKS = newKS;
         }
     }
 }

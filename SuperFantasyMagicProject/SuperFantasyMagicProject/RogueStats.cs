@@ -26,7 +26,7 @@ namespace SuperFantasyMagicProject
                 {
                     experience = value;
                     //TODO: Change this so that levels require increasingly more experience.
-                    if (Experience / Level >= 100)
+                    while (Experience / Level >= 100)
                     {
                         Level += 1;
                         HasLevelUp = true;
@@ -36,11 +36,11 @@ namespace SuperFantasyMagicProject
             }
         }
 
-        public static int Level { get; set; } = 1;
+        public static int Level { get; private set; } = 1;
         public static bool HasLevelUp { get; private set; } = false;
-        public static int StatPoints { get; private set; } = 0;
+        public static int StatPoints { get; set; } = 0;
 
-        public static int turnSpeed = 10;
+        public static int turnSpeed = 8;
         public static double critical = 0.05;
     }
 }

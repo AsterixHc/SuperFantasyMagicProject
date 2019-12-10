@@ -31,11 +31,10 @@ namespace SuperFantasyMagicProject
         {
             // TODO: Add your initialization logic here
 
-            //graphics.IsFullScreen = true;
-
-            //Change screen size to the value stored in ScreenManager.ScreenDimensions.
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
+            //graphics.IsFullScreen = true;
+            graphics.HardwareModeSwitch = false; //why does this work in fullscreen and not in widowed?
             graphics.ApplyChanges();
 
             ScreenManager.Initialize();
@@ -55,6 +54,9 @@ namespace SuperFantasyMagicProject
 
             //Load the content of the initial game screen.
             ScreenManager.LoadContent(Content);
+            //Load menu settings and MenuManager
+            MenuManager.LoadContent(Content);
+
         }
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace SuperFantasyMagicProject
 
             //Unload the content of the last game screen.
             ScreenManager.UnloadContent();
+            MenuManager.UnloadContent();
         }
 
         /// <summary>
@@ -83,18 +86,30 @@ namespace SuperFantasyMagicProject
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.L))
             {
-
-                if (RogueStats.Experience != 100)
-                    RogueStats.Experience = 100;
-                if (WarriorStats.Experience != 100)
-                    WarriorStats.Experience = 100;
-                if (MageStats.Experience != 100)
-                    MageStats.Experience = 100;
+                RogueStats.Experience = 100;
+                WarriorStats.Experience = 200;
+                MageStats.Experience = 400;
 
                 ScreenManager.ChangeScreenTo(new LevelUpScreen());
+
+                if (MenuManager.IsMenuOpen)
+                {
+                    MenuManager.CloseMenu();
+                }
             }
 #endif
             ScreenManager.Update(gameTime);
+            MenuManager.Update(gameTime);
+
+            //Show mouse cursor if menu is open, else hide it.
+            if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (!MenuManager.IsMenuOpen && IsMouseVisible)
+            {
+                IsMouseVisible = false;
+            }
 
             base.Update(gameTime);
         }
@@ -110,6 +125,7 @@ namespace SuperFantasyMagicProject
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             ScreenManager.Draw(spriteBatch);
+            MenuManager.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
