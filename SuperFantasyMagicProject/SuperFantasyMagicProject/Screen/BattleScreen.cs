@@ -283,14 +283,19 @@ namespace SuperFantasyMagicProject.Screen
                 if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive())
                 {
                     targetCharacter = enemies[0];
+                    Console.WriteLine("Enemy 1 targeted");
                 }
                 else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive())
                 {
                     targetCharacter = enemies[1];
+                    Console.WriteLine("Enemy 2 targeted");
+
                 }
                 else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive())
                 {
                     targetCharacter = enemies[2];
+                    Console.WriteLine("Enemy 3 targeted");
+
                 }
             }
             else
@@ -300,6 +305,7 @@ namespace SuperFantasyMagicProject.Screen
                     targetCharacter.TakeDamage(activeBattler.Damage);
                     targetCharacter = null;
                     battleState = BattleState.Battling;
+                    Console.WriteLine("Who attacked: " + activeBattler + " + " + RogueStats.damage);
                 }
             }
         }

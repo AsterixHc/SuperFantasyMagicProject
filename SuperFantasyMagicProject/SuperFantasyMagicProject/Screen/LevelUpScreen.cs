@@ -32,6 +32,67 @@ namespace SuperFantasyMagicProject.Screen
         private Texture2D activeCharacterImage;
 
         /// <summary>
+        /// Read-only property that accesses the level variable in the character stat classes.
+        /// </summary>
+        private int activeCharacterLevel
+        {
+            get
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    return RogueStats.Level;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    return WarriorStats.Level;
+                }
+                else
+                {
+                    return MageStats.Level;
+                }
+            }
+        }
+
+        private int activeCharacterHealth
+        {
+            get
+            {
+                if(activeCharacter == ClassType.Rogue)
+                {
+                    return RogueStats.maxHealth;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    return WarriorStats.maxHealth;
+                }
+                else
+                {
+                    return MageStats.maxHealth;
+                }
+            }
+        }
+
+        private int activeCharacterSpeed
+        {
+            get
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    return RogueStats.turnSpeed;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    return WarriorStats.turnSpeed;
+                }
+                else
+                {
+                    return MageStats.turnSpeed;
+                }
+            }
+        }
+
+        #region Stats that can be changed
+        /// <summary>
         /// Property that accesses the statPoints variable in the character stat classes.
         /// </summary>
         private int activeCharacterStatPoints
@@ -67,28 +128,112 @@ namespace SuperFantasyMagicProject.Screen
                 }
             }
         }
-
-        /// <summary>
-        /// Read-only property that accesses the level variable in the character stat classes.
-        /// </summary>
-        private int activeCharacterLevel
+        
+        private int activeCharacterStrenght
         {
             get
             {
                 if (activeCharacter == ClassType.Rogue)
                 {
-                    return RogueStats.Level;
+                    return RogueStats.Strenght;
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.Level;
+                    return WarriorStats.strenght;
                 }
                 else
                 {
-                    return MageStats.Level;
+                    return MageStats.strenght;
+                }
+            }
+            set
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    RogueStats.Strenght = value;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    WarriorStats.strenght = value;
+                }
+                else
+                {
+                    MageStats.strenght = value;
                 }
             }
         }
+
+        private int activeCharacterAgility
+        {
+            get
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    return RogueStats.Agility;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    return WarriorStats.agility;
+                }
+                else
+                {
+                    return MageStats.agility;
+                }
+            }
+            set
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    RogueStats.Agility = value;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    WarriorStats.agility = value;
+                }
+                else
+                {
+                    MageStats.agility = value;
+                }
+            }
+        }
+
+        private int activeCharacterIntelligence
+        {
+            get
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    return RogueStats.Intelligence;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    return WarriorStats.intelligence;
+                }
+                else
+                {
+                    return MageStats.intelligence;
+                }
+            }
+            set
+            {
+                if (activeCharacter == ClassType.Rogue)
+                {
+                    RogueStats.Intelligence = value;
+                }
+                else if (activeCharacter == ClassType.Warrior)
+                {
+                    WarriorStats.intelligence = value;
+                }
+                else
+                {
+                    MageStats.intelligence = value;
+                }
+            }
+        }
+
+        
+
+        #endregion
 
         public LevelUpScreen()
         { 
@@ -137,7 +282,14 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(activeCharacterImage, new Vector2(280, 210), Color.White);
             spriteBatch.DrawString(font, "Level " + activeCharacterLevel, new Vector2(900, 200), Color.Sienna);
-            spriteBatch.DrawString(font, "Stat points remaining: " + activeCharacterStatPoints, new Vector2(900, 300), Color.Sienna);
+            spriteBatch.DrawString(font, "Health " + activeCharacterHealth, new Vector2(900, 300), Color.Sienna);
+            spriteBatch.DrawString(font, "Stat points remaining: " + activeCharacterStatPoints, new Vector2(900, 400), Color.Sienna);
+            spriteBatch.DrawString(font, "Strenght: " + activeCharacterStrenght, new Vector2(900, 500), Color.Sienna);
+            spriteBatch.DrawString(font, "Agility: " + activeCharacterAgility, new Vector2(900, 600), Color.Sienna);
+            spriteBatch.DrawString(font, "Intelligence: " + activeCharacterIntelligence, new Vector2(900, 700), Color.Sienna);
+            spriteBatch.DrawString(font, "Speed: " + activeCharacterSpeed, new Vector2(900, 800), Color.Sienna);
+
+
         }
 
         public override void HandleInput()
