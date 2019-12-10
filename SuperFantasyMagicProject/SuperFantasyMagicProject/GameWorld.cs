@@ -106,10 +106,10 @@ namespace SuperFantasyMagicProject
             {
                 IsMouseVisible = true;
             }
-            else if (!MenuManager.IsMenuOpen && IsMouseVisible)
-            {
-                IsMouseVisible = false;
-            }
+            //else if (!MenuManager.IsMenuOpen && IsMouseVisible)
+            //{
+            //    IsMouseVisible = false;
+            //}
 
             base.Update(gameTime);
         }

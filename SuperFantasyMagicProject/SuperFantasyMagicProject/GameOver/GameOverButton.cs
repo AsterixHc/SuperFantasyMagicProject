@@ -6,79 +6,123 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SuperFantasyMagicProject.Creatures;
-using SuperFantasyMagicProject.GameOver;
 
 namespace SuperFantasyMagicProject
 {
-    class GameOverButton : Componet
+    class GameOverButton
     {
         private MouseState previousMS = Mouse.GetState();
         private MouseState currentMS;
-        private bool isHovering;
-        public SpriteFont font1;
 
-        private Texture2D texture1;
+        private string text;
+        private SpriteFont font;
+        private string fontPath = "Menus/Button/Font";
+        private Vector2 textDimension;
+        private Color textColor = Color.White;
 
-        public Color PenColour { get; set; }
+        private Texture2D texture, inactiveTexture, activeTexture, downTexture;
+        private string inactivePath = "GameOverScreen/Respawn1";
+        private string activePath = "GameOverScreen/Respawn2";
+        private string downPath = "GameOverScreen/Respawn3";
+        private Rectangle collisionBox;
+        private Vector2 origin;
+        private bool isDown;
+
         public Vector2 Position { get; set; }
-        public string Text { get; set; }
-        public EventHandler Click;
+        public bool Activated { get; set; }
 
-        public Rectangle rectangle
+        public GameOverButton(string text)
         {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, texture1.Width, texture1.Height);
-            }
-        }
-
-        public GameOverButton(Texture2D texture, SpriteFont font)
-        {
-            texture1 = texture;
-            font1 = font;
-            PenColour = Color.White;
+            Position = Vector2.Zero;
+            this.text = text;
+            isDown = false;
+            Activated = false;
         }
 
         public void LoadContent()
         {
+            activeTexture = ScreenManager.ContentManager.Load<Texture2D>(activePath);
+            inactiveTexture = ScreenManager.ContentManager.Load<Texture2D>(inactivePath);
+            downTexture = ScreenManager.ContentManager.Load<Texture2D>(downPath);
+            font = ScreenManager.ContentManager.Load<SpriteFont>(fontPath);
+            textDimension = font.MeasureString(text);
+            texture = inactiveTexture;
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            collisionBox = new Rectangle((int)(Position.X - origin.X), (int)(Position.Y - origin.Y), texture.Width, texture.Height);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void UnloadContent()
         {
-            var colour = Color.White;
-
-            if (isHovering)
-            {
-                colour = Color.Gray;
-            }
-
-            spriteBatch.Draw(texture1, rectangle, colour);
-
-            if (!string.IsNullOrEmpty(Text))
-            {
-                var x = (rectangle.X + (rectangle.Width / 2)) - (font1.MeasureString(Text).X / 2);
-                var y = (rectangle.Y + (rectangle.Height / 2)) - (font1.MeasureString(Text).Y / 2);
-
-                spriteBatch.DrawString(font1, Text, new Vector2(x, y), PenColour);
-            }
+            MenuManager.UnloadContent();
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update()
+        {
+            HandleInput();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, Position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, text, Position -(textDimension / 2), textColor);
+        }
+
+        public void HandleInput()
         {
             currentMS = Mouse.GetState();
-            var mouseRectangle = new Rectangle(currentMS.X, currentMS.Y, 1, 1);
+            Rectangle mouseRectangle = new Rectangle(currentMS.X, currentMS.Y, 1, 1);
 
-            isHovering = false;
-
-            if (mouseRectangle.Intersects(rectangle))
+            if(mouseRectangle.Intersects(collisionBox))
             {
-                isHovering = true;
-                if (currentMS.LeftButton == ButtonState.Released && previousMS.LeftButton == ButtonState.Pressed)
+                if(currentMS.LeftButton==ButtonState.Pressed && previousMS.LeftButton==ButtonState.Released && isDown)
                 {
-                    Click?.Invoke(this, new EventArgs());
+                    isDown = true;
+                }
+
+                else if(currentMS.LeftButton == ButtonState.Released && previousMS.LeftButton == ButtonState.Pressed && isDown)
+                {
+                    isDown = false;
+                    Activated = true;
+                }
+
+                if(!isDown && texture != activeTexture)
+                {
+                    texture = activeTexture;
+                }
+
+                else if(isDown && texture != downTexture)
+                {
+                    texture = inactiveTexture;
                 }
             }
+
+            else
+            {
+                texture = inactiveTexture;
+
+                if(currentMS.LeftButton==ButtonState.Released && previousMS.LeftButton ==ButtonState.Pressed && isDown)
+                {
+                    isDown = false;
+                }
+            }
+
+            previousMS = currentMS;
         }
+
+
+        public void DrawCollosion(SpriteBatch spriteBatch)
+        {
+            Rectangle top = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, collisionBox.Width, 1);
+            Rectangle bottom = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle right = new Rectangle((int)Position.X - (int)origin.X + collisionBox.Width, (int)Position.Y - (int)origin.Y, 1, collisionBox.Height);
+            Rectangle left = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y -(int)origin.Y, 1, collisionBox.Height);
+
+        }
+
+        public void DrawMousePosision(SpriteBatch spriteBatch)
+        {
+            Rectangle top = new Rectangle((int)currentMS.X, (int)currentMS.Y, 1, 1);
+        }
+
     }
 }

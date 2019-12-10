@@ -52,7 +52,6 @@
     <Compile Include="Creatures\Sangshi.cs" />
     <Compile Include="Creatures\Scorpion.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="GameOver\Componet.cs" />
     <Compile Include="GameOver\GameOverButton.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Item.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LevelUpScreen.cs" />
     <Compile Include="Screen\MapScreen.cs" />
-    <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ShopScreen.cs" />
     <Compile Include="Screen\SplashScreen.cs" />
     <Compile Include="Screen\TitleScreen.cs" />
