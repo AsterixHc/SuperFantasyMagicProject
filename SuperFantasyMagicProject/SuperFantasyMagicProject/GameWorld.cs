@@ -86,16 +86,7 @@ namespace SuperFantasyMagicProject
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.L))
             {
-                RogueStats.Experience = 100;
-                WarriorStats.Experience = 200;
-                MageStats.Experience = 400;
-
-                ScreenManager.ChangeScreenTo(new LevelUpScreen());
-
-                if (MenuManager.IsMenuOpen)
-                {
-                    MenuManager.CloseMenu();
-                }
+                
             }
 #endif
             ScreenManager.Update(gameTime);
@@ -109,6 +100,12 @@ namespace SuperFantasyMagicProject
             else if (!MenuManager.IsMenuOpen && IsMouseVisible)
             {
                 IsMouseVisible = false;
+            }
+
+            //Check if exiting from menu
+            if (MenuManager.ExitFromMenu)
+            {
+                Exit();
             }
 
             base.Update(gameTime);

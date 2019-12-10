@@ -236,8 +236,8 @@ namespace SuperFantasyMagicProject.Screen
         #endregion
 
         public LevelUpScreen()
-        { 
-
+        {
+            activeCharacter = ClassType.Rogue;
         }
 
         public override void LoadContent()
@@ -248,6 +248,7 @@ namespace SuperFantasyMagicProject.Screen
             rogueImage = gameScreenContent.Load<Texture2D>(rogueImagePath);
             warriorImage = gameScreenContent.Load<Texture2D>(warriorImagePath);
             mageImage = gameScreenContent.Load<Texture2D>(mageImagePath);
+            activeCharacterImage = rogueImage;
         }
 
         public override void UnloadContent()
