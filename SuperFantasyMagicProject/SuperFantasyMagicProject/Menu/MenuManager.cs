@@ -14,6 +14,7 @@ namespace SuperFantasyMagicProject
     {
         private static Menu menu;
         public static bool IsMenuOpen { get; private set; }
+        public static bool ExitFromMenu { get; set; } = false;
 
         //ContentManager for handling all menu related content in the game.
         public static ContentManager Content { get; private set; }
