@@ -59,15 +59,15 @@ namespace SuperFantasyMagicProject.Screen
             {
                 if(activeCharacter == ClassType.Rogue)
                 {
-                    return RogueStats.maxHealth;
+                    return RogueStats.MaxHealth;
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.maxHealth;
+                    return WarriorStats.MaxHealth;
                 }
                 else
                 {
-                    return MageStats.maxHealth;
+                    return MageStats.MaxHealth;
                 }
             }
         }
@@ -78,15 +78,15 @@ namespace SuperFantasyMagicProject.Screen
             {
                 if (activeCharacter == ClassType.Rogue)
                 {
-                    return RogueStats.turnSpeed;
+                    return RogueStats.TurnSpeed;
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.turnSpeed;
+                    return WarriorStats.TurnSpeed;
                 }
                 else
                 {
-                    return MageStats.turnSpeed;
+                    return MageStats.TurnSpeed;
                 }
             }
         }
@@ -139,11 +139,11 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.strenght;
+                    return WarriorStats.Strength;
                 }
                 else
                 {
-                    return MageStats.strenght;
+                    return MageStats.Strength;
                 }
             }
             set
@@ -154,11 +154,11 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    WarriorStats.strenght = value;
+                    WarriorStats.Strength = value;
                 }
                 else
                 {
-                    MageStats.strenght = value;
+                    MageStats.Strength = value;
                 }
             }
         }
@@ -173,11 +173,11 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.agility;
+                    return WarriorStats.Agility;
                 }
                 else
                 {
-                    return MageStats.agility;
+                    return MageStats.Agility;
                 }
             }
             set
@@ -188,11 +188,11 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    WarriorStats.agility = value;
+                    WarriorStats.Agility = value;
                 }
                 else
                 {
-                    MageStats.agility = value;
+                    MageStats.Agility = value;
                 }
             }
         }
@@ -207,11 +207,11 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    return WarriorStats.intelligence;
+                    return WarriorStats.Intelligence;
                 }
                 else
                 {
-                    return MageStats.intelligence;
+                    return MageStats.Intelligence;
                 }
             }
             set
@@ -222,16 +222,14 @@ namespace SuperFantasyMagicProject.Screen
                 }
                 else if (activeCharacter == ClassType.Warrior)
                 {
-                    WarriorStats.intelligence = value;
+                    WarriorStats.Intelligence = value;
                 }
                 else
                 {
-                    MageStats.intelligence = value;
+                    MageStats.Intelligence = value;
                 }
             }
         }
-
-        
 
         #endregion
 
@@ -289,7 +287,6 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.DrawString(font, "Agility: " + activeCharacterAgility, new Vector2(900, 600), Color.Sienna);
             spriteBatch.DrawString(font, "Intelligence: " + activeCharacterIntelligence, new Vector2(900, 700), Color.Sienna);
             spriteBatch.DrawString(font, "Speed: " + activeCharacterSpeed, new Vector2(900, 800), Color.Sienna);
-
 
         }
 

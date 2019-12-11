@@ -11,32 +11,85 @@ namespace SuperFantasyMagicProject.Playable_Characters
     {
         public Mage()
         {
-            Path = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
-            Position = Vector2.Zero;
-            MaxHealth = MageStats.maxHealth;
-            CurrentHealth = MageStats.currentHealth;
-            Mana = MageStats.mana;
-            Strenght = MageStats.strenght;
-            Agility = MageStats.agility;
-            Intelligence = MageStats.intelligence;
-            Damage = MageStats.damage;
-            Critical = MageStats.critical;
-            Turnspeed = MageStats.turnSpeed;
+            texturePath = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
+            position = Vector2.Zero;
+            origin = Vector2.Zero;
+
+            UpdateStats();
         }
 
-        public Mage(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
+        #region Properties
+
+        ///The folliwing properties don't set the local variable when.
+        ///Instead, they set the corresponsing stat in the MageStats class,
+        ///and then update the local variables to match them.
+
+        public override int Strength
         {
-            MaxHealth = maxHealth;
-            CurrentHealth = currentHealth;
-            Mana = mana;
-            Strenght = strenght;
-            Agility = agility;
-            Intelligence = intelligence;
-            Path = "Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight2";
-            Position = position;
-            Origin = Vector2.Zero;
-            Damage = damage;
+            get
+            {
+                return strength;
+            }
+            set
+            {
+                MageStats.Strength = value;
+                UpdateStats();
+            }
         }
+
+        public override int Agility
+        {
+            get
+            {
+                return agility;
+            }
+            set
+            {
+                MageStats.Agility = value;
+                UpdateStats();
+            }
+        }
+
+        public override int Intelligence
+        {
+            get
+            {
+                return intelligence;
+            }
+            set
+            {
+                MageStats.Intelligence = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentHealth
+        {
+            get
+            {
+                return currentHealth;
+            }
+            set
+            {
+                MageStats.CurrentHealth = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentMana
+        {
+            get
+            {
+                return currentMana;
+            }
+            set
+            {
+                MageStats.CurrentMana = value;
+                UpdateStats();
+            }
+        }
+
+        #endregion
 
         public override int Attack()
         {
@@ -74,10 +127,21 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Check if Item Effect Gained
         }
 
-        public override void TakeDamage(int dmg)
+        /// <summary>
+        /// Updates all Rogue stats to correspond with the stats saved in the static class MageStats.
+        /// </summary>
+        public void UpdateStats()
         {
-            //Reduce currentHealth by damage amount
-            CurrentHealth -= dmg;
+            strength = MageStats.Strength;
+            agility = MageStats.Agility;
+            intelligence = MageStats.Intelligence;
+            maxHealth = MageStats.MaxHealth;
+            currentHealth = MageStats.CurrentHealth;
+            maxMana = MageStats.MaxMana;
+            currentMana = MageStats.CurrentMana;
+            damage = MageStats.Damage;
+            critical = MageStats.Critical;
+            turnSpeed = MageStats.TurnSpeed;
         }
     }
 }

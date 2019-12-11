@@ -3,25 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
-namespace SuperFantasyMagicProject.Creatures
+namespace SuperFantasyMagicProject
 {
     class Scorpion : Character
     {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Scorpion()
         {
+            TexturePath = "";
+            Position = Vector2.Zero;
+            Origin = Vector2.Zero;
 
-        }
+            baseHealth = 30;
+            baseMana = 50;
+            baseCritical = 0.05;
 
-        public Scorpion(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
-        {
-            this.rnd = rnd;
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
+            Strength = 4;       //Every point of Strength adds 10 to MaxHealth, and 2 to Damage.
+            Agility = 8;        //Every two points of Agility adds 1 to TurnSpeed.
+            Intelligence = 2;   //Every point of Intelligence adds 10 to MaxMana, and 0.1 to Critical
+
+            CurrentHealth = MaxHealth;
+            CurrentMana = MaxMana;
         }
 
         public override int Attack()
@@ -29,20 +35,18 @@ namespace SuperFantasyMagicProject.Creatures
             //Attack at random against Player
             //Attack random enemy in an array
             return 0;
-
         }
 
         public override void SpecialAttack()
         {
-            //Attack at random against Player with "Poisen sting"
-            //Apply Poisen on Target
-            //Poisen should deal a small about of dmg every time the poisened character has a turn ( 1-2% of max health)
+            //Applies Screatch against Player (100% of the time)
+            //Reduce Player Strength and Health
         }
 
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }

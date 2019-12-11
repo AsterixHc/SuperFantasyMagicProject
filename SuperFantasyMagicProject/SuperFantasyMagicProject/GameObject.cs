@@ -13,6 +13,9 @@ namespace SuperFantasyMagicProject
     class GameObject
     {
 
+        //TODO: This class is currently completely redundant, as it contains no members except empty default methods.
+        //Move mutual members from Characters into here instead (texture, texturePath, position and other stuff)
+
         public GameObject()
         {
 

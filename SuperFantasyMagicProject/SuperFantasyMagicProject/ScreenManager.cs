@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Screen;
-using SuperFantasyMagicProject.Creatures;
 using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject

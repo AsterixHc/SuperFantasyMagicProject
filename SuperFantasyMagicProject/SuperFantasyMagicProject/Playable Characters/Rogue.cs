@@ -9,34 +9,90 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Rogue : Character
     {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Rogue()
         {
-            MaxHealth = RogueStats.maxHealth;
-            CurrentHealth = RogueStats.currentHealth;
-            Mana = RogueStats.mana;
-            Strenght = RogueStats.Strenght;
-            Agility = RogueStats.Agility;
-            Intelligence = RogueStats.Intelligence;
-            Damage = RogueStats.damage;
-            Turnspeed = RogueStats.turnSpeed;
-            Critical = RogueStats.critical;
-            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
-            Position = Vector2.Zero;
+            texturePath = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
+            position = Vector2.Zero;
+            origin = Vector2.Zero;
+
+            UpdateStats();
         }
 
-        public Rogue(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
+        #region Properties
+
+        ///The folliwing properties don't set the local variable when.
+        ///Instead, they set the corresponsing stat in the RogueStats class,
+        ///and then update the local variables to match them.
+
+        public override int Strength
         {
-            MaxHealth = maxHealth;
-            CurrentHealth = currentHealth;
-            Mana = mana;
-            Strenght = strenght;
-            Agility = agility;
-            Intelligence = intelligence;
-            Path = "Player/Jeremy/Jeremy pink/JeremyPinkAttack/JeremyPinkAttackRight1";
-            Position = position;
-            Origin = Vector2.Zero;
-            Damage = damage;
+            get
+            {
+                return strength;
+            }
+            set
+            {
+                RogueStats.Strenght = value;
+                UpdateStats();
+            }
         }
+
+        public override int Agility
+        {
+            get
+            {
+                return agility;
+            }
+            set
+            {
+                RogueStats.Agility = value;
+                UpdateStats();
+            }
+        }
+
+        public override int Intelligence
+        {
+            get
+            {
+                return intelligence;
+            }
+            set
+            {
+                RogueStats.Intelligence = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentHealth
+        {
+            get
+            {
+                return currentHealth;
+            }
+            set
+            {
+                RogueStats.CurrentHealth = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentMana
+        {
+            get
+            {
+                return currentMana;
+            }
+            set
+            {
+                RogueStats.CurrentMana = value;
+                UpdateStats();
+            }
+        }
+
+        #endregion
 
         public override int Attack()
         {
@@ -75,12 +131,21 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Check if Item Effect Gained
         }
 
-        public override void TakeDamage(int dmg)
+        /// <summary>
+        /// Updates all Rogue stats to correspond with the stats saved in the static class RogueStats.
+        /// </summary>
+        public void UpdateStats()
         {
-            //Reduce currentHealth by damage amount
-            CurrentHealth -= dmg;
+            strength = RogueStats.Strenght;
+            agility = RogueStats.Agility;
+            intelligence = RogueStats.Intelligence;
+            maxHealth = RogueStats.MaxHealth;
+            currentHealth = RogueStats.CurrentHealth;
+            maxMana = RogueStats.MaxMana;
+            currentMana = RogueStats.CurrentMana;
+            damage = RogueStats.Damage;
+            critical = RogueStats.Critical;
+            turnSpeed = RogueStats.TurnSpeed;
         }
-
-        //public void UpdateStats
     }
 }
