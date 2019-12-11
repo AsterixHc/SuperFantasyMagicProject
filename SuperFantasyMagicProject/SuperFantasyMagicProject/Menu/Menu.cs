@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using SuperFantasyMagicProject.Creatures;
 using SuperFantasyMagicProject.Screen;
 
 namespace SuperFantasyMagicProject

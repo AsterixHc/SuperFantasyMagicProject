@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
-namespace SuperFantasyMagicProject.Creatures
+namespace SuperFantasyMagicProject
 {
     class Sangshi : Character
     {
-        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Sangshi()
         {
+            TexturePath = "";
+            Position = Vector2.Zero;
+            Origin = Vector2.Zero;
 
-        }
+            baseHealth = 30;
+            baseMana = 50;
+            baseCritical = 0.05;
 
-        public Sangshi(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
-        {
-            this.rnd = rnd;
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
+            Strength = 4;       //Every point of Strength adds 10 to MaxHealth, and 2 to Damage.
+            Agility = 8;        //Every two points of Agility adds 1 to TurnSpeed.
+            Intelligence = 2;   //Every point of Intelligence adds 10 to MaxMana, and 0.1 to Critical
+
+            CurrentHealth = MaxHealth;
+            CurrentMana = MaxMana;
         }
 
         public override int Attack()
@@ -34,14 +39,14 @@ namespace SuperFantasyMagicProject.Creatures
 
         public override void SpecialAttack()
         {
-            //If killed set Health to full
-            //If any Ally is alive keep revive
+            //Applies Screatch against Player (100% of the time)
+            //Reduce Player Strength and Health
         }
 
         public override void TakeDamage(int dmg)
         {
             //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            CurrentHealth -= dmg;
         }
     }
 }

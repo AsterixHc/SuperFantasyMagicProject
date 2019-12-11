@@ -11,45 +11,90 @@ namespace SuperFantasyMagicProject.Playable_Characters
 {
     class Warrior : Character
     {
-
-        private int targetAttack;
-        
-        
-        
-        public int TargetAttack { get => targetAttack; set => targetAttack = value; }
-
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Warrior()
         {
-            MaxHealth = WarriorStats.maxHealth;
-            CurrentHealth = WarriorStats.currentHealth;
-            Mana = WarriorStats.mana;
-            Strenght = WarriorStats.strenght;
-            Agility = WarriorStats.agility;
-            Intelligence = WarriorStats.intelligence;
-            Damage = WarriorStats.damage;
-            Turnspeed = WarriorStats.turnSpeed;
-            Critical = WarriorStats.critical;
+            texturePath = "Player / Knight / Standing / KnightStanding1";
+            position = Vector2.Zero;
+            origin = Vector2.Zero;
 
-            Position = Vector2.Zero;
-            Origin = Vector2.Zero;
-            Path = "Player/Knight/Standing/KnightStanding1";
+            UpdateStats();
         }
 
-        public Warrior(int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence, Vector2 position, int damage)
+        #region Properties
+
+        ///The folliwing properties don't set the local variable when.
+        ///Instead, they set the corresponsing stat in the WarriorStats class,
+        ///and then update the local variables to match them.
+
+        public override int Strength
         {
-            MaxHealth = maxHealth;
-            CurrentHealth = currentHealth;
-            Mana = mana;
-            Strenght = strenght;
-            Agility = agility;
-            Intelligence = intelligence;
-            Path = "Player/Knight/Standing/KnightStanding1";
-            Position = position;
-            Origin = Vector2.Zero;
-            Damage = damage;
+            get
+            {
+                return strength;
+            }
+            set
+            {
+                WarriorStats.Strength = value;
+                UpdateStats();
+            }
         }
 
+        public override int Agility
+        {
+            get
+            {
+                return agility;
+            }
+            set
+            {
+                WarriorStats.Agility = value;
+                UpdateStats();
+            }
+        }
 
+        public override int Intelligence
+        {
+            get
+            {
+                return intelligence;
+            }
+            set
+            {
+                WarriorStats.Intelligence = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentHealth
+        {
+            get
+            {
+                return currentHealth;
+            }
+            set
+            {
+                WarriorStats.CurrentHealth = value;
+                UpdateStats();
+            }
+        }
+
+        public override int CurrentMana
+        {
+            get
+            {
+                return currentMana;
+            }
+            set
+            {
+                WarriorStats.CurrentMana = value;
+                UpdateStats();
+            }
+        }
+
+        #endregion
 
         public override int Attack()
         {
@@ -91,10 +136,21 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Check if Item Effect Gained
         }
 
-        public override void TakeDamage(int dmg)
+        /// <summary>
+        /// Updates all Rogue stats to correspond with the stats saved in the static class WarriorStats.
+        /// </summary>
+        public void UpdateStats()
         {
-            //Reduce currentHealth by damage amount
-            CurrentHealth -= dmg;
+            strength = WarriorStats.Strength;
+            agility = WarriorStats.Agility;
+            intelligence = WarriorStats.Intelligence;
+            maxHealth = WarriorStats.MaxHealth;
+            currentHealth = WarriorStats.CurrentHealth;
+            maxMana = WarriorStats.MaxMana;
+            currentMana = WarriorStats.CurrentMana;
+            damage = WarriorStats.Damage;
+            critical = WarriorStats.Critical;
+            turnSpeed = WarriorStats.TurnSpeed;
         }
     }
 }

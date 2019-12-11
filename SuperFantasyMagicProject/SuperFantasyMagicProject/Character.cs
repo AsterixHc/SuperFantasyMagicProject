@@ -14,37 +14,93 @@ namespace SuperFantasyMagicProject
     {
         protected Random rnd;
 
+        protected Texture2D texture;
+        protected string texturePath;
         protected Vector2 position;
         protected Vector2 origin;
-        protected string path;
 
-        private int maxHealth;
-        private int currentHealth;
-        private int mana;
-        private int strenght;
-        private int agility;
-        private int intelligence;
-        private int damage;
-        private int turnspeed;
-        private double critical;
+        protected int baseHealth;
+        protected int baseMana;
+        protected double baseCritical;
+
+        protected int strength;
+        protected int agility;
+        protected int intelligence;
+
+        protected int maxHealth;
+        protected int currentHealth;
+
+        protected int maxMana;
+        protected int currentMana;
+
+        protected int damage;
+        protected double critical;
+        protected int turnSpeed;
 
         protected bool ranged;
-        protected bool alive = true;
+        protected bool isAlive = true;
         protected bool isPoisoned = false;
-        protected bool isPlayerAlive = true;
         protected bool isScratched = false;
         protected bool isGusted = false;
-        protected bool isParalysed = false;
+        protected bool isParalyzed = false;
 
-        public Vector2 Position { get => position; set => position = value; }
-        public Vector2 Origin { get => origin; set => origin = value; }
-        public string Path { get => path; protected set => path = value; }
-        public int CurrentHealth 
-        { 
-            get => currentHealth; 
+        #region Properties
+
+        public string TexturePath { get; protected set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Origin { get; set; } //TODO: Make set protected once animations have been moved.
+
+        public virtual int Strength
+        {
+            get { return strength; }
             set
             {
-                if(value >= 0 && MaxHealth >= value)
+                strength = value;
+                MaxHealth = baseHealth + strength * 10;
+                Damage = strength * 2;
+            }
+        }
+
+        public virtual int Agility
+        {
+            get { return agility; }
+            set
+            {
+                agility = value;
+                TurnSpeed = agility / 2;
+            }
+        }
+        public virtual int Intelligence
+        {
+            get { return intelligence; }
+            set
+            {
+                intelligence = value;
+                MaxMana = baseMana + Intelligence * 10;
+                Critical = baseCritical + intelligence / 10;
+            }
+        }
+
+        public virtual int MaxHealth
+        {
+            get { return maxHealth; }
+            protected set
+            {
+                maxHealth = value;
+
+                if (CurrentHealth > value)
+                {
+                    CurrentHealth = value;
+                }
+            }
+        }
+
+        public virtual int CurrentHealth 
+        {
+            get { return currentHealth; }
+            set
+            {
+                if(value <= MaxHealth && value >= 0)
                 {
                     currentHealth = value;
                 }
@@ -56,30 +112,86 @@ namespace SuperFantasyMagicProject
                 {
                     currentHealth = MaxHealth;
                 }
-                else
-                {
-#if DEBUG
-                    Console.WriteLine("Yaps current health er dum");
-#endif                
-                }
             } 
         }
 
-        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
-        public int Mana { get => mana; set => mana = value; }
-        public int Strenght { get => strenght; set => strenght = value; }
-        public int Agility { get => agility; set => agility = value; }
-        public int Intelligence { get => intelligence; set => intelligence = value; }
-        public int Damage { get => damage; set => damage = value; }
+        public virtual int MaxMana
+        {
+            get { return maxMana; }
+            protected set
+            {
+                maxMana = value;
+
+                if (CurrentMana > value)
+                {
+                    CurrentMana = value;
+                }
+            }
+        }
+
+        public virtual int CurrentMana
+        {
+            get { return currentMana; }
+            set
+            {
+                if (value <= MaxMana && value >= 0)
+                {
+                    currentMana = value;
+                }
+                else if (value < 0)
+                {
+                    currentMana = 0;
+                }
+                else if (value > MaxMana)
+                {
+                    currentMana = MaxMana;
+                }
+            }
+        }
+
+        public virtual int Damage
+        {
+            get { return damage; }
+            protected set
+            {
+                if (value >= 0)
+                {
+                    damage = value;
+                }
+            }
+        }
         
-        public double Critical { get => critical; set => critical = value; }
-        public int Turnspeed { get => turnspeed; set => turnspeed = value; }
+        public virtual double Critical { get; protected set; }
+        public virtual int TurnSpeed { get; protected set; }
+
+        //Read-only property that sets isAlive when read.
+        public bool IsAlive
+        {
+            get
+            {
+                if (currentHealth > 0)
+                {
+                    isAlive = true;
+                }
+                else
+                {
+                    isAlive = false;
+                }
+                return isAlive;
+            }
+        }
+
+        #endregion
 
         public abstract int Attack();
 
         public abstract void SpecialAttack();
 
-        public abstract void TakeDamage(int dmg);
+        public virtual void TakeDamage(int dmg)
+        {
+            //Reduce currentHealth by damage amount
+            CurrentHealth -= dmg;
+        }
 
         public virtual void Flee()
         {
@@ -96,54 +208,20 @@ namespace SuperFantasyMagicProject
             Console.WriteLine("I leveled up");
         }
 
-        /// <summary>
-        /// Determines if the character is alive by looking at current health, and saves the result in 'alive'.
-        /// </summary>
-        /// <returns>The result in the variable 'alive'</returns>
-        public bool IsAlive()
+        public override void LoadContent(ContentManager content)
         {
-            if(currentHealth > 0)
-            {
-                alive = true;
-            }
-            else
-            {
-                alive = false;
-            }
-            return alive;
+            base.LoadContent(content);
+            texture = content.Load<Texture2D>(texturePath);
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
         public override void Update(GameTime gameTime)
         {
-            IsAlive();
+            //Because IsAlive checks current health and updates itself, this also serves as an update to IsAlive.
+            if (IsAlive)
+            {
+                //update logic
+            }
         }
-
-        //public virtual void Strength()
-        //{
-        //    //Increase DMG for the warrior
-        //    //Increase Health for all chars
-
-        //    //1 point = 2 DMG
-        //    //1 point = 10health
-        //}
-
-        //public virtual void Agility()
-        //{
-        //    //Increase DMG for the Rogue
-        //    //Increase Speed for all chars
-
-        //    //1 point = 2 DMG
-        //    //1 point = 5 speed ??
-        //}
-
-        //public virtual void Intelligence()
-        //{
-        //    //Increase DMG for the Mage
-        //    //Increase Crit chance for all chars
-
-        //    //1 point = 2 DMG
-        //    //1 point = 0.10% crit chance??
-        //}
-
     }
 }
