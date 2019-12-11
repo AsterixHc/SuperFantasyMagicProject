@@ -8,15 +8,21 @@ namespace SuperFantasyMagicProject
 {
     public static class RogueStats
     {
-        public static int maxHealth;
-        public static int currentHealth = 150;
-        public static int mana = 100;
-        public static int damage = 5;
 
         private static int strenght = 10;
         private static int agility = 10;
         private static int intelligence = 10;
         private static int experience = 0;
+
+        private static int baseHealth = 100;
+        public static int maxHealth { get; private set; } = baseHealth + Strenght * 10;
+        public static int currentHealth;
+
+        private static int baseMana = 100;
+        public static int maxMana { get; private set; } = baseMana + Intelligence * 10;
+        public static int currentMana = 0;
+
+        public static int damage { get; private set; } = agility * 2;
 
         #region
         public static int Experience
@@ -44,9 +50,7 @@ namespace SuperFantasyMagicProject
             set
             {
                 strenght = value;
-                int baseStrenght = 100;
-                maxHealth = baseStrenght + strenght * 10;
-                
+                maxHealth = baseHealth + strenght * 10;
             }
         }
 
@@ -60,7 +64,6 @@ namespace SuperFantasyMagicProject
                 turnSpeed = baseAgility + agility / 10;
 
                 damage = agility * 2;
-                
             }
         }
 

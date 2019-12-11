@@ -80,5 +80,7 @@ namespace SuperFantasyMagicProject.Playable_Characters
             //Reduce currentHealth by damage amount
             CurrentHealth -= dmg;
         }
+
+        //public void UpdateStats
     }
 }

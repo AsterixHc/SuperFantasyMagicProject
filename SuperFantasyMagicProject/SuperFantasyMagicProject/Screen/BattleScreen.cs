@@ -78,21 +78,35 @@ namespace SuperFantasyMagicProject.Screen
         /// /// <param name="exp">The amount of experience points the encounter is worth</param>
         public BattleScreen(Character enemy0, Character enemy1, Character enemy2, int exp)
         {
+            ExpValue = exp;
+
+            //Populate arrays/lists
             players[0] = new Rogue();
             players[1] = new Warrior();
             players[2] = new Mage();
             enemies[0] = enemy0;
             enemies[1] = enemy1;
             enemies[2] = enemy2;
-            ExpValue = exp;
+            battlersPending.AddRange(players);
+            battlersPending.AddRange(enemies);
+
+            //Remove dead characters and add to list of dead characters.
+            foreach (Character character in battlersPending)
+            {
+                if (!character.IsAlive())
+                {
+                    deadBattlers.Add(character);
+                    battlersPending.Remove(character);
+                }
+            }
+            
+            //Fixed starting positions for battlers
             players[0].Position = player0Position;
             players[1].Position = player1Position;
             players[2].Position = player2Position;
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
-            battlersPending.AddRange(players);
-            battlersPending.AddRange(enemies);
         }
 
         public override void LoadContent()
@@ -192,8 +206,10 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
+            //If there is no active battler
             if (activeBattler == null)
             {
+                //Sort battlers, then make active the entry with the highest speed. 
                 battlersPending.Sort((a, b) => b.Turnspeed.CompareTo(a.Turnspeed));
                 activeBattler = battlersPending[0];
                 battlersPending.RemoveAt(0);
@@ -202,6 +218,7 @@ namespace SuperFantasyMagicProject.Screen
             //If active battler is a player character
             if (players.Contains(activeBattler))
             {
+                //Set battle state to waiting, and await player input.
                 if (battleState != BattleState.Waiting)
                 {
                     battleState = BattleState.Waiting;
@@ -211,33 +228,29 @@ namespace SuperFantasyMagicProject.Screen
             //If active battler is an enemy character
             else
             {
+                //Run enemy battle logic.
                 EnemyTurn();
             }
 
+            //Update characters. If dead, add to list of dead battlers.
             UpdatePlayers(gameTime);
             UpdateEnemies(gameTime);
 
+            //If game is not awaiting player input
             if (battleState == BattleState.Battling)
             {
+                //Mark active battler's turn as over.
                 battlersDone.Add(activeBattler);
+                //Clear variale, indicating we want a new battler in next update cycle.
                 activeBattler = null;
 
-                //Remove dead battlers from other lists
-                foreach (Character battler in deadBattlers)
-                {
-                    if (battlersPending.Contains(battler))
-                    {
-                        battlersPending.Remove(battler);
-                    }
-
-                    if (battlersDone.Contains(battler))
-                    {
-                        battlersDone.Remove(battler);
-                    }
-                }
+                //Remove dead battlers from turn cycle
+                RemoveDeadBattlers();
                 
+                //If all battlers have had their turn
                 if (battlersPending.Count == 0)
                 {
+                    //Reset turn cycle.
                     battlersPending.AddRange(battlersDone);
                     battlersDone.Clear();
                 }
@@ -433,6 +446,25 @@ namespace SuperFantasyMagicProject.Screen
             {
                 battleState = BattleState.PlayerWon;
                 //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Iterates through the list of dead battlers, and removes them from the next turn cycle.
+        /// </summary>
+        private void RemoveDeadBattlers()
+        {
+            foreach (Character battler in deadBattlers)
+            {
+                if (battlersPending.Contains(battler))
+                {
+                    battlersPending.Remove(battler);
+                }
+
+                if (battlersDone.Contains(battler))
+                {
+                    battlersDone.Remove(battler);
+                }
             }
         }
     }
