@@ -302,6 +302,11 @@ namespace SuperFantasyMagicProject.Screen
                 enemyTarget = 3;
             }
 
+            if(keyboard.IsKeyDown(Keys.D4))
+            {
+                ScreenManager.ChangeScreenTo(new TitleScreen());
+            }
+
             if (keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
             {
                 Console.WriteLine("PlayerTargetLaunched");
