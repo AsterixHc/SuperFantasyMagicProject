@@ -35,6 +35,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
+            //currentScreen = new SplashScreen();
             currentScreen = new SplashScreen();
         }
 
@@ -65,9 +66,8 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void UnloadContent()
         {
-            ///TODO: Check this.
-            //currentScreen.UnloadContent();
-            //contentManager.Unload();
+            currentScreen.UnloadContent();
+            contentManager.Unload();
         }
 
         /// <summary>
