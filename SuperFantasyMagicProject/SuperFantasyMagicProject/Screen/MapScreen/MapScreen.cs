@@ -15,7 +15,7 @@ namespace SuperFantasyMagicProject.Screen
         private string path = "MapScreen/Background";
 
         //Encounters
-        private EncounterMarker[] encounters = new EncounterMarker[10];
+        private EncounterMarker[] encounters = new EncounterMarker[11];
         ///If an encounter marker is clicked, values are assigned to the following 4 variables.
         ///They are then passed as arguements to change screens.
         EncounterMarker activatedMarker = null;
@@ -105,15 +105,16 @@ namespace SuperFantasyMagicProject.Screen
         private void DefineEncounters()
         {
             encounters[0] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, true);
-            encounters[1] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[2] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[3] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[4] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[5] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[6] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[7] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[8] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
-            encounters[9] = new EncounterMarker("Bat", "Bat", "Bat", 100, 1, false);
+            encounters[1] = new EncounterMarker("Hornet", "Scorpion", "Hornet", 180, 2, true);
+            encounters[2] = new EncounterMarker("Hornet", "Scorpion", "DemonFlower", 220, 2, true);
+            encounters[3] = new EncounterMarker("Bat", "Hayo", "Bat", 260, 3, true);
+            encounters[4] = new EncounterMarker("DemonFlower", "Hayo", "DemonFlower", 360, 3, true);
+            encounters[5] = new EncounterMarker("Sangshi", "Scorpion", "Sangshi", 410, 1, true);
+            encounters[6] = new EncounterMarker("Hayo", "Sangshi", "Hayo", 460, 1, true);
+            encounters[7] = new EncounterMarker("Sanghshi", "DemonFlower", "Hayo", 500, 3, true);
+            encounters[8] = new EncounterMarker("Sangshi", "Sangshi", "Sangshi", 510, 1, true);
+            encounters[9] = new EncounterMarker("DemonFlower", "DemonFlower", "DemonFlower", 420, 3, true);
+            encounters[10] = new EncounterMarker("Hornet", "Hayo", "Hornet", 320, 2, true);
         }
 
         /// <summary>
@@ -121,16 +122,17 @@ namespace SuperFantasyMagicProject.Screen
         /// </summary>
         private void PositionEncounters()
         {
-            encounters[0].Position = new Vector2(100, 100);
-            encounters[1].Position = new Vector2(200, 200);
-            encounters[2].Position = new Vector2(300, 300);
-            encounters[3].Position = new Vector2(400, 400);
-            encounters[4].Position = new Vector2(500, 500);
-            encounters[5].Position = new Vector2(600, 600);
-            encounters[6].Position = new Vector2(700, 700);
-            encounters[7].Position = new Vector2(800, 800);
-            encounters[8].Position = new Vector2(900, 900);
-            encounters[9].Position = new Vector2(1000, 1000);
+            encounters[0].Position = new Vector2(500, 322);
+            encounters[1].Position = new Vector2(647, 354);
+            encounters[2].Position = new Vector2(619, 497);
+            encounters[3].Position = new Vector2(595, 593);
+            encounters[4].Position = new Vector2(834, 723);
+            encounters[5].Position = new Vector2(1141, 510);
+            encounters[6].Position = new Vector2(1158, 423);
+            encounters[7].Position = new Vector2(1259, 493);
+            encounters[8].Position = new Vector2(1280, 573);
+            encounters[9].Position = new Vector2(1337, 613);
+            encounters[10].Position = new Vector2(1372, 731);
         }
     }
 }
