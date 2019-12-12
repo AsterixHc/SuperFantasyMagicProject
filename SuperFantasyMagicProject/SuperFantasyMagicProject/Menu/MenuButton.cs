@@ -88,7 +88,7 @@ namespace SuperFantasyMagicProject
         /// <summary>
         /// Handles user input. Changes button textures based on mouse interaction.
         /// </summary>
-        public void HandleInput()
+        private void HandleInput()
         {
             newMS = Mouse.GetState();
             Rectangle mouseRectangle = new Rectangle(newMS.X, newMS.Y, 1, 1);
@@ -118,12 +118,17 @@ namespace SuperFantasyMagicProject
             }
             else
             {
-                texture = inactiveTexture;
 
                 //Release event, button is down
                 if (newMS.LeftButton == ButtonState.Released && previousMS.LeftButton == ButtonState.Pressed && isDown)
                 {
                     isDown = false;
+                }
+
+                if (texture != inactiveTexture)
+                {
+                    texture = inactiveTexture;
+
                 }
             }
 

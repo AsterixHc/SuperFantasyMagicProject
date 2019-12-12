@@ -44,8 +44,5 @@ namespace SuperFantasyMagicProject.Screen
         {
 
         }
-
-        public abstract void HandleInput();
-        
     }
 }

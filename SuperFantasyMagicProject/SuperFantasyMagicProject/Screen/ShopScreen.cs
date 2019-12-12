@@ -8,10 +8,6 @@ namespace SuperFantasyMagicProject.Screen
 {
     class ShopScreen : GameScreen
     {
-        public override void HandleInput()
-        {
-            throw new NotImplementedException();
-        }
 
         public void PurchaseItem()
         {

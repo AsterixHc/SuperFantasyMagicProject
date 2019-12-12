@@ -290,7 +290,7 @@ namespace SuperFantasyMagicProject.Screen
 
         }
 
-        public override void HandleInput()
+        public void HandleInput()
         {
             KeyboardState KS = Keyboard.GetState();
 
