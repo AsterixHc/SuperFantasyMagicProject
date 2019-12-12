@@ -99,7 +99,7 @@ namespace SuperFantasyMagicProject.Screen
                     battlersPending.Remove(character);
                 }
             }
-            
+
             //Fixed starting positions for battlers
             players[0].Position = player0Position;
             players[1].Position = player1Position;
@@ -287,7 +287,7 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
         }
 
-        public override void HandleInput()
+        public void HandleInput()
         {
             newKS = Keyboard.GetState();
 

@@ -47,7 +47,7 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
         }
 
-        public override void HandleInput()
+        public void HandleInput()
         {
             KeyboardState KS = Keyboard.GetState();
 

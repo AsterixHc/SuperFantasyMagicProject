@@ -75,7 +75,8 @@
     <Compile Include="Screen\BattleScreen.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LevelUpScreen.cs" />
-    <Compile Include="Screen\MapScreen.cs" />
+    <Compile Include="Screen\MapScreen\EncounterMarker.cs" />
+    <Compile Include="Screen\MapScreen\MapScreen.cs" />
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ShopScreen.cs" />
     <Compile Include="Screen\SplashScreen.cs" />

@@ -61,7 +61,7 @@ namespace SuperFantasyMagicProject
             }
             else
             {
-                throw new ArgumentException("Invalid argument used for class Menu constructor. Valid arguments are: GameMenu, TitleMenu");
+                throw new ArgumentException("Invalid argument in Menu's constructor. Valid arguments are: GameMenu, TitleMenu");
             }
         }
 
@@ -88,6 +88,23 @@ namespace SuperFantasyMagicProject
         }
 
         public void Update(GameTime gameTime)
+        {
+            HandleInput();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
+            foreach (MenuButton button in buttons)
+            {
+                button.Draw(spriteBatch);
+            }
+        }
+
+        /// <summary>
+        /// Checks and acts on player input. Menu button functionality is defined here.
+        /// </summary>
+        private void HandleInput()
         {
             foreach (MenuButton button in buttons)
             {
@@ -131,8 +148,7 @@ namespace SuperFantasyMagicProject
             {
                 if (playButton.Activated)
                 {
-                    //TODO: Change this for proper game flow
-                    ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
+                    ScreenManager.ChangeScreenTo(new MapScreen());
                     MenuManager.CloseMenu();
                 }
                 else if (creditsButton.Activated)
@@ -144,15 +160,6 @@ namespace SuperFantasyMagicProject
                     //Quit game
                     MenuManager.ExitFromMenu = true;
                 }
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
-            foreach (MenuButton button in buttons)
-            {
-                button.Draw(spriteBatch);
             }
         }
 

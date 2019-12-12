@@ -53,7 +53,7 @@ namespace SuperFantasyMagicProject
             // TODO: use this.Content to load your game content here
 
             //Load the content of the initial game screen.
-            ScreenManager.LoadContent(Content);
+            ScreenManager.LoadContent(Content); //TODO: Check if this is supposed to be 'content', not 'Content'
             //Load menu settings and MenuManager
             MenuManager.LoadContent(Content);
 
@@ -83,17 +83,16 @@ namespace SuperFantasyMagicProject
                 Exit();
 
             // TODO: Add your update logic here
-#if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.L))
-            {
-                
-            }
-#endif
+
             ScreenManager.Update(gameTime);
             MenuManager.Update(gameTime);
 
-            //Show mouse cursor if menu is open, else hide it.
-            if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            //Set mouse cursor to visible/invisible based on screen and menu state.
+            if (ScreenManager.IsMouseVisible && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (MenuManager.IsMenuOpen && !IsMouseVisible)
             {
                 IsMouseVisible = true;
             }
