@@ -86,7 +86,7 @@ namespace SuperFantasyMagicProject.Screen
                 button.Draw(spriteBatch);
             }
         }
-        public override void HandleInput()
+        public void HandleInput()
         {
             
         }
