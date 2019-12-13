@@ -323,7 +323,7 @@ namespace SuperFantasyMagicProject.Screen
 
                 //Draw Mana.
                 textColor = Color.Blue;
-                text = "MP: " + player.CurrentHealth;
+                text = "MP: " + player.CurrentMana;
                 textDimensions = font.MeasureString(text);
                 spriteBatch.DrawString(font, text, new Vector2(player.Position.X - (textDimensions.X / 2),
                         player.Position.Y - (80 - textDimensions.Y)), textColor);
