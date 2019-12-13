@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 
 namespace SuperFantasyMagicProject.Playable_Characters
@@ -16,10 +17,8 @@ namespace SuperFantasyMagicProject.Playable_Characters
         /// </summary>
         public Warrior()
         {
-            texturePath = "Player / Knight / Standing / KnightStanding1";
-            position = Vector2.Zero;
-            origin = Vector2.Zero;
-
+            texturePath = "Player/Knight/Standing/KnightStanding";
+            
             UpdateStats();
         }
 
@@ -95,6 +94,32 @@ namespace SuperFantasyMagicProject.Playable_Characters
         }
 
         #endregion
+        
+        public override void LoadContent(ContentManager content)
+        {
+            //Load textures.
+            textures = new Texture2D[4];
+
+            for (int i = 0; i < textures.Length; i++)
+            {
+                textures[i] = content.Load<Texture2D>(texturePath + (i + 1));
+            }
+
+            texture = textures[0];
+
+            //Set origin.
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+        }
+
+        /// <summary>
+        /// This override is identical to the general method inherited from Character.cs,
+        /// except it sets a different texture scale.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, Position, null, Color.White, 0f, origin, 2, SpriteEffects.None, 1f);
+        }
 
         public override int Attack()
         {
@@ -152,5 +177,6 @@ namespace SuperFantasyMagicProject.Playable_Characters
             critical = WarriorStats.Critical;
             turnSpeed = WarriorStats.TurnSpeed;
         }
+
     }
 }

@@ -5,20 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 
 namespace SuperFantasyMagicProject
 {
     abstract class Character : GameObject
     {
-        protected Random rnd;
-
-        protected Texture2D texture;
-        protected string texturePath;
-        protected Vector2 position;
-        protected Vector2 origin;
-
         protected int baseHealth;
         protected int baseMana;
         protected double baseCritical;
@@ -45,10 +36,6 @@ namespace SuperFantasyMagicProject
         protected bool isParalyzed = false;
 
         #region Properties
-
-        public string TexturePath { get; protected set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Origin { get; set; } //TODO: Make set protected once animations have been moved.
 
         public virtual int Strength
         {
@@ -208,11 +195,10 @@ namespace SuperFantasyMagicProject
             Console.WriteLine("I leveled up");
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void UnloadContent()
         {
-            base.LoadContent(content);
-            texture = content.Load<Texture2D>(texturePath);
-            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            //TODO: Double-check if this is true.
+            //Unloading of character content is handled by the game screen on which they appear.
         }
 
         public override void Update(GameTime gameTime)
@@ -220,8 +206,13 @@ namespace SuperFantasyMagicProject
             //Because IsAlive checks current health and updates itself, this also serves as an update to IsAlive.
             if (IsAlive)
             {
-                //update logic
+                Animate(gameTime);
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, Position, null, Color.White, 0f, origin, 1, SpriteEffects.None, 1f);
         }
     }
 }

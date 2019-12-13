@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SuperFantasyMagicProject
 {
@@ -14,9 +16,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public Scorpion()
         {
-            TexturePath = "";
-            Position = Vector2.Zero;
-            Origin = Vector2.Zero;
+            texturePath = "Enemies/Scorpion/Black/Animation 1/Scorpion1.";
 
             baseHealth = 30;
             baseMana = 50;
@@ -28,6 +28,32 @@ namespace SuperFantasyMagicProject
 
             CurrentHealth = MaxHealth;
             CurrentMana = MaxMana;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            //Load textures.
+            textures = new Texture2D[3];
+
+            for (int i = 0; i < textures.Length; i++)
+            {
+                textures[i] = content.Load<Texture2D>(texturePath + (i + 1));
+            }
+
+            texture = textures[0];
+
+            //Set origin.
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
         }
 
         public override int Attack()
