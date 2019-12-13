@@ -74,6 +74,7 @@
     <Compile Include="RogueStats.cs" />
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screen\BattleScreen.cs" />
+    <Compile Include="Screen\ControlsScreen.cs" />
     <Compile Include="Screen\GameOverScreen.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LevelUpScreen.cs" />
