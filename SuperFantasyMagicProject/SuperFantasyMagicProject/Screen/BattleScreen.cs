@@ -12,12 +12,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SuperFantasyMagicProject.Screen
 {
-    enum BattleTracker { Playerturn, Playerattack, Enemyturn, Enemyattack, Start, SpeedEvaluationPlayer, SpeedEvaluationEnemy }
+    enum BattleState { Battling, Waiting, PlayerWon, PlayerLost}
 
     class BattleScreen : GameScreen
     {
-        BattleTracker tracker;
-
         Random rnd = new Random();
         Song song;
 
@@ -34,12 +32,11 @@ namespace SuperFantasyMagicProject.Screen
         protected Texture2D[] sangshiStanding;
         protected Texture2D[] scorpionStanding;
 
-        protected float fps = 4;
+        protected float fps=4;
         private float timeElasped;
         private int currentIndex;
 
         private int expValue;
-        int enemyTarget = 0;
         public int ExpValue { get => expValue; private set => expValue = value; }
 
         //Background image for the battle screen.
@@ -48,21 +45,7 @@ namespace SuperFantasyMagicProject.Screen
 
         //Textures for enemy and player characters.
         private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hpPlayer1;
-        private string hpOnScreen = "hpOnScreen";        private SpriteFont hp;
-                int targetedPlayer;
-
-        int playerSpeed;
-        int enemySpeed;
-
-        bool speedChecked = false;
-        bool combatStarted = false;
-
-        bool firstTurn = false;
-        bool secoundTurn = false;
-        bool thirdTurn = false;
-        bool fourthTurn = false;
-        bool fifthTurn = false;
-        bool sixthTurn = false;
+        private string hpOnScreen = "hpOnScreen";        private SpriteFont hp;
 
         //Fixed positions for screen elements (players, enemies)
         Vector2 player0Position = new Vector2(220, 220);
@@ -70,25 +53,24 @@ namespace SuperFantasyMagicProject.Screen
         Vector2 player2Position = new Vector2(220, 700);
         Vector2 enemy0Position = new Vector2(1710, 220);
         Vector2 enemy1Position = new Vector2(1710, 460);
-        Vector2 enemy2Position = new Vector2(1710, 700);
+        Vector2 enemy2Position = new Vector2(1710, 700);        
 
-        //Array for holding players
+        //Battle flow
         private Character[] players = new Character[3];
-
-        //Array for holding enemies
         private Character[] enemies = new Character[3];
+        private List<Character> battlersPending = new List<Character>(6);
+        private List<Character> battlersDone = new List<Character>(6);
+        private List<Character> deadBattlers = new List<Character>(5);
+        private Character activeBattler = null;
+        private Character targetCharacter;
+        private BattleState battleState = BattleState.Battling;
+        
+        //Input
+        private KeyboardState previousKS = Keyboard.GetState();
+        private KeyboardState newKS;
 
         /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public BattleScreen()
-        {
-
-        }
-
-
-        /// <summary>
-        /// Constructor that specifies enemies and players.
+        /// Constructor that specifies enemies and experience value.
         /// </summary>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
@@ -96,20 +78,35 @@ namespace SuperFantasyMagicProject.Screen
         /// /// <param name="exp">The amount of experience points the encounter is worth</param>
         public BattleScreen(Character enemy0, Character enemy1, Character enemy2, int exp)
         {
+            ExpValue = exp;
+
+            //Populate arrays/lists
             players[0] = new Rogue();
             players[1] = new Warrior();
             players[2] = new Mage();
             enemies[0] = enemy0;
             enemies[1] = enemy1;
             enemies[2] = enemy2;
-            ExpValue = exp;
+            battlersPending.AddRange(players);
+            battlersPending.AddRange(enemies);
+
+            //Remove dead characters and add to list of dead characters.
+            foreach (Character character in battlersPending)
+            {
+                if (!character.IsAlive)
+                {
+                    deadBattlers.Add(character);
+                    battlersPending.Remove(character);
+                }
+            }
+
+            //Fixed starting positions for battlers
             players[0].Position = player0Position;
             players[1].Position = player1Position;
             players[2].Position = player2Position;
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
-            tracker = BattleTracker.Start;
         }
 
         public override void LoadContent()
@@ -209,17 +206,58 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            SpeedCheck();
+            //If there is no active battler
+            if (activeBattler == null)
+            {
+                //Sort battlers, then make active the entry with the highest speed. 
+                battlersPending.Sort((a, b) => b.TurnSpeed.CompareTo(a.TurnSpeed));
+                activeBattler = battlersPending[0];
+                battlersPending.RemoveAt(0);
+            }
+
+            //If active battler is a player character
+            if (players.Contains(activeBattler))
+            {
+                //Set battle state to waiting, and await player input.
+                if (battleState != BattleState.Waiting)
+                {
+                    battleState = BattleState.Waiting;
+                }
+                HandleInput();
+            }
+            //If active battler is an enemy character
+            else
+            {
+                //Run enemy battle logic.
+                EnemyTurn();
+            }
+
+            //Update characters. If dead, add to list of dead battlers.
+            UpdatePlayers(gameTime);
+            UpdateEnemies(gameTime);
+
+            //If game is not awaiting player input
+            if (battleState == BattleState.Battling)
+            {
+                //Mark active battler's turn as over.
+                battlersDone.Add(activeBattler);
+                //Clear variale, indicating we want a new battler in next update cycle.
+                activeBattler = null;
+
+                //Remove dead battlers from turn cycle
+                RemoveDeadBattlers();
+                
+                //If all battlers have had their turn
+                if (battlersPending.Count == 0)
+                {
+                    //Reset turn cycle.
+                    battlersPending.AddRange(battlersDone);
+                    battlersDone.Clear();
+                }
+            }
+
+
             DefaultAnimate(gameTime);
-            HandleInput();
-            Enemyturn();
-            EncounterTurnOne();
-            EncounterTurnTwo();
-            EncounterTurnThree();
-            EncounterTurnFour();
-            EncounterTurnFive();
-            EncounterTurnSix();
-            EncounterTurnSystemReset();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -232,7 +270,7 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, players[1].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(player2Sprite, players[2].Position, new Rectangle(0, 0, player2Sprite.Width, player2Sprite.Height),
                     Color.White, 0, players[2].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0, 0, enemy0Sprite.Width, enemy0Sprite.Height),
+            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0 , 0, enemy0Sprite.Width, enemy0Sprite.Height),
                     Color.White, 0, enemies[0].Origin, 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
                     Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
@@ -240,389 +278,47 @@ namespace SuperFantasyMagicProject.Screen
                     Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(hp, "Player 1 HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X - (player0Sprite.Width / 2), players[0].Position.Y - player0Sprite.Height), Color.Red);
-            spriteBatch.DrawString(hp, "Player 2 HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height / 2)), Color.Red);
+            spriteBatch.DrawString(hp, "Player 2 HP: " + players[1].CurrentHealth, new Vector2(players[1].Position.X - (player1Sprite.Width / 2) + 10, players[1].Position.Y - (player1Sprite.Height/2)), Color.Red);
             spriteBatch.DrawString(hp, "Player 3 HP: " + players[2].CurrentHealth, new Vector2(players[2].Position.X - (player2Sprite.Width / 2), players[2].Position.Y - player2Sprite.Height), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 1 HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X - (enemy0Sprite.Width / 5), enemies[0].Position.Y - (enemy0Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 2 HP: " + enemies[1].CurrentHealth, new Vector2(enemies[1].Position.X - (enemy1Sprite.Width / 5), enemies[1].Position.Y - (enemy1Sprite.Height / 2)), Color.Red);
             spriteBatch.DrawString(hp, "Enemy 3 HP: " + enemies[2].CurrentHealth, new Vector2(enemies[2].Position.X - (enemy2Sprite.Width / 5), enemies[2].Position.Y - (enemy2Sprite.Height / 2)), Color.Red);
 
-            spriteBatch.DrawString(hp, "TurnCounter: " + tracker, new Vector2(ScreenManager.ScreenDimensions.X / 2, ScreenManager.ScreenDimensions.Y / 2), Color.Green);
-            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X, players[0].Position.Y), Color.Red);
-
+            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
         }
 
-        void PlayerTarget(int chosenPlayer, int targetedEnemy)
+        public void HandleInput()
         {
-            if (tracker != BattleTracker.Playerturn)
+            newKS = Keyboard.GetState();
+
+            if (targetCharacter == null)
             {
-                return;
-            }
-
-            tracker = BattleTracker.Playerattack;
-            PlayerAttack(targetedEnemy,chosenPlayer);
-        }
-
-        void PlayerAttack(int targetedEnemy, int chosenPlayer)
-        {
-            if (tracker != BattleTracker.Playerattack)
-            {
-                return;
-            }
-
-            int playerDamageAmount = players[chosenPlayer].Damage;
-            Console.WriteLine("PlayerSpeed =" + chosenPlayer);
-            enemies[targetedEnemy].TakeDamage(playerDamageAmount);
-            combatStarted = true;
-            Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
-            enemyTarget = 0;
-        }
-
-        public override void HandleInput()
-        {
-
-            if (tracker != BattleTracker.Start)
-            {
-                return;
-            }
-
-            KeyboardState keyboard = Keyboard.GetState();
-
-            if (keyboard.IsKeyDown(Keys.D1))
-            {
-                enemyTarget = 1;
-            }
-
-            if (keyboard.IsKeyDown(Keys.D2))
-            {
-                enemyTarget = 2;
-            }
-
-            if (keyboard.IsKeyDown(Keys.D3))
-            {
-                enemyTarget = 3;
-            }
-
-            if(keyboard.IsKeyDown(Keys.D4))
-            {
-                ScreenManager.ChangeScreenTo(new TitleScreen());
-            }
-
-            if (keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
-            {
-                Console.WriteLine("PlayerTargetLaunched");
-                enemyTarget--;
-                tracker = BattleTracker.Playerturn;
-                PlayerTarget(playerSpeed-1, enemyTarget);
-            }
-
-        }
-
-        void Enemyturn()
-        {
-            if (tracker != BattleTracker.Enemyturn)
-            {
-                return;
-            }
-
-            targetedPlayer = rnd.Next(0,3);
-            tracker = BattleTracker.Enemyattack;
-            EnemyAttack(targetedPlayer,enemySpeed-1,0);
-        }
-
-        void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
-        {
-
-            if (tracker != BattleTracker.Enemyattack)
-            {
-                return;
-            }
-            combatStarted = true;
-            enemyDamageAmount = enemies[chosenEnemy].Damage;
-            Console.WriteLine("EnemySpeed =" + chosenEnemy);
-            players[targetedPlayer].TakeDamage(enemyDamageAmount);
-            Console.WriteLine("player dmg take: " + enemyDamageAmount);
-        }
-
-        void SpeedCheck()
-        {
-            if(speedChecked == false)
-            {
-                speedChecked = true;
-                for (int i = 0; i < players.Length - 1; i++)
+                if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive)
                 {
-                    for (int j = 0; j < players.Length - 1; j++)
-                    {
-                        if (players[j].Turnspeed < players[j + 1].Turnspeed)
-                        {
-
-                            Character temp = players[j];
-                            players[j] = players[j + 1];
-                            players[j + 1] = temp;
-
-                        }
-                    }
+                    targetCharacter = enemies[0];
+                    Console.WriteLine("Enemy 1 targeted");
                 }
-
-                for (int i = 0; i < enemies.Length - 1; i++)
+                else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive)
                 {
-                    for (int j = 0; j < enemies.Length - 1; j++)
-                    {
-                        if (enemies[j].Turnspeed < enemies[j + 1].Turnspeed)
-                        {
+                    targetCharacter = enemies[1];
+                    Console.WriteLine("Enemy 2 targeted");
 
-                            Character temp = enemies[j];
-                            enemies[j] = enemies[j + 1];
-                            enemies[j + 1] = temp;
-
-                        }
-                    }
                 }
-
-                combatStarted = true;
-
-            }
-        }
-        void EncounterTurnOne()
-        {
-            if(combatStarted == true)
-            {
-                if (players[0].Turnspeed > enemies[0].Turnspeed && firstTurn == false && playerSpeed == 0)
+                else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive)
                 {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnOne Active player");
-                    firstTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[0].Turnspeed > players[0].Turnspeed && firstTurn == false && enemySpeed == 0)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnOne Active enemy");
-                    firstTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
+                    targetCharacter = enemies[2];
+                    Console.WriteLine("Enemy 3 targeted");
                 }
             }
-        }
-        void EncounterTurnTwo()
-        {
-            if (combatStarted == true && firstTurn == true)
+            else
             {
-                if (enemies[0].Turnspeed > players[1].Turnspeed && secoundTurn == false && enemySpeed == 0)
+                if (newKS.IsKeyDown(Keys.D))
                 {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnTwo Active");
-                    secoundTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
+                    targetCharacter.TakeDamage(activeBattler.Damage);
+                    targetCharacter = null;
+                    battleState = BattleState.Battling;
+                    Console.WriteLine("Who attacked: " + activeBattler + " + " + RogueStats.Damage);
                 }
-                else if (players[0].Turnspeed > enemies[1].Turnspeed && secoundTurn == false && playerSpeed == 0)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnTwo Active");
-                    secoundTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[1].Turnspeed > players[0].Turnspeed && secoundTurn == false && enemySpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnTwo Active");
-                    secoundTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[1].Turnspeed > enemies[0].Turnspeed && secoundTurn == false && playerSpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnTwo Active");
-                    secoundTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-            }
-        }
-        void EncounterTurnThree()
-        {
-            if(combatStarted == true && secoundTurn == true)
-            {
-                if(players[0].Turnspeed > enemies[2].Turnspeed && thirdTurn == false && playerSpeed == 0)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[0].Turnspeed > players[2].Turnspeed && thirdTurn == false && enemySpeed == 0)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[1].Turnspeed > enemies[1].Turnspeed && thirdTurn == false && playerSpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[1].Turnspeed > players[1].Turnspeed && thirdTurn == false && enemySpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[2].Turnspeed > enemies[0].Turnspeed && thirdTurn == false && playerSpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[2].Turnspeed > players[0].Turnspeed && thirdTurn == false && enemySpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnThree Active");
-                    thirdTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-            }
-        }
-        void EncounterTurnFour()
-        {
-            if(combatStarted == true && thirdTurn == true)
-            {
-                if(enemySpeed == 3 && fourthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(playerSpeed == 3 && fourthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[2].Turnspeed > enemies[1].Turnspeed && fourthTurn == false && playerSpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[2].Turnspeed > players[1].Turnspeed && fourthTurn == false && enemySpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[1].Turnspeed > enemies[2].Turnspeed && fourthTurn == false && playerSpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    playerSpeed++;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[1].Turnspeed > players[2].Turnspeed && fourthTurn == false && enemySpeed == 1)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFour Active");
-                    fourthTurn = true;
-                    enemySpeed++;
-                    tracker = BattleTracker.Enemyturn;
-                }
-            }
-        }
-        void EncounterTurnFive()
-        {
-            if(combatStarted == true && fourthTurn == true)
-            {
-                if(enemySpeed == 3 && playerSpeed == 1 && fifthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFive Active");
-                    fifthTurn = true;
-                    playerSpeed = 2;
-                    tracker = BattleTracker.Start;
-                }
-                else if(playerSpeed == 3 && enemySpeed == 1 && fifthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFive Active");
-                    fifthTurn = true;
-                    enemySpeed = 2;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(players[2].Turnspeed > enemies[2].Turnspeed && fifthTurn == false && playerSpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFive Active");
-                    fifthTurn = true;
-                    playerSpeed = 3;
-                    tracker = BattleTracker.Start;
-                }
-                else if(enemies[2].Turnspeed > players[2].Turnspeed && fifthTurn == false && enemySpeed == 2)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnFive Active");
-                    fifthTurn = true;
-                    enemySpeed = 3;
-                    tracker = BattleTracker.Enemyturn;
-                }
-            }
-        }
-        void EncounterTurnSix()
-        {
-            if(combatStarted == true && fifthTurn == true)
-            {
-                if(playerSpeed == 3 && enemySpeed == 2 && sixthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnSix Active");
-                    sixthTurn = true;
-                    enemySpeed = 3;
-                    tracker = BattleTracker.Enemyturn;
-                }
-                else if(enemySpeed == 3 && playerSpeed == 2 && sixthTurn == false)
-                {
-                    combatStarted = false;
-                    Console.WriteLine("EncounterTurnSix Active");
-                    sixthTurn = true;
-                    playerSpeed = 3;
-                    tracker = BattleTracker.Start;
-                }
-            }
-        }
-        void EncounterTurnSystemReset()
-        {
-            if(combatStarted == true && playerSpeed == 3 && enemySpeed == 3)
-            {
-                firstTurn = false;
-                secoundTurn = false;
-                thirdTurn = false;
-                fourthTurn = false;
-                fifthTurn = false;
-                sixthTurn = false;
-                playerSpeed = 0;
-                enemySpeed = 0;
-                speedChecked = false;
             }
         }
 
@@ -696,5 +392,79 @@ namespace SuperFantasyMagicProject.Screen
             }
         }
 
+        /// <summary>
+        /// Determines an enemy character's action during its turn.
+        /// Chooses a random living player character and attacks it.
+        /// </summary>
+        private void EnemyTurn()
+        {
+            int randomTarget = rnd.Next(0, 3);
+            while (players[randomTarget].CurrentHealth == 0)
+            {
+                randomTarget = rnd.Next(0, 3);
+            }
+            players[randomTarget].TakeDamage(activeBattler.Damage);
+        }
+
+        /// <summary>
+        /// Runs through all characters in players[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdatePlayers(GameTime gameTime)
+        {
+            foreach (Character player in players)
+            {
+                player.Update(gameTime);
+                if (!player.IsAlive)
+                {
+                    deadBattlers.Add(player);
+                }
+            }
+            if (players.All(player => !player.IsAlive))
+            {
+                battleState = BattleState.PlayerLost;
+                //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Runs through all characters in enemies[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdateEnemies(GameTime gameTime)
+        {
+            foreach (Character enemy in enemies)
+            {
+                enemy.Update(gameTime);
+                if (!enemy.IsAlive)
+                {
+                    deadBattlers.Add(enemy);
+                }
+            }
+            if (enemies.All(enemy => !enemy.IsAlive))
+            {
+                battleState = BattleState.PlayerWon;
+                //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Iterates through the list of dead battlers, and removes them from the next turn cycle.
+        /// </summary>
+        private void RemoveDeadBattlers()
+        {
+            foreach (Character battler in deadBattlers)
+            {
+                if (battlersPending.Contains(battler))
+                {
+                    battlersPending.Remove(battler);
+                }
+
+                if (battlersDone.Contains(battler))
+                {
+                    battlersDone.Remove(battler);
+                }
+            }
+        }
     }
 }

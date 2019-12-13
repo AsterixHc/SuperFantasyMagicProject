@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using SuperFantasyMagicProject.Creatures;
 using SuperFantasyMagicProject.Screen;
 
 namespace SuperFantasyMagicProject
@@ -62,7 +61,7 @@ namespace SuperFantasyMagicProject
             }
             else
             {
-                throw new ArgumentException("Invalid argument used for class Menu constructor. Valid arguments are: GameMenu, TitleMenu");
+                throw new ArgumentException("Invalid argument in Menu's constructor. Valid arguments are: GameMenu, TitleMenu");
             }
         }
 
@@ -90,12 +89,28 @@ namespace SuperFantasyMagicProject
 
         public void Update(GameTime gameTime)
         {
+            HandleInput();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
+            foreach (MenuButton button in buttons)
+            {
+                button.Draw(spriteBatch);
+            }
+        }
+
+        /// <summary>
+        /// Checks and acts on player input. Menu button functionality is defined here.
+        /// </summary>
+        private void HandleInput()
+        {
             foreach (MenuButton button in buttons)
             {
                 button.Update();
             }
 
-            //Button functionality.
             if (Type == MenuType.GameMenu)
             {
                 if (returnButton.Activated)
@@ -104,24 +119,36 @@ namespace SuperFantasyMagicProject
                 }
                 else if (characterButton.Activated)
                 {
-                    //show character sheet
+                    //Change to LevelUpScreen
+                    RogueStats.Experience = 100;
+                    WarriorStats.Experience = 200;
+                    MageStats.Experience = 400;
+
+                    ScreenManager.ChangeScreenTo(new LevelUpScreen());
+
+                    if (MenuManager.IsMenuOpen)
+                    {
+                        MenuManager.CloseMenu();
+                    }
                 }
                 else if (titleButton.Activated)
                 {
+                    //Change to TitleScreen
                     ScreenManager.ChangeScreenTo(new TitleScreen());
                     MenuManager.ChangeMenuTo("TitleMenu");
                 }
                 else if (quitButton.Activated)
                 {
-                    //quit game
+                    //Quit game
+                    MenuManager.ExitFromMenu = true;
+
                 }
             }
             else if (Type == MenuType.TitleMenu)
             {
                 if (playButton.Activated)
                 {
-                    //TODO: Change this for proper game flow
-                    ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
+                    ScreenManager.ChangeScreenTo(new MapScreen());
                     MenuManager.CloseMenu();
                 }
                 else if (controlButton.Activated)
@@ -131,17 +158,9 @@ namespace SuperFantasyMagicProject
                 }
                 else if (quitButton.Activated)
                 {
-                    //quit game
+                    //Quit game
+                    MenuManager.ExitFromMenu = true;
                 }
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1f);
-            foreach (MenuButton button in buttons)
-            {
-                button.Draw(spriteBatch);
             }
         }
 

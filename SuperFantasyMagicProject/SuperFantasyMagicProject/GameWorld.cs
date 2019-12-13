@@ -29,8 +29,6 @@ namespace SuperFantasyMagicProject
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
             //graphics.IsFullScreen = true;
@@ -50,13 +48,10 @@ namespace SuperFantasyMagicProject
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
             //Load the content of the initial game screen.
             ScreenManager.LoadContent(Content);
             //Load menu settings and MenuManager
             MenuManager.LoadContent(Content);
-
         }
 
         /// <summary>
@@ -65,8 +60,6 @@ namespace SuperFantasyMagicProject
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
-
             //Unload the content of the last game screen.
             ScreenManager.UnloadContent();
             MenuManager.UnloadContent();
@@ -82,34 +75,28 @@ namespace SuperFantasyMagicProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-#if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.L))
-            {
-                RogueStats.Experience = 100;
-                WarriorStats.Experience = 200;
-                MageStats.Experience = 400;
-
-                ScreenManager.ChangeScreenTo(new LevelUpScreen());
-
-                if (MenuManager.IsMenuOpen)
-                {
-                    MenuManager.CloseMenu();
-                }
-            }
-#endif
             ScreenManager.Update(gameTime);
             MenuManager.Update(gameTime);
 
-            //Show mouse cursor if menu is open, else hide it.
-            if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            //Set mouse cursor to visible/invisible based on screen and menu state.
+            if (ScreenManager.IsMouseVisible && !IsMouseVisible)
             {
                 IsMouseVisible = true;
             }
-            //else if (!MenuManager.IsMenuOpen && IsMouseVisible)
-            //{
-            //    IsMouseVisible = false;
-            //}
+            else if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (!MenuManager.IsMenuOpen && IsMouseVisible)
+            {
+                IsMouseVisible = false;
+            }
+
+            //Check if exiting from menu
+            if (MenuManager.ExitFromMenu)
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -122,7 +109,6 @@ namespace SuperFantasyMagicProject
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
             ScreenManager.Draw(spriteBatch);
             MenuManager.Draw(spriteBatch);

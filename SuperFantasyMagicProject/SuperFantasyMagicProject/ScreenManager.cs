@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SuperFantasyMagicProject.Screen;
-using SuperFantasyMagicProject.Creatures;
 using SuperFantasyMagicProject.Playable_Characters;
 
 namespace SuperFantasyMagicProject
@@ -24,6 +23,10 @@ namespace SuperFantasyMagicProject
         //The GameScreen that is currently being displayed.
         public static GameScreen currentScreen;
 
+        ///Toogles the mouse cursor visible or invisible, based on what the current screen calls for.
+        ///Any screen that needs the mouse cursor must set this variable to true in its own LoadContent() method.
+        public static bool IsMouseVisible = false;
+
         public static ContentManager ContentManager { get => contentManager; private set => contentManager = value; }
         public static Vector2 ScreenDimensions { get => screenDimensions; private set => screenDimensions = value; }
 
@@ -32,6 +35,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
+            //currentScreen = new SplashScreen();
             currentScreen = new SplashScreen();
         }
 
@@ -41,6 +45,7 @@ namespace SuperFantasyMagicProject
         /// <param name="newScreen">The screen to be changed to. Requires a new instance of type GameScreen.</param>
         public static void ChangeScreenTo(GameScreen newScreen)
         {
+            IsMouseVisible = false;
             currentScreen.UnloadContent();
             currentScreen = newScreen;
             currentScreen.LoadContent();
@@ -61,7 +66,8 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void UnloadContent()
         {
-
+            currentScreen.UnloadContent();
+            contentManager.Unload();
         }
 
         /// <summary>

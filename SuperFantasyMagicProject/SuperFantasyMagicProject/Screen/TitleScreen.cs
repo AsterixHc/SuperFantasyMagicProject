@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SuperFantasyMagicProject.Creatures;
 
 namespace SuperFantasyMagicProject.Screen
 {
     class TitleScreen : GameScreen
     {
-        private KeyboardState previousKS = Keyboard.GetState();
-
         //Variables for handling graphics
         private Texture2D background;
         private string backgroundPath = "TitleScreen/Background";
@@ -28,6 +25,9 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void LoadContent()
         {
+            //Set mouse cursor to visible.
+            ScreenManager.IsMouseVisible = true;
+
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(backgroundPath);
         }
@@ -45,19 +45,6 @@ namespace SuperFantasyMagicProject.Screen
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
-        }
-
-        public override void HandleInput()
-        {
-            //KeyboardState newKS = Keyboard.GetState();
-
-            //if (newKS.IsKeyDown(Keys.Enter) && previousKS.IsKeyUp(Keys.Enter))
-            //{
-            //    //TODO: Modify for proper game flow if/when world map works.
-            //    ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
-            //}
-
-            //previousKS = newKS;
         }
     }
 }
