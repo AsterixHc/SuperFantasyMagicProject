@@ -68,9 +68,8 @@ namespace SuperFantasyMagicProject.Screen
             }
         }
 
-
         /// <summary>
-        /// Checks and acts on player input. This is where the content of battle encounters is specified.
+        /// Checks and acts on player input.
         /// </summary>
         private void HandleInput()
         {
@@ -82,8 +81,8 @@ namespace SuperFantasyMagicProject.Screen
                     ///Using the Activator, create 3 new instances of the enemy types called for by the encounter.
                     ///Since the Activator needs to know the type of the object to be instantiated, Type.GetType is used.
                     ///
-                    ///Type.GetType requires an assembly-qualified name (ie. SuperFantasyMagicProject.Bat) to perform its search,
-                    ///so "SuperFantasyMagicProject." is added in the front of the string containing the class name.
+                    ///Type.GetType requires an assembly-qualified name (ie. SuperFantasyMagicProject.DemonFlower) to perform its search,
+                    ///so "SuperFantasyMagicProject." is added in front of the string that contains the class name.
                     enemy0 = (Character)Activator.CreateInstance(Type.GetType("SuperFantasyMagicProject." + encounter.Enemy0));
                     enemy1 = (Character)Activator.CreateInstance(Type.GetType("SuperFantasyMagicProject." + encounter.Enemy1));
                     enemy2 = (Character)Activator.CreateInstance(Type.GetType("SuperFantasyMagicProject." + encounter.Enemy2));
