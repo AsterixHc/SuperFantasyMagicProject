@@ -22,7 +22,7 @@ namespace SuperFantasyMagicProject
         private Vector2 origin;
 
         private List<MenuButton> buttons;
-        private MenuButton playButton, titleButton, quitButton, returnButton, creditsButton, characterButton;
+        private MenuButton playButton, titleButton, quitButton, returnButton, controlButton, characterButton;
         private Vector2 topButtonPosition;
 
         public Menu(string menuType)
@@ -52,10 +52,10 @@ namespace SuperFantasyMagicProject
                 topButtonPosition = new Vector2(position.X, position.Y - 100);
                 buttons = new List<MenuButton>();
                 playButton = new MenuButton("Play");
-                creditsButton = new MenuButton("Credits");
+                controlButton = new MenuButton("Controls");
                 quitButton = new MenuButton("Quit Game");
                 buttons.Add(playButton);
-                buttons.Add(creditsButton);
+                buttons.Add(controlButton);
                 buttons.Add(quitButton);
                 AlignButtons();
             }
@@ -151,9 +151,10 @@ namespace SuperFantasyMagicProject
                     ScreenManager.ChangeScreenTo(new MapScreen());
                     MenuManager.CloseMenu();
                 }
-                else if (creditsButton.Activated)
+                else if (controlButton.Activated)
                 {
-                    //Show credits
+                    ScreenManager.ChangeScreenTo(new ControlsScreen());
+                    MenuManager.CloseMenu();
                 }
                 else if (quitButton.Activated)
                 {

@@ -52,6 +52,7 @@
     <Compile Include="Creatures\Sangshi.cs" />
     <Compile Include="Creatures\Scorpion.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GameOver\GameOverButton.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Items\Antidote.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="RogueStats.cs" />
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screen\BattleScreen.cs" />
+    <Compile Include="Screen\ControlsScreen.cs" />
+    <Compile Include="Screen\GameOverScreen.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LevelUpScreen.cs" />
     <Compile Include="Screen\MapScreen\EncounterMarker.cs" />
