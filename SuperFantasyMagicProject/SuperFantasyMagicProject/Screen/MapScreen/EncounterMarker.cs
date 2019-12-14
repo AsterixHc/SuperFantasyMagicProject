@@ -68,7 +68,7 @@ namespace SuperFantasyMagicProject
             }
             else
             {
-                throw new ArgumentException("Invalid argument for 'markerType' in MapEncounter's constructor." +
+                throw new ArgumentException("Invalid argument for 'markerType' in MapEncounter's constructor. " +
                         "Valid arguments are integers 1, 2, 3.");
             }
         }

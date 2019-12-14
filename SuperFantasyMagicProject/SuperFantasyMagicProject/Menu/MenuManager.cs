@@ -28,7 +28,7 @@ namespace SuperFantasyMagicProject
         {
             if (menu != null)
             {
-                menu.UnloadContent();
+                menu.UnloadContent(Content);
             }
         }
 
@@ -62,7 +62,7 @@ namespace SuperFantasyMagicProject
             {
                 menu = new Menu(menuType);
                 IsMenuOpen = true;
-                menu.LoadContent();
+                menu.LoadContent(Content);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace SuperFantasyMagicProject
         {
             if (menu != null)
             {
-                menu.UnloadContent();
+                menu.UnloadContent(Content);
                 menu = null;
                 IsMenuOpen = false;
             }
@@ -95,9 +95,9 @@ namespace SuperFantasyMagicProject
         {
             if (menu != null)
             {
-                menu.UnloadContent();
+                menu.UnloadContent(Content);
                 menu = new Menu(menuType);
-                menu.LoadContent();
+                menu.LoadContent(Content);
             }
             else
             {

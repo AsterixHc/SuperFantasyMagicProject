@@ -110,7 +110,7 @@ namespace SuperFantasyMagicProject.Screen
             encounters[4] = new EncounterMarker("DemonFlower", "Hayo", "DemonFlower", 360, 3, true);
             encounters[5] = new EncounterMarker("Sangshi", "Scorpion", "Sangshi", 410, 1, true);
             encounters[6] = new EncounterMarker("Hayo", "Sangshi", "Hayo", 460, 1, true);
-            encounters[7] = new EncounterMarker("Sanghshi", "DemonFlower", "Hayo", 500, 3, true);
+            encounters[7] = new EncounterMarker("Sangshi", "DemonFlower", "Hayo", 500, 3, true);
             encounters[8] = new EncounterMarker("Sangshi", "Sangshi", "Sangshi", 510, 1, true);
             encounters[9] = new EncounterMarker("DemonFlower", "DemonFlower", "DemonFlower", 420, 3, true);
             encounters[10] = new EncounterMarker("Hornet", "Hayo", "Hornet", 320, 2, true);

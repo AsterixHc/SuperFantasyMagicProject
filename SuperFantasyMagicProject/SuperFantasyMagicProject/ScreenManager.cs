@@ -21,7 +21,10 @@ namespace SuperFantasyMagicProject
         private static Vector2 screenDimensions = new Vector2(1920, 1080);
         
         //The GameScreen that is currently being displayed.
-        public static GameScreen currentScreen;
+        public static GameScreen CurrentScreen { get; private set; }
+
+        //Varable for holding any screen that needs to be cached.
+        public static GameScreen CachedScreen { get; private set; }
 
         ///Toogles the mouse cursor visible or invisible, based on what the current screen calls for.
         ///Any screen that needs the mouse cursor must set this variable to true in its own LoadContent() method.
@@ -35,20 +38,19 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void Initialize()
         {
-            //currentScreen = new SplashScreen();
-            currentScreen = new SplashScreen();
+            CurrentScreen = new SplashScreen();
         }
 
         /// <summary>
         /// Changes screens in the game. Unloads old content and loads new content.
         /// </summary>
-        /// <param name="newScreen">The screen to be changed to. Requires a new instance of type GameScreen.</param>
+        /// <param name="newScreen">The screen to be changed to.</param>
         public static void ChangeScreenTo(GameScreen newScreen)
         {
             IsMouseVisible = false;
-            currentScreen.UnloadContent();
-            currentScreen = newScreen;
-            currentScreen.LoadContent();
+            CurrentScreen.UnloadContent();
+            CurrentScreen = newScreen;
+            CurrentScreen.LoadContent();
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace SuperFantasyMagicProject
         public static void LoadContent(ContentManager contentManager)
         {
             ContentManager = new ContentManager(contentManager.ServiceProvider, "Content");
-            currentScreen.LoadContent();
+            CurrentScreen.LoadContent();
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace SuperFantasyMagicProject
         /// </summary>
         public static void UnloadContent()
         {
-            currentScreen.UnloadContent();
+            CurrentScreen.UnloadContent();
             contentManager.Unload();
         }
 
@@ -76,7 +78,7 @@ namespace SuperFantasyMagicProject
         /// <param name="gameTime"></param>
         public static void Update(GameTime gameTime)
         {
-            currentScreen.Update(gameTime);
+            CurrentScreen.Update(gameTime);
         }
 
         /// <summary>
@@ -85,7 +87,24 @@ namespace SuperFantasyMagicProject
         /// <param name="spriteBatch"></param>
         public static void Draw(SpriteBatch spriteBatch)
         {
-            currentScreen.Draw(spriteBatch);
+            CurrentScreen.Draw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Saves the current screen, so that it can be changed back to if necessary.
+        /// </summary>
+        public static void CacheCurrentScreen()
+        {
+            CachedScreen = CurrentScreen;
+        }
+
+        /// <summary>
+        /// Loads the cached screen and makes it active.
+        /// </summary>
+        public static void LoadCachedScreen()
+        {
+            ChangeScreenTo(CachedScreen);
+            CachedScreen = null;
         }
     }
 }

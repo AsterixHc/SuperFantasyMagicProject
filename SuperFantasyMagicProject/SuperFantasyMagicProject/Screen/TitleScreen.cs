@@ -29,6 +29,8 @@ namespace SuperFantasyMagicProject.Screen
             ScreenManager.IsMouseVisible = true;
 
             base.LoadContent();
+
+            //Background
             background = gameScreenContent.Load<Texture2D>(backgroundPath);
         }
 
