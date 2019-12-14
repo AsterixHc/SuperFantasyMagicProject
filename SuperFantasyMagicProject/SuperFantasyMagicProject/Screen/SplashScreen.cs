@@ -12,6 +12,7 @@ namespace SuperFantasyMagicProject.Screen
     class SplashScreen : GameScreen
     {
         private KeyboardState previousKS = Keyboard.GetState();
+        private KeyboardState newKS;
 
         //Variables for handling graphics
         private Texture2D background;
@@ -49,14 +50,14 @@ namespace SuperFantasyMagicProject.Screen
 
         public void HandleInput()
         {
-            KeyboardState KS = Keyboard.GetState();
+            newKS = Keyboard.GetState();
 
-            if (KS.IsKeyDown(Keys.Enter) && previousKS.IsKeyUp(Keys.Enter))
+            if (newKS.GetPressedKeys().Length != 0 && previousKS.GetPressedKeys().Length == 0)
             {
                 ScreenManager.ChangeScreenTo(new TitleScreen());
             }
 
-            previousKS = KS;
+            previousKS = newKS;
         }
     }
 }
