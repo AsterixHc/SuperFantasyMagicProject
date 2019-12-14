@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 using SuperFantasyMagicProject.Screen;
 
@@ -65,23 +66,23 @@ namespace SuperFantasyMagicProject
             }
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager contentManager)
         {
-            texture = MenuManager.Content.Load<Texture2D>(path);
+            texture = contentManager.Load<Texture2D>(path);
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
 
             foreach (MenuButton button in buttons)
             {
-                button.LoadContent();
+                button.LoadContent(contentManager);
 
             }
         }
 
-        public void UnloadContent()
+        public void UnloadContent(ContentManager contentManager)
         {
             foreach (MenuButton button in buttons)
             {
-                button.UnloadContent();
+                button.UnloadContent(contentManager);
             }
 
             MenuManager.Content.Unload();
@@ -89,6 +90,12 @@ namespace SuperFantasyMagicProject
 
         public void Update(GameTime gameTime)
         {
+            //Update buttons.
+            foreach (MenuButton button in buttons)
+            {
+                button.Update();
+            }
+
             HandleInput();
         }
 
@@ -106,11 +113,6 @@ namespace SuperFantasyMagicProject
         /// </summary>
         private void HandleInput()
         {
-            foreach (MenuButton button in buttons)
-            {
-                button.Update();
-            }
-
             if (Type == MenuType.GameMenu)
             {
                 if (returnButton.Activated)
@@ -119,17 +121,16 @@ namespace SuperFantasyMagicProject
                 }
                 else if (characterButton.Activated)
                 {
-                    //Change to LevelUpScreen
+                    //Cache the current screen, so that it can be returned to.
+                    ScreenManager.CacheCurrentScreen();
+#if DEBUG
                     RogueStats.Experience = 100;
                     WarriorStats.Experience = 200;
                     MageStats.Experience = 400;
-
+#endif
+                    //Change to LevelUpScreen
                     ScreenManager.ChangeScreenTo(new LevelUpScreen());
-
-                    if (MenuManager.IsMenuOpen)
-                    {
-                        MenuManager.CloseMenu();
-                    }
+                    MenuManager.CloseMenu();
                 }
                 else if (titleButton.Activated)
                 {

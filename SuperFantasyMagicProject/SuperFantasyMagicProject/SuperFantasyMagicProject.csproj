@@ -44,6 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Buttons\ArrowButton.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Creatures\Bat.cs" />
     <Compile Include="Creatures\DemonFlower.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Items\StatUp.cs" />
     <Compile Include="MageStats.cs" />
     <Compile Include="Menu\Menu.cs" />
-    <Compile Include="Menu\MenuButton.cs" />
+    <Compile Include="Buttons\MenuButton.cs" />
     <Compile Include="Menu\MenuManager.cs" />
     <Compile Include="Playable Characters\Mage.cs" />
     <Compile Include="Playable Characters\Rogue.cs" />

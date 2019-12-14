@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace SuperFantasyMagicProject.Screen
 {
@@ -13,7 +12,9 @@ namespace SuperFantasyMagicProject.Screen
 
     class LevelUpScreen : GameScreen
     {
-        private KeyboardState previousKS = Keyboard.GetState();
+        //Buttons
+        MenuButton commitButton, returnButton;
+        ArrowButton prevCharacterButton, nextCharacterButton;
 
         //Graphics relevant variables
         private SpriteFont font;
@@ -28,8 +29,9 @@ namespace SuperFantasyMagicProject.Screen
         private string mageImagePath = "LevelUpScreen/MageFullBody";
 
         //Variables relevant to handling the currently active character.
-        private ClassType activeCharacter = ClassType.Rogue;
+        private ClassType activeCharacter;
         private Texture2D activeCharacterImage;
+
 
         /// <summary>
         /// Read-only property that accesses the level variable in the character stat classes.
@@ -235,18 +237,38 @@ namespace SuperFantasyMagicProject.Screen
 
         public LevelUpScreen()
         {
+            commitButton = new MenuButton("Commit Changes");
+            returnButton = new MenuButton("Return");
+            prevCharacterButton = new ArrowButton("Left");
+            nextCharacterButton = new ArrowButton("Right");
             activeCharacter = ClassType.Rogue;
+            PositionButtons();
         }
 
         public override void LoadContent()
         {
+            //Set mouse cursor to visible.
+            ScreenManager.IsMouseVisible = true;
+
             base.LoadContent();
-            font = gameScreenContent.Load<SpriteFont>(fontPath);
+
+            //Background
             background = gameScreenContent.Load<Texture2D>(backgroundPath);
+
+            //Text
+            font = gameScreenContent.Load<SpriteFont>(fontPath);
+            
+            //Character standing images
             rogueImage = gameScreenContent.Load<Texture2D>(rogueImagePath);
             warriorImage = gameScreenContent.Load<Texture2D>(warriorImagePath);
             mageImage = gameScreenContent.Load<Texture2D>(mageImagePath);
             activeCharacterImage = rogueImage;
+
+            //Buttons
+            prevCharacterButton.LoadContent(gameScreenContent);
+            nextCharacterButton.LoadContent(gameScreenContent);
+            returnButton.LoadContent(gameScreenContent);
+            commitButton.LoadContent(gameScreenContent);
         }
 
         public override void UnloadContent()
@@ -257,29 +279,30 @@ namespace SuperFantasyMagicProject.Screen
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (activeCharacter == ClassType.Rogue)
-            {
-                activeCharacterImage = rogueImage;
-                //display current stats (?? hvad har jeg ment med dette?)
-            }
-            else if (activeCharacter == ClassType.Warrior)
-            {
-                activeCharacterImage = warriorImage;
-                //display current stats
-            }
-            else
-            {
-                activeCharacterImage = mageImage;
-                //display current stats
-            }
+
+            //Update buttons.
+            commitButton.Update();
+            returnButton.Update();
+            prevCharacterButton.Update();
+            nextCharacterButton.Update();
 
             HandleInput();
+            UpdateStandingImage();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw backgrund and character image
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(activeCharacterImage, new Vector2(280, 210), Color.White);
+
+            //Draw buttons
+            prevCharacterButton.Draw(spriteBatch);
+            nextCharacterButton.Draw(spriteBatch);
+            returnButton.Draw(spriteBatch);
+            commitButton.Draw(spriteBatch);
+
+            //Draw stats
             spriteBatch.DrawString(font, "Level " + activeCharacterLevel, new Vector2(900, 200), Color.Sienna);
             spriteBatch.DrawString(font, "Health " + activeCharacterHealth, new Vector2(900, 300), Color.Sienna);
             spriteBatch.DrawString(font, "Stat points remaining: " + activeCharacterStatPoints, new Vector2(900, 400), Color.Sienna);
@@ -287,30 +310,59 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.DrawString(font, "Agility: " + activeCharacterAgility, new Vector2(900, 600), Color.Sienna);
             spriteBatch.DrawString(font, "Intelligence: " + activeCharacterIntelligence, new Vector2(900, 700), Color.Sienna);
             spriteBatch.DrawString(font, "Speed: " + activeCharacterSpeed, new Vector2(900, 800), Color.Sienna);
-
         }
 
+        /// <summary>
+        /// Acts on player input.
+        /// </summary>
         public void HandleInput()
         {
-            KeyboardState KS = Keyboard.GetState();
-
-            if (KS.IsKeyDown(Keys.Enter) && previousKS.IsKeyUp(Keys.Enter))
+            if (prevCharacterButton.Activated)
             {
-                if (activeCharacter == ClassType.Rogue)
+                //Cycle to previous character.
+                switch (activeCharacter)
                 {
-                    activeCharacter = ClassType.Warrior;
-                }
-                else if (activeCharacter == ClassType.Warrior)
-                {
-                    activeCharacter = ClassType.Mage;
-                }
-                else
-                {
-                    activeCharacter = ClassType.Rogue;
+                    case ClassType.Rogue:
+                        activeCharacter = ClassType.Mage;
+                        break;
+                    case ClassType.Warrior:
+                        activeCharacter = ClassType.Rogue;
+                        break;
+                    case ClassType.Mage:
+                        activeCharacter = ClassType.Warrior;
+                        break;
+                    default:
+                        break;
                 }
             }
-
-            previousKS = KS;
+            else if (nextCharacterButton.Activated)
+            {
+                //Cycle to next character.
+                switch (activeCharacter)
+                {
+                    case ClassType.Rogue:
+                        activeCharacter = ClassType.Warrior;
+                        break;
+                    case ClassType.Warrior:
+                        activeCharacter = ClassType.Mage;
+                        break;
+                    case ClassType.Mage:
+                        activeCharacter = ClassType.Rogue;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (returnButton.Activated)
+            {
+                //Return to the previous screen from which LevelUpScreen was opened.
+                ScreenManager.LoadCachedScreen();
+            }
+            else if (commitButton.Activated)
+            {
+                //Commit any pending changes to stats.
+                //TODO: Implement this.
+            }
         }
 
         public void IncreaseStat()
@@ -318,5 +370,34 @@ namespace SuperFantasyMagicProject.Screen
             //Select Stats to Increase
         }
 
+        /// <summary>
+        /// Sets position of buttons on LevelUpScreen.
+        /// </summary>
+        private void PositionButtons()
+        {
+            commitButton.Position = new Vector2(1080, 950);
+            returnButton.Position = new Vector2(1430, 950);
+            prevCharacterButton.Position = new Vector2(175, 535);
+            nextCharacterButton.Position = new Vector2(1750, 535);
+        }
+
+        /// <summary>
+        /// Changes the standing character image if active character has changed.
+        /// </summary>
+        private void UpdateStandingImage()
+        {
+            if (activeCharacter == ClassType.Rogue && activeCharacterImage != rogueImage)
+            {
+                activeCharacterImage = rogueImage;
+            }
+            else if (activeCharacter == ClassType.Warrior && activeCharacterImage != warriorImage)
+            {
+                activeCharacterImage = warriorImage;
+            }
+            else if (activeCharacter == ClassType.Mage && activeCharacterImage != mageImage)
+            {
+                activeCharacterImage = mageImage;
+            }
+        }
     }
 }
