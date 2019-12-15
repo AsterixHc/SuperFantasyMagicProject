@@ -46,33 +46,10 @@ namespace SuperFantasyMagicProject
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-        }
-
-        public override int Attack()
-        {
-            //Attack at random against Player
-            //Attack random enemy in an array
-            return 0;
-        }
-
         public override void SpecialAttack()
         {
             //Applies Screatch against Player (100% of the time)
             //Reduce Player Strength and Health
-        }
-
-        public override void TakeDamage(int dmg)
-        {
-            //Reduce currentHealth by damage amount
-            CurrentHealth -= dmg;
         }
     }
 }
