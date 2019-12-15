@@ -117,13 +117,6 @@ namespace SuperFantasyMagicProject.Playable_Characters
             spriteBatch.Draw(texture, Position, null, Color.White, 0f, origin, 2, SpriteEffects.None, 1f);
         }
 
-        public override int Attack()
-        {
-            //Choose an Enemy from the Enemy Array
-            //Attack the chosen enemy in the Array
-            return 0;
-        }
-
         public override void SpecialAttack()
         {
             //Healing Self or Allies

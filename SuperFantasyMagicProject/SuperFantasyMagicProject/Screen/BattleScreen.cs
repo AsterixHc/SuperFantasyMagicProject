@@ -199,33 +199,30 @@ namespace SuperFantasyMagicProject.Screen
 
             if (targetCharacter == null)
             {
-                if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive)
+                if (newKS.IsKeyDown(Keys.D1) && previousKS.IsKeyUp(Keys.D1) && enemies[0].IsAlive)
                 {
                     targetCharacter = enemies[0];
-                    Console.WriteLine("Enemy 1 targeted");
                 }
-                else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive)
+                else if (newKS.IsKeyDown(Keys.D2) && previousKS.IsKeyUp(Keys.D2) && enemies[1].IsAlive)
                 {
                     targetCharacter = enemies[1];
-                    Console.WriteLine("Enemy 2 targeted");
-
                 }
-                else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive)
+                else if (newKS.IsKeyDown(Keys.D3) && previousKS.IsKeyUp(Keys.D3) && enemies[2].IsAlive)
                 {
                     targetCharacter = enemies[2];
-                    Console.WriteLine("Enemy 3 targeted");
                 }
             }
             else
             {
-                if (newKS.IsKeyDown(Keys.D))
+                if (newKS.IsKeyDown(Keys.D) && previousKS.IsKeyUp(Keys.D))
                 {
-                    targetCharacter.TakeDamage(activeBattler.Damage);
+                    activeBattler.Attack(targetCharacter);
                     targetCharacter = null;
                     battleState = BattleState.Battling;
-                    Console.WriteLine("Who attacked: " + activeBattler + " + " + RogueStats.Damage);
                 }
             }
+
+            previousKS = newKS;
         }
 
         /// <summary>
@@ -234,12 +231,12 @@ namespace SuperFantasyMagicProject.Screen
         /// </summary>
         private void EnemyTurn()
         {
-            int randomTarget = rnd.Next(0, 3);
-            while (players[randomTarget].CurrentHealth == 0)
+            int randomTarget;
+            do
             {
                 randomTarget = rnd.Next(0, 3);
-            }
-            players[randomTarget].TakeDamage(activeBattler.Damage);
+            } while (!players[randomTarget].IsAlive);
+            activeBattler.Attack(players[randomTarget]);
         }
 
         /// <summary>

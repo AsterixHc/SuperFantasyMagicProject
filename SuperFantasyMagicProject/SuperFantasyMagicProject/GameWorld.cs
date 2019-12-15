@@ -31,7 +31,7 @@ namespace SuperFantasyMagicProject
         {
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             graphics.HardwareModeSwitch = false; //why does this work in fullscreen and not in widowed?
             graphics.ApplyChanges();
 

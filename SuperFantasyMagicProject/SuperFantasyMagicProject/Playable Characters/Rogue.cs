@@ -120,14 +120,6 @@ namespace SuperFantasyMagicProject.Playable_Characters
             spriteBatch.Draw(texture, Position, null, Color.White, 0f, origin, 2, SpriteEffects.None, 1f);
         }
 
-        public override int Attack()
-        {
-
-            //Choose an Enemy from the enemy array
-            //Choose enemy from enemy array
-            return 0;
-        }
-
         public override void SpecialAttack()
         {
             //Item is always the same from the same monster

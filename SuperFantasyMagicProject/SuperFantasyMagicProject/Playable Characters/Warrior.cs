@@ -121,17 +121,6 @@ namespace SuperFantasyMagicProject.Playable_Characters
             spriteBatch.Draw(texture, Position, null, Color.White, 0f, origin, 2, SpriteEffects.None, 1f);
         }
 
-        public override int Attack()
-        {
-            //Choose an Enemy from enemy array
-            //Attack the chosen enemy in the Array
-            //Character damage = 20 + (10% * Player.Strength)
-
-            return 0; // Needs to be fixed sooner rather than later!!
-
-            //ScreenManager.currentScreen.
-        }
-
         public override void SpecialAttack()
         {
             //Attack all Enemies

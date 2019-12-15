@@ -170,14 +170,25 @@ namespace SuperFantasyMagicProject
 
         #endregion
 
-        public abstract int Attack();
+        /// <summary>
+        /// Attacks another character. Attempts to deal attacking character's damage to target character.
+        /// </summary>
+        /// <param name="target">The target character to take damage</param>
+        public virtual void Attack(Character target)
+        {
+            target.TakeDamage(Damage);
+        }
 
         public abstract void SpecialAttack();
 
-        public virtual void TakeDamage(int dmg)
+        /// <summary>
+        /// Takes damage. Attempts to reduce character's current health by the specified amount.
+        /// </summary>
+        /// <param name="damage">The amount of damage to take</param>
+        public virtual void TakeDamage(int damage)
         {
             //Reduce currentHealth by damage amount
-            CurrentHealth -= dmg;
+            CurrentHealth -= damage;
         }
 
         public virtual void Flee()
