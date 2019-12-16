@@ -35,7 +35,7 @@ namespace SuperFantasyMagicProject.Screen
         protected float fps=4;
         private float timeElasped;
         private int currentIndex;
-
+        private int selectedAttack;
         private int expValue;
         public int ExpValue { get => expValue; private set => expValue = value; }
 
@@ -206,6 +206,23 @@ namespace SuperFantasyMagicProject.Screen
                 {
                     battleState = BattleState.Waiting;
                 }
+
+                if(selectedAttack == 2)
+                {
+                    if(activeBattler == players[2])
+                    {
+                        SpecialAttackMage();
+                    }
+                    else if (activeBattler == players[1])
+                    {
+                        SpecialAttackWarrior();
+                    }
+                    else if (activeBattler == players[0])
+                    {
+                        SpecialAttackRogue();
+                    }
+                }
+                
                 HandleInput();
             }
             //If active battler is an enemy character
@@ -276,27 +293,125 @@ namespace SuperFantasyMagicProject.Screen
         {
             newKS = Keyboard.GetState();
 
-            if (targetCharacter == null)
+            if (newKS.IsKeyDown(Keys.A))
             {
-                if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive())
+                selectedAttack = 1;
+            }
+            else if (newKS.IsKeyDown(Keys.S))
+            {
+                selectedAttack = 2;
+            }
+
+            if(selectedAttack == 1)
+            {
+                //Normal attack command
+                if (targetCharacter == null)
                 {
-                    targetCharacter = enemies[0];
+                    if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive())
+                    {
+                        targetCharacter = enemies[0];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive())
+                    {
+                        targetCharacter = enemies[1];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive())
+                    {
+                        targetCharacter = enemies[2];
+                    }
                 }
-                else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive())
+                else
                 {
-                    targetCharacter = enemies[1];
-                }
-                else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive())
-                {
-                    targetCharacter = enemies[2];
+                    if (newKS.IsKeyDown(Keys.D))
+                    {
+                        targetCharacter.TakeDamage(activeBattler.Damage);
+                        targetCharacter = null;
+                        selectedAttack = 0;
+                        battleState = BattleState.Battling;
+                    }
                 }
             }
-            else
+            
+        }
+
+        private void SpecialAttackMage()
+        {
+
+            //Special attack command
+            if (selectedAttack == 2)
             {
-                if (newKS.IsKeyDown(Keys.D))
+                if (activeBattler == players[2])
                 {
-                    targetCharacter.TakeDamage(activeBattler.Damage);
-                    targetCharacter = null;
+                    if (newKS.IsKeyDown(Keys.D1) && players[0].MaxHealth != players[0].CurrentHealth)
+                    {
+                        targetCharacter = players[0];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D2) && players[1].MaxHealth != players[1].CurrentHealth)
+                    {
+                        targetCharacter = players[1];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D3) && players[2].MaxHealth != players[2].CurrentHealth)
+                    {
+                        targetCharacter = players[2];
+                    }
+
+                    if (newKS.IsKeyDown(Keys.D))
+                    {
+                        targetCharacter.CurrentHealth += 20;
+                        targetCharacter = null;
+                        selectedAttack = 0;
+                        battleState = BattleState.Battling;
+                    }
+                }
+            }
+
+        }
+
+        private void SpecialAttackWarrior()
+        {
+            if(selectedAttack == 2)
+            {
+                int warriorAoEDmg = players[1].Damage / 4;
+
+                enemies[0].TakeDamage(warriorAoEDmg);
+                enemies[1].TakeDamage(warriorAoEDmg);
+                enemies[2].TakeDamage(warriorAoEDmg);
+                selectedAttack = 0;
+                battleState = BattleState.Battling;
+            }
+        }
+
+        private void SpecialAttackRogue()
+        {
+
+            if(selectedAttack == 2)
+            {
+
+                if (targetCharacter == null)
+                {
+                    if (newKS.IsKeyDown(Keys.D1) && enemies[0].IsAlive())
+                    {
+                        targetCharacter = enemies[0];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D2) && enemies[1].IsAlive())
+                    {
+                        targetCharacter = enemies[1];
+                    }
+                    else if (newKS.IsKeyDown(Keys.D3) && enemies[2].IsAlive())
+                    {
+                        targetCharacter = enemies[2];
+                    }
+
+                }
+
+                if(targetCharacter != null)
+                {
+                    int rogueLifeSteal = players[0].Damage / 2;
+
+                    targetCharacter.TakeDamage(rogueLifeSteal);
+                    players[0].CurrentHealth += rogueLifeSteal;
+
+                    selectedAttack = 0;
                     battleState = BattleState.Battling;
                 }
             }
