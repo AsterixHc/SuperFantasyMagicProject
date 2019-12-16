@@ -18,7 +18,8 @@ namespace SuperFantasyMagicProject
         {
             texturePath = "Enemies/Bat/Pink/Animation 1/PinkBat1.";
 
-            baseHealth = 30;
+            //baseHealth = 30;
+            baseHealth = 7000;
             baseMana = 50;
             baseCritical = 0.05;
 

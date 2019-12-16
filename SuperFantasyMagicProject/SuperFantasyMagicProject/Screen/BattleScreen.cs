@@ -381,7 +381,7 @@ namespace SuperFantasyMagicProject.Screen
             if (players.All(player => !player.IsAlive))
             {
                 battleState = BattleState.PlayerLost;
-                //Maybe screen transition here
+                ScreenManager.ChangeScreenTo(new GameOverScreen());
             }
         }
 
