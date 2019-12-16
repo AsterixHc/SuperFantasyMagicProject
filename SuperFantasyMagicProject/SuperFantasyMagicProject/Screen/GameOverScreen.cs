@@ -35,6 +35,7 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void LoadContent()
         {
+            ScreenManager.IsMouseVisible = true;
             base.LoadContent();
             background = gameScreenContent.Load<Texture2D>(backgroundPath);
 
@@ -68,11 +69,16 @@ namespace SuperFantasyMagicProject.Screen
             if (respawnButton.Activated)
             {
                 //Respawn player
+                RogueStats.CurrentHealth = RogueStats.MaxHealth;
+                WarriorStats.CurrentHealth = WarriorStats.MaxHealth;
+                MageStats.CurrentHealth = MageStats.MaxHealth;
+                ScreenManager.ChangeScreenTo(new MapScreen());
             }
 
             if (quitButton.Activated)
             {
                 //Exit game
+                MenuManager.ExitFromMenu = true;
             }
 
         }

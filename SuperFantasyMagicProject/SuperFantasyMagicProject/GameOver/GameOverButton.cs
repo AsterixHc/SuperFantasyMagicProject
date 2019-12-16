@@ -16,7 +16,7 @@ namespace SuperFantasyMagicProject
 
         private string text;
         private SpriteFont font;
-        private string fontPath = "Menus/Button/Font";
+        private string fontPath = "Buttons/MenuButton/Font";
         private Vector2 textDimension;
         private Color textColor = Color.White;
 
@@ -74,7 +74,7 @@ namespace SuperFantasyMagicProject
 
             if(mouseRectangle.Intersects(collisionBox))
             {
-                if(currentMS.LeftButton==ButtonState.Pressed && previousMS.LeftButton==ButtonState.Released && isDown)
+                if(currentMS.LeftButton==ButtonState.Pressed && previousMS.LeftButton==ButtonState.Released && !isDown)
                 {
                     isDown = true;
                 }
@@ -109,7 +109,6 @@ namespace SuperFantasyMagicProject
             previousMS = currentMS;
         }
 
-
         public void DrawCollosion(SpriteBatch spriteBatch)
         {
             Rectangle top = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, collisionBox.Width, 1);
@@ -123,6 +122,5 @@ namespace SuperFantasyMagicProject
         {
             Rectangle top = new Rectangle((int)currentMS.X, (int)currentMS.Y, 1, 1);
         }
-
     }
 }
