@@ -254,7 +254,11 @@ namespace SuperFantasyMagicProject.Screen
             }
             previousKS = newKS;
         }
-
+        /// <summary>
+        /// Special attack for the player character called "Mage"
+        /// if speccial attack selected and mage is the active character this action will be used
+        /// healing the selected player character for 20 but can´t go above maxhealth value
+        /// </summary>
         private void SpecialAttackMage()
         {
 
@@ -287,7 +291,11 @@ namespace SuperFantasyMagicProject.Screen
             }
 
         }
-
+        /// <summary>
+        /// Special attack for the player character called "Warrior"
+        /// if special attack selected and warrior is the active character this action will be used
+        /// dealing warrior.dmg/4 to all enemy characters making him deal only 75% of his total damage but across all enemies
+        /// </summary>
         private void SpecialAttackWarrior()
         {
             if (selectedAttack == 2)
@@ -301,7 +309,11 @@ namespace SuperFantasyMagicProject.Screen
                 battleState = BattleState.Battling;
             }
         }
-
+        /// <summary>
+        /// Special Attack for the player character called "Rogue"
+        /// if special attack selected and rogue is the active character this action will be used
+        /// dealing half of Rogue.dmg as damage to the enemy and half as healing to the character
+        /// </summary>
         private void SpecialAttackRogue()
         {
 
