@@ -8,14 +8,132 @@ namespace SuperFantasyMagicProject
 {
     public static class RogueStats
     {
-        public static int maxHealth = 150;
-        public static int currentHealth = 150;
-        public static int mana = 100;
-        public static int strenght = 10;
-        public static int agility = 10;
-        public static int intelligence = 10;
-        public static int damage = 20;
+        private static int baseHealth = 100;
+        private static int baseMana = 100;
+        private static double baseCritical = 0.10;
+
+        private static int strength = 10;
+        private static int agility = 10;
+        private static int intelligence = 10;
+
+        private static int maxHealth = baseHealth + Strenght * 10;
+        private static int currentHealth = maxHealth;
+
+        private static int maxMana = baseMana + Intelligence * 10;
+        private static int currentMana = maxMana;
+
+        private static int damage = agility * 2;
+        private static double critical = baseCritical + intelligence / 10;
+        private static int turnSpeed = agility / 2;
+
         private static int experience = 0;
+        private static int level = 1;
+        private static bool hasLevelUp = false;
+        private static int statPoints = 0;
+
+        #region Properties
+
+        public static int Strenght
+        {
+            get { return strength; }
+            set
+            {
+                strength = value;
+                MaxHealth = baseHealth + strength * 10;
+            }
+        }
+
+        public static int Agility
+        {
+            get { return agility; }
+            set
+            {
+                agility = value;
+                TurnSpeed = agility / 2;
+                Damage = agility * 2;
+            }
+        }
+
+        public static int Intelligence
+        {
+            get { return intelligence; }
+            set
+            {
+                intelligence = value;
+                MaxMana = baseMana + Intelligence * 10;
+                Critical = baseCritical + intelligence / 10;
+            }
+        }
+
+        public static int MaxHealth
+        {
+            get { return maxHealth; }
+            private set
+            {
+                maxHealth = value;
+
+                if (CurrentHealth > value)
+                {
+                    CurrentHealth = value;
+                }
+            }
+        }
+
+        public static int CurrentHealth
+        {
+            get { return currentHealth; }
+            set
+            {
+                if (value <= MaxHealth && value >= 0)
+                {
+                    currentHealth = value;
+                }
+                else if (value < 0)
+                {
+                    currentHealth = 0;
+                }
+                else if (value > MaxHealth)
+                {
+                    currentHealth = MaxHealth;
+                }
+            }
+        }
+
+        public static int MaxMana
+        {
+            get { return maxMana; }
+            private set
+            {
+                maxMana = value;
+
+                if (CurrentMana > value)
+                {
+                    CurrentMana = value;
+                }
+            }
+        }
+
+        public static int CurrentMana
+        {
+            get { return currentMana; }
+            set { currentMana = value; }
+        }
+
+        public static int Damage
+        {
+            get { return damage; }
+            private set
+            {
+                if (value >= 0)
+                {
+                    damage = value;
+                }
+            }
+        }
+
+        public static double Critical { get; private set; }
+
+        public static int TurnSpeed { get; private set; }
 
         public static int Experience
         {
@@ -26,7 +144,7 @@ namespace SuperFantasyMagicProject
                 {
                     experience = value;
                     //TODO: Change this so that levels require increasingly more experience.
-                    if (Experience / Level >= 100)
+                    while (Experience / Level >= 100)
                     {
                         Level += 1;
                         HasLevelUp = true;
@@ -36,11 +154,36 @@ namespace SuperFantasyMagicProject
             }
         }
 
-        public static int Level { get; set; } = 1;
-        public static bool HasLevelUp { get; private set; } = false;
-        public static int StatPoints { get; private set; } = 0;
+        public static int Level
+        {
+            get { return level; }
+            private set
+            {
+                if (value > 0)
+                {
+                    level = value;
+                }
+            }
+        }
 
-        public static int turnSpeed = 10;
-        public static double critical = 0.05;
+        public static bool HasLevelUp
+        {
+            get { return hasLevelUp; }
+            private set { hasLevelUp = value; }
+        }
+
+        public static int StatPoints
+        {
+            get { return statPoints; }
+            set
+            {
+                if (value >= 0)
+                {
+                    statPoints = value;
+                }
+            }
+        }
+
+        #endregion
     }
 }

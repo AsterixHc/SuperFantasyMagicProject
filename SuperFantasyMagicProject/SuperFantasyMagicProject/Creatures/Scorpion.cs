@@ -3,46 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace SuperFantasyMagicProject.Creatures
+namespace SuperFantasyMagicProject
 {
     class Scorpion : Character
     {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Scorpion()
         {
+            texturePath = "Enemies/Scorpion/Black/Animation 1/Scorpion1.";
 
+            baseHealth = 30;
+            baseMana = 50;
+            baseCritical = 0.05;
+
+            Strength = 4;       //Every point of Strength adds 10 to MaxHealth, and 2 to Damage.
+            Agility = 8;        //Every two points of Agility adds 1 to TurnSpeed.
+            Intelligence = 2;   //Every point of Intelligence adds 10 to MaxMana, and 0.1 to Critical
+
+            CurrentHealth = MaxHealth;
+            CurrentMana = MaxMana;
         }
 
-        public Scorpion(Random rnd, int maxHealth, int currentHealth, int mana, int strenght, int agility, int intelligence)
+        public override void LoadContent(ContentManager content)
         {
-            this.rnd = rnd;
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = currentHealth;
-            this.Mana = mana;
-            this.Strenght = strenght;
-            this.Agility = agility;
-            this.Intelligence = intelligence;
-        }
+            //Load textures.
+            textures = new Texture2D[3];
 
-        public override int Attack()
-        {
-            //Attack at random against Player
-            //Attack random enemy in an array
-            return 0;
+            for (int i = 0; i < textures.Length; i++)
+            {
+                textures[i] = content.Load<Texture2D>(texturePath + (i + 1));
+            }
 
+            texture = textures[0];
+
+            //Set origin.
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
         public override void SpecialAttack()
         {
-            //Attack at random against Player with "Poisen sting"
-            //Apply Poisen on Target
-            //Poisen should deal a small about of dmg every time the poisened character has a turn ( 1-2% of max health)
-        }
-
-        public override void TakeDamage(int dmg)
-        {
-            //Reduce currentHealth by damage amount
-            throw new NotImplementedException();
+            //Applies Screatch against Player (100% of the time)
+            //Reduce Player Strength and Health
         }
     }
 }

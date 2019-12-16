@@ -29,13 +29,10 @@ namespace SuperFantasyMagicProject
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
-            //graphics.IsFullScreen = true;
-
-            //Change screen size to the value stored in ScreenManager.ScreenDimensions.
             graphics.PreferredBackBufferWidth = (int)ScreenManager.ScreenDimensions.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.ScreenDimensions.Y;
+            graphics.IsFullScreen = true;
+            graphics.HardwareModeSwitch = false; //why does this work in fullscreen and not in widowed?
             graphics.ApplyChanges();
 
             ScreenManager.Initialize();
@@ -51,10 +48,10 @@ namespace SuperFantasyMagicProject
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
             //Load the content of the initial game screen.
             ScreenManager.LoadContent(Content);
+            //Load menu settings and MenuManager
+            MenuManager.LoadContent(Content);
         }
 
         /// <summary>
@@ -63,10 +60,9 @@ namespace SuperFantasyMagicProject
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
-
             //Unload the content of the last game screen.
             ScreenManager.UnloadContent();
+            MenuManager.UnloadContent();
         }
 
         /// <summary>
@@ -79,22 +75,28 @@ namespace SuperFantasyMagicProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-#if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.L))
-            {
-
-                if (RogueStats.Experience != 100)
-                    RogueStats.Experience = 100;
-                if (WarriorStats.Experience != 100)
-                    WarriorStats.Experience = 100;
-                if (MageStats.Experience != 100)
-                    MageStats.Experience = 100;
-
-                ScreenManager.ChangeScreenTo(new LevelUpScreen());
-            }
-#endif
             ScreenManager.Update(gameTime);
+            MenuManager.Update(gameTime);
+
+            //Set mouse cursor to visible/invisible based on screen and menu state.
+            if (ScreenManager.IsMouseVisible && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (MenuManager.IsMenuOpen && !IsMouseVisible)
+            {
+                IsMouseVisible = true;
+            }
+            else if (!MenuManager.IsMenuOpen && IsMouseVisible)
+            {
+                IsMouseVisible = false;
+            }
+
+            //Check if exiting from menu
+            if (MenuManager.ExitFromMenu)
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -107,9 +109,9 @@ namespace SuperFantasyMagicProject
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
             ScreenManager.Draw(spriteBatch);
+            MenuManager.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -12,182 +12,106 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SuperFantasyMagicProject.Screen
 {
-    enum BattleTracker { Playerturn,Playerattack, Enemyturn, Enemyattack, start }
+    enum BattleState { Battling, Waiting, PlayerWon, PlayerLost}
 
     class BattleScreen : GameScreen
     {
-        BattleTracker tracker;
-        Song song;
-        Random rnd;
+        //Input
+        private KeyboardState previousKS = Keyboard.GetState();
+        private KeyboardState newKS;
 
-        //Players
-        protected Texture2D[] knightStanding;
-        protected Texture2D[] jeremyStanding;
-        protected Texture2D[] marthaStanding;
-
-        //Enemies
-        protected Texture2D[] batStanding;
-        protected Texture2D[] demonFlowerStanding;
-        protected Texture2D[] hayuStanding;
-        protected Texture2D[] hornetStanding;
-        protected Texture2D[] sangshiStanding;
-        protected Texture2D[] scorpionStanding;
-
-        protected float fps=4;
-        private float timeElasped;
-        private int currentIndex;
-
-        private int expValue;
-        int enemyTarget = 0;
-        public int ExpValue { get => expValue; private set => expValue = value; }
-
-        //Background image for the battle screen.
+        //Graphics
         private Texture2D background;
         private string path = "BattleScreen/Background";
 
-        //Textures for enemy and player characters.
-        private Texture2D enemy0Sprite, enemy1Sprite, enemy2Sprite, player0Sprite, player1Sprite, player2Sprite;        private SpriteFont hp;
-        private string hpOnScreen = "hpOnScreen";        int targetedPlayer;
+        //Text
+        private string text;
+        private SpriteFont font;
+        private string fontPath = "hpOnScreen";
+        private Vector2 textDimensions;
+        private Color textColor = Color.Red;
 
-        //Fixed positions for screen elements (players, enemies)
-        Vector2 player0Position = new Vector2(220, 220);
-        Vector2 player1Position = new Vector2(220, 450);
-        Vector2 player2Position = new Vector2(220, 700);
-        Vector2 enemy0Position = new Vector2(1710, 220);
-        Vector2 enemy1Position = new Vector2(1710, 460);
-        Vector2 enemy2Position = new Vector2(1710, 700);        
+        //Audio
+        private Song song;
+        //Fixed positions for battlers (players, enemies)
+        Vector2 player0Position = new Vector2(350, 510);
+        Vector2 player1Position = new Vector2(350, 660);
+        Vector2 player2Position = new Vector2(350, 910);
+        Vector2 enemy0Position = new Vector2(1640, 490);
+        Vector2 enemy1Position = new Vector2(1640, 690);
+        Vector2 enemy2Position = new Vector2(1640, 890);        
 
-        //Array for holding players
+        //Battle flow
+        private Random rnd = new Random();
         private Character[] players = new Character[3];
-
-        //Array for holding enemies
         private Character[] enemies = new Character[3];
+        private List<Character> battlersPending = new List<Character>(6);
+        private List<Character> battlersDone = new List<Character>(6);
+        private List<Character> deadBattlers = new List<Character>(5);
+        private Character activeBattler = null;
+        private Character targetCharacter;
+        private BattleState battleState = BattleState.Battling;
+        
+        public int ExpValue { get; private set; }
 
         /// <summary>
-        /// Default constructor.
+        /// Constructor that specifies enemies and experience value.
         /// </summary>
-        public BattleScreen()
-        {
-
-        }
-
-
-        /// <summary>
-        /// Constructor that specifies enemies and players.
-        /// </summary>
-        /// <param name="player0">The first player (top)</param>
-        /// <param name="player1">The second player (middle)</param>
-        /// <param name="player2">The third player (bottom)</param>
         /// <param name="enemy0">The first enemy (top)</param>
         /// <param name="enemy1">The second enemy (middle)</param>
         /// <param name="enemy2">The third enemy (bottom)</param>
         /// /// <param name="exp">The amount of experience points the encounter is worth</param>
         public BattleScreen(Character enemy0, Character enemy1, Character enemy2, int exp)
         {
+            ExpValue = exp;
+
+            //Populate arrays/lists
             players[0] = new Rogue();
             players[1] = new Warrior();
             players[2] = new Mage();
             enemies[0] = enemy0;
             enemies[1] = enemy1;
             enemies[2] = enemy2;
-            ExpValue = exp;
+            battlersPending.AddRange(players);
+            battlersPending.AddRange(enemies);
+
+            //Set starting positions for battlers
             players[0].Position = player0Position;
             players[1].Position = player1Position;
             players[2].Position = player2Position;
             enemies[0].Position = enemy0Position;
             enemies[1].Position = enemy1Position;
             enemies[2].Position = enemy2Position;
-            tracker = BattleTracker.start;
+
+            //Remove dead battlers and add to list of dead battlers.
+            foreach (Character character in battlersPending)
+            {
+                if (!character.IsAlive)
+                {
+                    deadBattlers.Add(character);
+                    battlersPending.Remove(character);
+                }
+            }
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
+            //Load background.
             background = gameScreenContent.Load<Texture2D>(path);
+
+            //Load font.
+            font = gameScreenContent.Load<SpriteFont>(fontPath);
+
+            //Load song.
             this.song = gameScreenContent.Load<Song>("Final Fantasy VI Battle Theme Extended");
             MediaPlayer.Play(song);
             //Code for music looping
             //MediaPlayer.IsRepeating = true;
 
-            //The size definition of the arrays for the creatures/characters
-            knightStanding = new Texture2D[4];
-            jeremyStanding = new Texture2D[3];
-            marthaStanding = new Texture2D[3];
-            batStanding = new Texture2D[3];
-            demonFlowerStanding = new Texture2D[4];
-            hayuStanding = new Texture2D[3];
-            hornetStanding = new Texture2D[3];
-            sangshiStanding = new Texture2D[3];
-            scorpionStanding = new Texture2D[3];
-
-            //Loads the sprites of the Jeremy into an array
-            for (int i = 0; i < jeremyStanding.Length; i++)
-            {
-                jeremyStanding[i] = gameScreenContent.Load<Texture2D>("Player/Jeremy/Jeremy blonde/JeremyBlondWalk/JeremyBlondWalkRight" + (i + 1));
-            }
-
-            //Loads the sprites of the Knight into an array
-            for (int i = 0; i < knightStanding.Length; i++)
-            {
-                knightStanding[i] = gameScreenContent.Load<Texture2D>("Player/Knight/Standing/KnightStanding" + (i + 1));
-            }
-
-            //Loads the sprites of the Martha into an array
-            for (int i = 0; i < marthaStanding.Length; i++)
-            {
-                marthaStanding[i] = gameScreenContent.Load<Texture2D>("Player/Martha/Martha blonde/MarthaBlondeWalk/MarthaBlondeWalkRight" + (i + 1));
-            }
-
-            //Loads the sprites of the Bat into an array
-            for (int i = 0; i < marthaStanding.Length; i++)
-            {
-                batStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Bat/Pink/Animation 1/PinkBat1." + (i + 1));
-            }
-
-            //Loads the sprites of the Demon Flower into an array
-            for (int i = 0; i < demonFlowerStanding.Length; i++)
-            {
-                demonFlowerStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Demon flowers/Purple/Animation 1/DemonFlower1." + (i + 1));
-            }
-
-            //Loads the sprites of the Hayu into an array
-            for (int i = 0; i < hayuStanding.Length; i++)
-            {
-                hayuStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hayu/Blue/Animation 1/Hayu1." + (i + 1));
-            }
-
-            //Loads the sprites of the Hornet into an array
-            for (int i = 0; i < hornetStanding.Length; i++)
-            {
-                hornetStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Hornet/Yellow/Animation 1/Hornet1." + (i + 1));
-            }
-
-            //Loads the sprites of the Sangshi into an array
-            for (int i = 0; i < sangshiStanding.Length; i++)
-            {
-                sangshiStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Sangshi/Green/Animation 1/Sangshi1." + (i + 1));
-            }
-
-            //Loads the sprites of the Scorpion into an array
-            for (int i = 0; i < scorpionStanding.Length; i++)
-            {
-                scorpionStanding[i] = gameScreenContent.Load<Texture2D>("Enemies/Scorpion/Black/Animation 1/Scorpion1." + (i + 1));
-            }
-
-            //Load textures (players/enemies/hpOnScreen).
-            player0Sprite = jeremyStanding[currentIndex];
-            player1Sprite = knightStanding[currentIndex];
-            player2Sprite = marthaStanding[currentIndex];
-            enemy0Sprite = batStanding[currentIndex];
-            enemy1Sprite = batStanding[currentIndex];
-            enemy2Sprite = batStanding[currentIndex];            hp = gameScreenContent.Load<SpriteFont>(hpOnScreen);
-            //Set origins (players/enemies).
-            players[0].Origin = new Vector2(player0Sprite.Width / 2, player0Sprite.Height / 2);
-            players[1].Origin = new Vector2(player1Sprite.Width / 2, player1Sprite.Height / 2);
-            players[2].Origin = new Vector2(player2Sprite.Width / 2, player2Sprite.Height / 2);
-            enemies[0].Origin = new Vector2(enemy0Sprite.Width / 2, enemy0Sprite.Height / 2);
-            enemies[1].Origin = new Vector2(enemy1Sprite.Width / 2, enemy1Sprite.Height / 2);
-            enemies[2].Origin = new Vector2(enemy2Sprite.Width / 2, enemy2Sprite.Height / 2);
+            //Load Players and enemies.
+            LoadPlayers();
+            LoadEnemies();
         }
 
         public override void UnloadContent()
@@ -197,149 +121,246 @@ namespace SuperFantasyMagicProject.Screen
 
         public override void Update(GameTime gameTime)
         {
-            //Player turn.
-            HandleInput();
-            foreach (Character character in enemies)
+            //If there is no active battler
+            if (activeBattler == null)
             {
-                character.Update(gameTime);
+                //Sort battlers, then make active the entry with the highest speed. 
+                battlersPending.Sort((a, b) => b.TurnSpeed.CompareTo(a.TurnSpeed));
+                activeBattler = battlersPending[0];
+                battlersPending.RemoveAt(0);
             }
 
-            if (enemies.All(alive => false))
+            //If active battler is a player character
+            if (players.Contains(activeBattler))
             {
-                AllocateExp();
-                if (RogueStats.HasLevelUp || WarriorStats.HasLevelUp || MageStats.HasLevelUp)
+                //Set battle state to waiting, and await player input.
+                if (battleState != BattleState.Waiting)
                 {
-                    ScreenManager.ChangeScreenTo(new LevelUpScreen());
+                    battleState = BattleState.Waiting;
+                }
+                HandleInput();
+            }
+            //If active battler is an enemy character
+            else
+            {
+                //Run enemy battle logic.
+                EnemyTurn();
+            }
+
+            //Update characters. If dead, add to list of dead battlers.
+            UpdatePlayers(gameTime);
+            UpdateEnemies(gameTime);
+
+            //If game is not awaiting player input
+            if (battleState == BattleState.Battling)
+            {
+                //Mark active battler's turn as over.
+                battlersDone.Add(activeBattler);
+                //Clear variale, indicating we want a new battler in next update cycle.
+                activeBattler = null;
+
+                //Remove dead battlers from turn cycle
+                RemoveDeadBattlers();
+                
+                //If all battlers have had their turn
+                if (battlersPending.Count == 0)
+                {
+                    //Reset turn cycle.
+                    battlersPending.AddRange(battlersDone);
+                    battlersDone.Clear();
                 }
             }
-
-            //Enemy turn.
-            Enemyturn();
-            foreach (Character character in players)
-            {
-                character.Update(gameTime);
-            }
-
-            if (players.All(alive => false))
-            {
-                //TODO: Add functionality
-                //Death screen
-            }            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw background.
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
 
-            spriteBatch.Draw(player0Sprite, players[0].Position, new Rectangle(0, 0, player0Sprite.Width, player0Sprite.Height),
-                    Color.White, 0, players[0].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(player1Sprite, players[1].Position, new Rectangle(0, 0, player1Sprite.Width, player1Sprite.Height),
-                    Color.White, 0, players[1].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(player2Sprite, players[2].Position, new Rectangle(0, 0, player2Sprite.Width, player2Sprite.Height),
-                    Color.White, 0, players[2].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(enemy0Sprite, enemies[0].Position, new Rectangle(0 , 0, enemy0Sprite.Width, enemy0Sprite.Height),
-                    Color.White, 0, enemies[0].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(enemy1Sprite, enemies[1].Position, new Rectangle(0, 0, enemy1Sprite.Width, enemy1Sprite.Height),
-                    Color.White, 0, enemies[1].Origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(enemy2Sprite, enemies[2].Position, new Rectangle(0, 0, enemy2Sprite.Width, enemy2Sprite.Height),
-                    Color.White, 0, enemies[2].Origin, 1f, SpriteEffects.None, 1f);
+            //Draw players.
+            foreach (Character player in players)
+            {
+                player.Draw(spriteBatch);
+            }
 
-            spriteBatch.DrawString(hp, "HP: " + players[0].CurrentHealth, new Vector2(players[0].Position.X,players[0].Position.Y),Color.Red);
-            spriteBatch.DrawString(hp, "HP: " + enemies[0].CurrentHealth, new Vector2(enemies[0].Position.X, enemies[0].Position.Y), Color.Red);
+            //Draw enemies.
+            foreach (Character enemy in enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+
+            //Draw health and mana above battlers.
+            DrawBattlerStats(spriteBatch);
         }
 
-        void PlayerTarget(int chosenPlayer, int targetedEnemy)
+        public void HandleInput()
         {
-            if(tracker != BattleTracker.Playerturn)
+            newKS = Keyboard.GetState();
+
+            if (targetCharacter == null)
             {
-                return;
+                if (newKS.IsKeyDown(Keys.D1) && previousKS.IsKeyUp(Keys.D1) && enemies[0].IsAlive)
+                {
+                    targetCharacter = enemies[0];
+                }
+                else if (newKS.IsKeyDown(Keys.D2) && previousKS.IsKeyUp(Keys.D2) && enemies[1].IsAlive)
+                {
+                    targetCharacter = enemies[1];
+                }
+                else if (newKS.IsKeyDown(Keys.D3) && previousKS.IsKeyUp(Keys.D3) && enemies[2].IsAlive)
+                {
+                    targetCharacter = enemies[2];
+                }
+            }
+            else
+            {
+                if (newKS.IsKeyDown(Keys.D) && previousKS.IsKeyUp(Keys.D))
+                {
+                    activeBattler.Attack(targetCharacter);
+                    targetCharacter = null;
+                    battleState = BattleState.Battling;
+                }
             }
 
-            tracker = BattleTracker.Playerattack;
-            PlayerAttack(0,targetedEnemy,chosenPlayer);
-        }
-
-        void PlayerAttack(int playerDamageAmount, int targetedEnemy, int chosenPlayer)
-        {
-            if(tracker != BattleTracker.Playerattack)
-            {
-                return;
-            }
-
-            playerDamageAmount = players[chosenPlayer].Damage;
-
-            enemies[targetedEnemy].TakeDamage(playerDamageAmount);
-
-            tracker = BattleTracker.Enemyturn;
-            Console.WriteLine(enemies[targetedEnemy].CurrentHealth);
-            enemyTarget = 0;
-            //Console.ReadKey();
-            
-        }
-
-        public override void HandleInput()
-        {
-
-            if(tracker != BattleTracker.start)
-            {
-                return;
-            }
-
-            KeyboardState keyboard = Keyboard.GetState();
-            
-
-            if(keyboard.IsKeyDown(Keys.D1))
-            {
-                enemyTarget = 1;
-                Console.WriteLine(enemyTarget);
-            }
-
-            if(keyboard.IsKeyDown(Keys.D) && enemyTarget > 0)
-            {
-                Console.WriteLine("PlayerTargetLaunched");
-                enemyTarget--;
-                tracker = BattleTracker.Playerturn;
-                PlayerTarget(0, enemyTarget);
-            }
-            
-        }
-
-        void Enemyturn()
-        {
-            if(tracker != BattleTracker.Enemyturn)
-            {
-                return;
-            }
-
-            //targetedPlayer = rnd.Next(0,3);
-            targetedPlayer = 0;
-            EnemyAttack(targetedPlayer,0,0);
-            tracker = BattleTracker.Enemyattack;
-        }
-
-        void EnemyAttack(int targetedPlayer, int chosenEnemy, int enemyDamageAmount)
-        {
-
-            if(tracker != BattleTracker.Enemyattack)
-            {
-                return;
-            }
-
-            enemyDamageAmount = enemies[chosenEnemy].Damage;
-            
-            players[targetedPlayer].TakeDamage(enemyDamageAmount);
-            tracker = BattleTracker.start;
-            
+            previousKS = newKS;
         }
 
         /// <summary>
-        /// Allocates the experience gained from battle encounter to player characters.
+        /// Determines an enemy character's action during its turn.
+        /// Chooses a random living player character and attacks it.
         /// </summary>
-        private void AllocateExp()
+        private void EnemyTurn()
         {
-            RogueStats.Experience += (ExpValue / 3);
-            WarriorStats.Experience += (ExpValue / 3);
-            MageStats.Experience += (ExpValue / 3);
+            int randomTarget;
+            do
+            {
+                randomTarget = rnd.Next(0, 3);
+            } while (!players[randomTarget].IsAlive);
+            activeBattler.Attack(players[randomTarget]);
+        }
+
+        /// <summary>
+        /// Runs through all characters in players[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdatePlayers(GameTime gameTime)
+        {
+            foreach (Character player in players)
+            {
+                player.Update(gameTime);
+                if (!player.IsAlive)
+                {
+                    deadBattlers.Add(player);
+                }
+            }
+            if (players.All(player => !player.IsAlive))
+            {
+                battleState = BattleState.PlayerLost;
+                //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Runs through all characters in enemies[] and updates them.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdateEnemies(GameTime gameTime)
+        {
+            foreach (Character enemy in enemies)
+            {
+                enemy.Update(gameTime);
+                if (!enemy.IsAlive)
+                {
+                    deadBattlers.Add(enemy);
+                }
+            }
+            if (enemies.All(enemy => !enemy.IsAlive))
+            {
+                battleState = BattleState.PlayerWon;
+                //Maybe screen transition here
+            }
+        }
+
+        /// <summary>
+        /// Runs through all characters in players[] and loads them.
+        /// </summary>
+        private void LoadPlayers()
+        {
+            foreach (Character player in players)
+            {
+                player.LoadContent(gameScreenContent);
+            }
+        }
+
+        /// <summary>
+        /// Runs through all characters in enemies[] and loads them.
+        /// </summary>
+        private void LoadEnemies()
+        {
+            foreach (Character enemy in enemies)
+            {
+                enemy.LoadContent(gameScreenContent);
+            }
+        }
+
+        /// <summary>
+        /// Draws health and mana of all battlers above their respective sprites.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        private void DrawBattlerStats(SpriteBatch spriteBatch)
+        {
+            foreach (Character player in players)
+            {
+                //Draw Health.
+                textColor = Color.Red;
+                text = "HP: " + player.CurrentHealth;
+                textDimensions = font.MeasureString(text);
+                spriteBatch.DrawString(font, text, new Vector2(player.Position.X - (textDimensions.X / 2),
+                        player.Position.Y - 80), textColor);
+
+                //Draw Mana.
+                textColor = Color.Blue;
+                text = "MP: " + player.CurrentMana;
+                textDimensions = font.MeasureString(text);
+                spriteBatch.DrawString(font, text, new Vector2(player.Position.X - (textDimensions.X / 2),
+                        player.Position.Y - (80 - textDimensions.Y)), textColor);
+            }
+
+            foreach (Character enemy in enemies)
+            {
+                //Draw Health.
+                textColor = Color.Red;
+                text = "HP: " + enemy.CurrentHealth;
+                textDimensions = font.MeasureString(text);
+                spriteBatch.DrawString(font, text, new Vector2(enemy.Position.X - (textDimensions.X / 2),
+                        enemy.Position.Y - 80), textColor);
+
+                //Draw Mana.
+                textColor = Color.Blue;
+                text = "MP: " + enemy.CurrentMana;
+                textDimensions = font.MeasureString(text);
+                spriteBatch.DrawString(font, text, new Vector2(enemy.Position.X - (textDimensions.X / 2),
+                        enemy.Position.Y - (80 - textDimensions.Y)), textColor);
+            }
+        }
+
+        /// <summary>
+        /// Iterates through the list of dead battlers, and removes them from the next turn cycle.
+        /// </summary>
+        private void RemoveDeadBattlers()
+        {
+            foreach (Character battler in deadBattlers)
+            {
+                if (battlersPending.Contains(battler))
+                {
+                    battlersPending.Remove(battler);
+                }
+
+                if (battlersDone.Contains(battler))
+                {
+                    battlersDone.Remove(battler);
+                }
+            }
         }
     }
 }

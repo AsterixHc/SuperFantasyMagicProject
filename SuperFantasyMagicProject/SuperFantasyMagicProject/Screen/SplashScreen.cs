@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SuperFantasyMagicProject.Playable_Characters;
-using SuperFantasyMagicProject.Creatures;
 
 namespace SuperFantasyMagicProject.Screen
 {
     class SplashScreen : GameScreen
     {
-        //Background image for the splash screen.
+        private KeyboardState previousKS = Keyboard.GetState();
+        private KeyboardState newKS;
+
+        //Variables for handling graphics
         private Texture2D background;
         private string path = "SplashScreen/Background";
 
@@ -47,13 +48,16 @@ namespace SuperFantasyMagicProject.Screen
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
         }
 
-        public override void HandleInput()
+        public void HandleInput()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            newKS = Keyboard.GetState();
+
+            if (newKS.GetPressedKeys().Length != 0 && previousKS.GetPressedKeys().Length == 0)
             {
-                //TODO: Modify for proper game flow if/when world map works.
-                ScreenManager.ChangeScreenTo(new BattleScreen(new Bat(), new Bat(), new Bat(), 100));
+                ScreenManager.ChangeScreenTo(new TitleScreen());
             }
+
+            previousKS = newKS;
         }
     }
 }
