@@ -302,11 +302,14 @@ namespace SuperFantasyMagicProject.Screen
             {
                 int warriorAoEDmg = players[1].Damage / 4;
 
-                enemies[0].TakeDamage(warriorAoEDmg);
-                enemies[1].TakeDamage(warriorAoEDmg);
-                enemies[2].TakeDamage(warriorAoEDmg);
-                selectedAttack = 0;
-                battleState = BattleState.Battling;
+                if(newKS.IsKeyDown(Keys.D))
+                {
+                    enemies[0].TakeDamage(warriorAoEDmg);
+                    enemies[1].TakeDamage(warriorAoEDmg);
+                    enemies[2].TakeDamage(warriorAoEDmg);
+                    selectedAttack = 0;
+                    battleState = BattleState.Battling;
+                }
             }
         }
         /// <summary>
