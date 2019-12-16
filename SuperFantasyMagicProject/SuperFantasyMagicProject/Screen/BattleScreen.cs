@@ -337,7 +337,7 @@ namespace SuperFantasyMagicProject.Screen
 
                 }
 
-                if (targetCharacter != null)
+                if (newKS.IsKeyDown(Keys.D))
                 {
                     int rogueLifeSteal = players[0].Damage / 2;
 
