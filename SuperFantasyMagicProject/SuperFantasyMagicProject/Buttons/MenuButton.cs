@@ -151,11 +151,12 @@ namespace SuperFantasyMagicProject
             Rectangle bottom = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y + collisionBox.Height, collisionBox.Width, 1);
             Rectangle right = new Rectangle((int)Position.X - (int)origin.X + collisionBox.Width, (int)Position.Y - (int)origin.Y, 1, collisionBox.Height);
             Rectangle left = new Rectangle((int)Position.X - (int)origin.X, (int)Position.Y - (int)origin.Y, 1, collisionBox.Height);
-
+#if DEBUG
             spriteBatch.Draw(collisionTexture, top, null, Color.Red);
             spriteBatch.Draw(collisionTexture, bottom, null, Color.Red);
             spriteBatch.Draw(collisionTexture, right, null, Color.Red);
             spriteBatch.Draw(collisionTexture, left, null, Color.Red);
+#endif
         }
 
         /// <summary>
@@ -165,8 +166,9 @@ namespace SuperFantasyMagicProject
         private void DrawMousePosition(SpriteBatch spriteBatch)
         {
             Rectangle top = new Rectangle((int)newMS.X, (int)newMS.Y, 2, 2);
-
+#if DEBUG
             spriteBatch.Draw(collisionTexture, top, null, Color.Red);
+#endif
         }
     }
 }
