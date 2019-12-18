@@ -405,7 +405,8 @@ namespace SuperFantasyMagicProject.Screen
             if (enemies.All(enemy => !enemy.IsAlive))
             {
                 battleState = BattleState.PlayerWon;
-                //Maybe screen transition here
+                AllocateExperience();
+                ScreenManager.ChangeScreenTo(new MapScreen());
             }
         }
 
@@ -489,6 +490,16 @@ namespace SuperFantasyMagicProject.Screen
                     battlersDone.Remove(battler);
                 }
             }
+        }
+
+        /// <summary>
+        /// Allocates the encounter's experience value to the player characters.
+        /// </summary>
+        private void AllocateExperience()
+        {
+            RogueStats.Experience += ExpValue / 3;
+            WarriorStats.Experience += ExpValue / 3;
+            MageStats.Experience += ExpValue / 3;
         }
     }
 }
